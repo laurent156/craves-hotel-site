@@ -29,4 +29,14 @@ const { label, text } = Astro.props;
     color: var(--or);
     font-size: 10px;
   }
+
+  /* Phones: label above the text, so every capsule has the same shape. */
+  @media (max-width: 640px) {
+    .perk {
+      flex-direction: column;
+      gap: 2px;
+      border-radius: 24px;
+      text-align: center;
+    }
+  }
 </style>

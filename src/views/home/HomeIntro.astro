@@ -1,6 +1,7 @@
 ---
 import Title from '../../components/ui/Title.astro';
 import FactsGrid from '../../components/ui/FactsGrid.astro';
+import PerkBadge from '../../components/ui/PerkBadge.astro';
 import type { HomeContent } from '../../content/home';
 import type { UiStrings } from '../../i18n/ui';
 
@@ -20,15 +21,9 @@ const { content, ui } = Astro.props;
     <p class="lbl eyebrow">{content.eyebrow}</p>
     <Title parts={content.title} class="intro__title" goldEm />
     <FactsGrid items={content.facts.map((f) => ({ big: f.big, lines: [f.text] }))} class="intro__facts" />
-    <p class="intro__perks">
-      <span class="lbl">{ui.guestPerkLabel}</span>
-      {content.perks.map((perk, i) => (
-        <>
-          {i > 0 && <span class="intro__dot" aria-hidden="true">·</span>}
-          <span>{perk}</span>
-        </>
-      ))}
-    </p>
+    <div class="intro__perks">
+      {content.perks.map((perk) => <PerkBadge label={ui.guestPerkLabel} text={perk} />)}
+    </div>
   </div>
 </section>
 
@@ -60,27 +55,6 @@ const { content, ui } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 10px 28px;
-    font-size: 14px;
-  }
-
-  .intro__perks .lbl,
-  .intro__dot {
-    color: var(--or);
-  }
-
-  .intro__perks .lbl {
-    font-size: 11px;
-  }
-
-  @media (max-width: 640px) {
-    .intro__perks {
-      flex-direction: column;
-    }
-
-    .intro__dot {
-      display: none;
-    }
+    gap: 12px;
   }
 </style>
