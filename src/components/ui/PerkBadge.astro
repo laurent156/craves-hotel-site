@@ -1,0 +1,32 @@
+---
+// "Client du Craves" advantage, shown as a gold-outlined pill.
+interface Props {
+  label: string;
+  text: string;
+}
+
+const { label, text } = Astro.props;
+---
+
+<p class="perk"><span class="lbl">{label}</span>{text}</p>
+
+<style>
+  .perk {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 10px;
+    padding: 10px 18px;
+    border: 1px solid var(--or);
+    border-radius: 999px;
+    background: rgba(9, 27, 41, 0.55);
+    color: var(--blanc);
+    font-size: 14px;
+  }
+
+  .perk .lbl {
+    color: var(--or);
+    font-size: 10px;
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import Title from '../../components/ui/Title.astro';
+import FactsGrid from '../../components/ui/FactsGrid.astro';
+import type { HomeContent } from '../../content/home';
+import type { UiStrings } from '../../i18n/ui';
+
+interface Props {
+  content: HomeContent['intro'];
+  ui: UiStrings;
+}
+
+const { content, ui } = Astro.props;
+---
+
+<section class="section bg-nuit">
+  <div class="wrap intro">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" class="intro__icon">
+      <path d="M4 36h32M8 36V16l12-9 12 9v20M16 36v-9h8v9M20 7V3"></path>
+    </svg>
+    <p class="lbl eyebrow">{content.eyebrow}</p>
+    <Title parts={content.title} class="intro__title" goldEm />
+    <FactsGrid items={content.facts.map((f) => ({ big: f.big, lines: [f.text] }))} class="intro__facts" />
+    <p class="intro__perks">
+      <span class="lbl">{ui.guestPerkLabel}</span>
+      {content.perks.map((perk, i) => (
+        <>
+          {i > 0 && <span class="intro__dot" aria-hidden="true">·</span>}
+          <span>{perk}</span>
+        </>
+      ))}
+    </p>
+  </div>
+</section>
+
+<style>
+  .intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .intro__icon {
+    color: var(--or);
+  }
+
+  .intro :global(.intro__title) {
+    max-width: 980px;
+    font-size: clamp(36px, 4.2vw, 52px);
+    line-height: 1.15;
+    color: var(--blanc);
+  }
+
+  .intro :global(.intro__facts) {
+    margin-top: 32px;
+  }
+
+  .intro__perks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 28px;
+    font-size: 14px;
+  }
+
+  .intro__perks .lbl,
+  .intro__dot {
+    color: var(--or);
+  }
+
+  .intro__perks .lbl {
+    font-size: 11px;
+  }
+
+  @media (max-width: 640px) {
+    .intro__perks {
+      flex-direction: column;
+    }
+
+    .intro__dot {
+      display: none;
+    }
+  }
+</style>

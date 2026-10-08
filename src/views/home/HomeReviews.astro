@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import google from '../../assets/brand/rating-google.png';
+import booking from '../../assets/brand/rating-booking.png';
+import tripadvisor from '../../assets/brand/rating-tripadvisor.png';
+import { RATINGS } from '../../config/site';
+import type { HomeContent } from '../../content/home';
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  content: HomeContent['reviews'];
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+const LOGOS = { google: { src: google, h: 28 }, booking: { src: booking, h: 22 }, tripadvisor: { src: tripadvisor, h: 26 } };
+---
+
+<section class="section bg-blanc">
+  <div class="wrap reviews">
+    <h2 class="lbl eyebrow">{content.eyebrow}</h2>
+    <ul class="reviews__scores">
+      {
+        RATINGS.map((rating) => (
+          <li class="reviews__score">
+            <span class="serif reviews__value">
+              {rating.score}
+              <span class="reviews__scale">/{rating.scale}</span>
+            </span>
+            <span class="reviews__logo">
+              <Image src={LOGOS[rating.logo].src} alt={rating.platform} height={LOGOS[rating.logo].h} densities={[1, 2]} />
+            </span>
+            <span class="reviews__count">{rating.count[locale]}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="reviews__quotes">
+      {
+        content.quotes.map((quote) => (
+          <figure>
+            <blockquote class="serif">« {quote.q} »</blockquote>
+            <figcaption class="lbl">{quote.who}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    text-align: center;
+  }
+
+  .reviews__scores {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 32px;
+  }
+
+  .reviews__score {
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .reviews__score + .reviews__score {
+    border-left: 1px solid var(--ligne);
+  }
+
+  .reviews__value {
+    font-size: 72px;
+    line-height: 1;
+  }
+
+  .reviews__scale {
+    font-size: 30px;
+    color: var(--gris);
+  }
+
+  .reviews__logo {
+    height: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  .reviews__logo :global(img) {
+    width: auto;
+  }
+
+  .reviews__count {
+    font-size: 13px;
+    color: var(--gris);
+  }
+
+  .reviews__quotes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    text-align: left;
+  }
+
+  figure {
+    margin: 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--ligne);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  blockquote {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.3;
+    font-style: italic;
+  }
+
+  figcaption {
+    font-size: 11px;
+    color: var(--gris);
+  }
+
+  @media (max-width: 860px) {
+    .reviews__score {
+      padding: 0 20px;
+    }
+
+    .reviews__value {
+      font-size: 52px;
+    }
+
+    .reviews__scale {
+      font-size: 22px;
+    }
+
+    .reviews__quotes {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .reviews__score + .reviews__score {
+      border-left: 0;
+    }
+
+    .reviews__scores {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import { photo } from '../../lib/images';
+import { altFor } from '../../content/photos';
+import { roomText, type Room } from '../../content/rooms';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+
+interface Props {
+  room: Room;
+  locale: Locale;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { room, locale, headingLevel: Heading = 'h3' } = Astro.props;
+const text = roomText(room, locale);
+---
+
+<a href={localizedPath(room.key, locale)} class="room-card">
+  <span class="room-card__frame">
+    <Image
+      src={photo(room.cardPhoto)}
+      alt={altFor(room.cardPhoto, locale)}
+      class="room-card__photo"
+      style={`object-position: ${room.cardPosition}`}
+      widths={[320, 480, 640, 960]}
+      sizes="(max-width: 860px) 80vw, 300px"
+    />
+  </span>
+  <span class="room-card__info">
+    <Heading class="serif room-card__name">{text.name}</Heading>
+    <span class="room-card__meta">{text.meta}</span>
+  </span>
+</a>
+
+<style>
+  .room-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .room-card__frame {
+    display: block;
+    overflow: hidden;
+  }
+
+  .room-card :global(.room-card__photo) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .room-card:hover :global(.room-card__photo) {
+    transform: scale(1.04);
+  }
+
+  .room-card__info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 12px;
+  }
+
+  .room-card__name {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+
+  .room-card__meta {
+    font-size: 13px;
+    color: var(--gris);
+    white-space: nowrap;
+  }
+</style>

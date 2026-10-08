@@ -1,45 +1,39 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HomeHero from './HomeHero.astro';
+import HomeIntro from './HomeIntro.astro';
+import HomeRooms from './HomeRooms.astro';
+import HomeVenues from './HomeVenues.astro';
+import HomeReviews from './HomeReviews.astro';
+import HomeLocation from './HomeLocation.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import { HOME } from '../../content/home';
+import { faqItems } from '../../content/faq';
+import { pick } from '../../content/localize';
 import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-
-// Temporary copy for the base (step 1). Final copy moves to content collections in step 2.
-const COPY: Record<Locale, { title: string; description: string; eyebrow: string; tagline: string; heroAlt: string }> = {
-  fr: {
-    title: 'Craves Hotel Bruxelles | Boutique hôtel 3★ près de la Grand-Place',
-    description:
-      'Boutique hôtel 3★ au cœur de Bruxelles, à 4 minutes à pied de la Grand-Place. 75 chambres au style unique, restaurant Le Conteur et bar Scène. -10 % en réservant en direct.',
-    eyebrow: 'Boutique hôtel 3★ · Bruxelles',
-    tagline: 'Une expérience unique au cœur de Bruxelles',
-    heroAlt: 'Chambre du Craves Hotel à Bruxelles : tête de lit en velours bleu, coussin rond et miroir ovale',
-  },
-  en: {
-    title: 'Craves Hotel Brussels | 3★ boutique hotel near the Grand-Place',
-    description:
-      '3★ boutique hotel in the heart of Brussels, a 4-minute walk from the Grand-Place. 75 rooms with a unique style, Le Conteur restaurant and Scène bar. -10% when you book direct.',
-    eyebrow: '3★ boutique hotel · Brussels',
-    tagline: 'A unique experience in the heart of Brussels',
-    heroAlt: 'Room at Craves Hotel Brussels: blue velvet headboard, round cushion and oval mirror',
-  },
-  nl: {
-    title: 'Craves Hotel Brussel | 3★ boetiekhotel bij de Grote Markt',
-    description:
-      '3★ boetiekhotel in het hart van Brussel, op 4 minuten wandelen van de Grote Markt. 75 kamers met een unieke stijl, restaurant Le Conteur en bar Scène. -10% bij rechtstreeks boeken.',
-    eyebrow: '3★ boetiekhotel · Brussel',
-    tagline: 'Een unieke ervaring in het hart van Brussel',
-    heroAlt: 'Kamer van Craves Hotel in Brussel: blauw fluwelen hoofdbord, rond kussen en ovale spiegel',
-  },
-};
-
-const copy = COPY[locale];
+const content = pick(HOME, locale);
+const ui = t(locale);
 ---
 
-<BaseLayout locale={locale} route="home" title={copy.title} description={copy.description} transparentHeader>
-  <HomeHero locale={locale} eyebrow={copy.eyebrow} tagline={copy.tagline} imageAlt={copy.heroAlt} />
+<BaseLayout locale={locale} route="home" title={content.metaTitle} description={content.metaDescription} transparentHeader>
+  <HomeHero locale={locale} eyebrow={content.hero.eyebrow} tagline={content.hero.tagline} imageAlt={content.hero.photoAlt} />
+  <HomeIntro content={content.intro} ui={ui} />
+  <HomeRooms content={content.rooms} locale={locale} ui={ui} />
+  <HomeVenues content={content.venues} locale={locale} />
+  <HomeReviews content={content.reviews} locale={locale} />
+  <HomeLocation content={content.location} locale={locale} />
+  <FaqSection
+    title={content.faq.title}
+    items={faqItems(locale, content.faq.ids)}
+    tone="blanc"
+    more={{ label: ui.allFaq, href: localizedPath('faq', locale) }}
+  />
 </BaseLayout>

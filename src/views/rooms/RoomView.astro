@@ -1,0 +1,394 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import Title from '../../components/ui/Title.astro';
+import RoomCard from '../../components/ui/RoomCard.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import BookingForm from '../../components/booking/BookingForm.astro';
+import RoomGallery from './RoomGallery.astro';
+import { ROOMS, ROOM_POLICIES, getRoom, roomText, type RoomKey } from '../../content/rooms';
+import { ROOMS_PAGE } from '../../content/roomsPage';
+import { pick } from '../../content/localize';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+import { SITE } from '../../config/site';
+
+interface Props {
+  locale: Locale;
+  roomKey: RoomKey;
+}
+
+const { locale, roomKey } = Astro.props;
+const room = getRoom(roomKey);
+const text = roomText(room, locale);
+const page = pick(ROOMS_PAGE, locale).roomPage;
+const policies = pick(ROOM_POLICIES, locale);
+const others = ROOMS.filter((r) => r.key !== roomKey);
+const ui = t(locale);
+---
+
+<BaseLayout locale={locale} route={roomKey} title={text.metaTitle} description={text.metaDescription}>
+  <section class="bg-ivoire">
+    <div class="wrap room-head">
+      <Breadcrumb
+        label={ui.breadcrumb}
+        class="eyebrow"
+        items={[
+          { label: ui.home, href: localizedPath('home', locale) },
+          { label: ui.nav.rooms, href: localizedPath('rooms', locale) },
+          { label: text.name },
+        ]}
+      />
+      <div class="room-head__row">
+        <h1 class="serif room-head__title">
+          {text.name}
+          <span class="t-em">{text.h1Suffix}</span>
+        </h1>
+        <dl class="room-head__facts">
+          <div><dt class="lbl">{ui.surface}</dt><dd>{room.size} m²</dd></div>
+          <div><dt class="lbl">{ui.persons}</dt><dd>{room.capacity}</dd></div>
+          <div><dt class="lbl">{ui.beds}</dt><dd>{text.beds}</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <RoomGallery photos={room.gallery} locale={locale} ui={ui} roomName={text.name} />
+
+  <section class="section bg-blanc">
+    <div class="wrap room-body">
+      <div class="room-body__main">
+        <div class="room-block">
+          <p class="lbl eyebrow">{page.eyebrow}</p>
+          <p class="serif room-lead">{text.lead}</p>
+          <p class="room-desc">{text.description}</p>
+        </div>
+
+        <div class="room-block">
+          <h2 class="serif room-h2">{ui.amenities}</h2>
+          <ul class="amenities">
+            {text.amenities.map((item) => <li><span class="amenities__dot" aria-hidden="true" />{item}</li>)}
+          </ul>
+        </div>
+
+        <div class="room-block">
+          <h2 class="serif room-h2">{ui.goodToKnow}</h2>
+          <dl class="policies">
+            {policies.map((p) => <div><dt class="lbl">{p.k}</dt><dd>{p.v}</dd></div>)}
+          </dl>
+        </div>
+      </div>
+
+      <aside class="room-book" aria-label={ui.bookThisRoom}>
+        <p class="serif room-book__title">{page.bookTitle}</p>
+        <BookingForm locale={locale} variant="dark" submitLabel={ui.bookThisRoom} />
+        <ul class="room-book__reasons">
+          {page.reasons.map((reason) => <li>{reason}</li>)}
+        </ul>
+        <p class="room-book__call">{ui.question} <a href={SITE.phoneHref}>{SITE.phone}</a></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section bg-ivoire">
+    <div class="wrap others">
+      <div class="others__head">
+        <Title parts={page.otherRooms} class="others__title" />
+        <a href={localizedPath('rooms', locale)} class="pill pill--outline">{ui.allRooms} <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="others__grid">
+        {others.map((r) => <RoomCard room={r} locale={locale} />)}
+      </div>
+    </div>
+  </section>
+
+  <FaqSection title={page.faqTitle} items={text.faq} tone="blanc" />
+</BaseLayout>
+
+<style>
+  .room-head {
+    padding-top: calc(56px);
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .room-head__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px 32px;
+  }
+
+  .room-head__title {
+    font-size: clamp(52px, 7vw, 104px);
+    line-height: 0.95;
+  }
+
+  .room-head__title .t-em {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.5em;
+    line-height: 1.2;
+    color: var(--or-profond);
+  }
+
+  .room-head__facts {
+    margin: 0;
+    padding-bottom: 10px;
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--encre);
+  }
+
+  .room-head__facts dt {
+    font-size: 10px;
+    color: var(--or-profond);
+  }
+
+  .room-head__facts dd {
+    margin: 0;
+  }
+
+  .room-body {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .room-body__main {
+    grid-column: 1 / 8;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .room-block {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .room-lead {
+    font-size: clamp(26px, 2.6vw, 34px);
+    line-height: 1.25;
+  }
+
+  .room-desc {
+    font-size: 17px;
+    color: var(--encre);
+  }
+
+  .room-h2 {
+    font-size: clamp(36px, 3.6vw, 44px);
+  }
+
+  .amenities {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .amenities li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 15px;
+  }
+
+  .amenities__dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--or-profond);
+  }
+
+  .policies {
+    margin: 0;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .policies div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 15px;
+  }
+
+  .policies dt {
+    flex: 0 0 160px;
+    padding-top: 3px;
+    font-size: 11px;
+    color: var(--or-profond);
+  }
+
+  .policies dd {
+    flex: 1 1 240px;
+    margin: 0;
+    color: var(--encre);
+  }
+
+  .room-book {
+    grid-column: 9 / 13;
+    position: sticky;
+    top: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--nuit);
+    color: var(--creme);
+  }
+
+  .room-book__title {
+    font-size: 36px;
+    line-height: 1.1;
+    color: var(--blanc);
+  }
+
+  .room-book__reasons {
+    margin: 0;
+    padding: 18px 0 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid rgba(221, 218, 204, 0.2);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .room-book__call {
+    font-size: 13px;
+    color: var(--gris-clair);
+  }
+
+  .room-book__call a {
+    color: var(--blanc);
+  }
+
+  .others {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .others__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .others :global(.others__title) {
+    font-size: clamp(44px, 5vw, 64px);
+  }
+
+  .others__head .pill {
+    color: var(--nuit);
+  }
+
+  .others__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  @media (max-width: 860px) {
+    .room-head {
+      padding-top: 28px;
+      padding-bottom: 20px;
+    }
+
+    .room-head__title {
+      font-size: 52px;
+    }
+
+    .room-head__facts {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      padding: 0;
+      border-top: 1px solid var(--ligne);
+      border-bottom: 1px solid var(--ligne);
+    }
+
+    .room-head__facts div {
+      padding: 12px 0 12px 12px;
+    }
+
+    .room-head__facts div:first-child {
+      padding-left: 0;
+    }
+
+    .room-head__facts div + div {
+      border-left: 1px solid var(--ligne);
+    }
+
+    .room-body {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 40px;
+    }
+
+    .room-body__main {
+      display: contents;
+    }
+
+    /* Booking card right after the description, before amenities. */
+    .room-block:nth-child(1) {
+      order: 1;
+    }
+
+    .room-book {
+      order: 2;
+      position: static;
+      padding: 24px 20px;
+    }
+
+    .room-block:nth-child(2) {
+      order: 3;
+    }
+
+    .room-block:nth-child(3) {
+      order: 4;
+    }
+
+    .amenities {
+      grid-template-columns: 1fr;
+    }
+
+    .others__grid {
+      display: flex;
+      gap: 12px;
+      margin-right: calc(-1 * var(--gutter));
+      padding-right: var(--gutter);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .others__grid > :global(*) {
+      flex: none;
+      width: 70%;
+      scroll-snap-align: start;
+    }
+  }
+</style>

@@ -20,7 +20,11 @@ Static site for craves-hotel.com, built with [Astro](https://docs.astro.build) a
   - `routes.ts`: the slug of every page in each language. Adding a page = one line here.
   - `ui.ts`: interface strings (menu, buttons).
 - `src/pages/[...path].astro` — generates every page in every language from `routes.ts`. New pages are registered in its `views` map.
-- `src/views/` — one folder per page (home, rooms…).
+- `src/content/` — page text, one file per page (`home.ts`, `rooms.ts`, `venues.ts`, `location.ts`…). French is the source; English and Dutch fall back to French until translated.
+  - `faq.ts` is the single source of truth for every answer on the site; pages pick questions by id.
+  - `photos.ts` holds the alt text of each photo, reused wherever the photo appears.
+- `src/views/` — one folder per page (home, rooms, venue template for Le Conteur and Scène, location).
+- `src/components/ui/` — shared blocks: photo hero, breadcrumb, FAQ (with FAQPage data), facts grid, arch cards, mosaic, room card.
 - `src/components/` — shared pieces: `layout/` (header, menu, footer), `booking/` (booking form, mobile booking bar).
 - `src/lib/booking.ts` — builds the Lighthouse booking link (language, dates, code THANKYOU).
 - `src/styles/global.css` — design tokens (colours, spacing) and base styles.

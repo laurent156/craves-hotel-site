@@ -1,0 +1,62 @@
+---
+import JsonLd from '../seo/JsonLd.astro';
+
+export interface Crumb {
+  label: string;
+  /** Root-relative URL. The last crumb (current page) has none. */
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+  label: string;
+  class?: string;
+}
+
+const { items, label, class: className } = Astro.props;
+const structured = {
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, Astro.site).href } : {}),
+  })),
+};
+---
+
+<nav aria-label={label} class:list={['crumbs lbl', className]}>
+  <ol>
+    {
+      items.map((item) => (
+        <li>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}</li>
+      ))
+    }
+  </ol>
+</nav>
+<JsonLd data={structured} />
+
+<style>
+  .crumbs ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: inherit;
+    gap: 0 8px;
+  }
+
+  .crumbs li + li::before {
+    content: '·';
+    margin-right: 8px;
+  }
+
+  .crumbs a {
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+</style>

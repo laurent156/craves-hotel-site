@@ -1,0 +1,159 @@
+---
+// Desktop: one large photo and two side photos, "All photos" opens a full list.
+// Phones: a swipeable row of every photo, the next one peeking in.
+import { Image } from 'astro:assets';
+import { photo } from '../../lib/images';
+import { altFor } from '../../content/photos';
+import type { Locale } from '../../i18n/locales';
+import type { UiStrings } from '../../i18n/ui';
+
+interface Props {
+  photos: string[];
+  locale: Locale;
+  ui: UiStrings;
+  roomName: string;
+}
+
+const { photos, locale, ui, roomName } = Astro.props;
+const [main, side1, side2] = photos;
+const dialogId = `gallery-${photos[0]}`;
+---
+
+<section class="bg-ivoire gallery-section" aria-label={roomName}>
+  <div class="wrap gallery">
+    <Image src={photo(main)} alt={altFor(main, locale)} class="cover gallery__main" widths={[640, 960, 1280, 1600]} sizes="(max-width: 860px) 85vw, 820px" loading="eager" fetchpriority="high" />
+    <Image src={photo(side1)} alt={altFor(side1, locale)} class="cover gallery__side1" widths={[400, 640, 960]} sizes="(max-width: 860px) 85vw, 400px" />
+    <div class="gallery__side2">
+      <Image src={photo(side2)} alt={altFor(side2, locale)} class="cover" widths={[400, 640, 960]} sizes="(max-width: 860px) 85vw, 400px" />
+      <button type="button" class="pill gallery__all" data-gallery-open={dialogId}>{ui.allPhotos} ({photos.length})</button>
+    </div>
+    {
+      photos.slice(3).map((name) => (
+        <Image src={photo(name)} alt={altFor(name, locale)} class="cover gallery__extra" widths={[400, 640, 960]} sizes="85vw" />
+      ))
+    }
+  </div>
+</section>
+
+<dialog id={dialogId} class="gallery-dialog" aria-label={`${ui.allPhotos} · ${roomName}`}>
+  <button type="button" class="gallery-dialog__close" data-gallery-close>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16"></path></svg>
+    <span class="visually-hidden">{ui.close}</span>
+  </button>
+  <div class="gallery-dialog__list">
+    {photos.map((name) => <Image src={photo(name)} alt={altFor(name, locale)} widths={[640, 960, 1440]} sizes="(max-width: 1100px) 100vw, 1000px" loading="lazy" />)}
+  </div>
+</dialog>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-gallery-open]').forEach((button) => {
+    const dialog = document.getElementById(button.dataset.galleryOpen ?? '') as HTMLDialogElement | null;
+    if (!dialog) return;
+    button.addEventListener('click', () => dialog.showModal());
+    dialog.querySelector('[data-gallery-close]')?.addEventListener('click', () => dialog.close());
+  });
+</script>
+
+<style>
+  .gallery-section {
+    padding-bottom: 72px;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: 300px 300px;
+    gap: 16px;
+  }
+
+  .gallery :global(.gallery__main) {
+    grid-column: 1 / 9;
+    grid-row: 1 / 3;
+  }
+
+  .gallery :global(.gallery__side1) {
+    grid-column: 9 / 13;
+    grid-row: 1 / 2;
+  }
+
+  .gallery__side2 {
+    position: relative;
+    grid-column: 9 / 13;
+    grid-row: 2 / 3;
+  }
+
+  .gallery :global(.gallery__extra) {
+    display: none;
+  }
+
+  .gallery__all {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    min-height: 40px;
+    background: var(--blanc);
+    color: var(--nuit);
+  }
+
+  .gallery-dialog {
+    width: min(1100px, 100%);
+    max-height: 100dvh;
+    margin: auto;
+    padding: 56px 24px 24px;
+    border: 0;
+    background: var(--nuit);
+  }
+
+  .gallery-dialog::backdrop {
+    background: rgba(9, 27, 41, 0.85);
+  }
+
+  .gallery-dialog__close {
+    position: sticky;
+    top: 0;
+    float: right;
+    width: 44px;
+    height: 44px;
+    margin: -44px -8px 0 0;
+    border: 0;
+    background: none;
+    color: var(--blanc);
+    cursor: pointer;
+  }
+
+  .gallery-dialog__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 860px) {
+    .gallery-section {
+      padding-bottom: 8px;
+    }
+
+    .gallery {
+      display: flex;
+      gap: 8px;
+      padding-right: var(--gutter);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .gallery > :global(*) {
+      flex: none;
+      width: 85%;
+      height: 300px;
+      scroll-snap-align: start;
+    }
+
+    .gallery :global(.gallery__extra) {
+      display: block;
+    }
+
+    .gallery__all {
+      display: none;
+    }
+  }
+</style>

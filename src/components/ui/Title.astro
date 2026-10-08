@@ -1,0 +1,18 @@
+---
+import type { TitleParts } from '../../content/localize';
+
+interface Props {
+  parts: TitleParts;
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  class?: string;
+  /** Italic part in gold (dark sections). */
+  goldEm?: boolean;
+  id?: string;
+}
+
+const { parts, as: Tag = 'h2', class: className, goldEm = false, id } = Astro.props;
+---
+
+<Tag class:list={['serif', className]} id={id}>
+  {parts.text}{parts.em && ' '}{parts.em && <span class:list={['t-em', { 't-em--gold': goldEm }]}>{parts.em}</span>}{parts.after}
+</Tag>

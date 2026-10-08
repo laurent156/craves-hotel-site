@@ -1,0 +1,356 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhotoHero from '../../components/ui/PhotoHero.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import Title from '../../components/ui/Title.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import mapImage from '../../assets/brand/carte-craves-hotel-bruxelles.webp';
+import { LOCATION } from '../../content/location';
+import { faqItems } from '../../content/faq';
+import { altFor } from '../../content/photos';
+import { pick } from '../../content/localize';
+import { photo } from '../../lib/images';
+import { SITE } from '../../config/site';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = pick(LOCATION, locale);
+const ui = t(locale);
+const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.address.city}`;
+---
+
+<BaseLayout locale={locale} route="location" title={content.metaTitle} description={content.metaDescription} transparentHeader>
+  <PhotoHero image="grand-place-bruxelles-crepuscule" alt={altFor('grand-place-bruxelles-crepuscule', locale)} minHeight="720px">
+    <Breadcrumb label={ui.breadcrumb} items={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.location }]} />
+    <h1 class="serif loc-h1">
+      {content.hero.title}
+      <span class="t-em">{content.hero.em}</span>
+    </h1>
+    <address class="loc-address">{SITE.name} · {fullAddress}</address>
+    <div class="loc-ctas">
+      <a href={SITE.directionsUrl} class="pill pill--gold" target="_blank" rel="noopener">{content.hero.directions} <span aria-hidden="true">↗</span><span class="visually-hidden">{ui.opensInNewTab}</span></a>
+      <button type="button" class="pill pill--outline loc-copy" data-copy={fullAddress} data-copied={content.hero.copied} hidden>{content.hero.copy}</button>
+    </div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-copy-status></p>
+  </PhotoHero>
+
+  <section class="section bg-ivoire">
+    <div class="wrap nearby">
+      <div class="nearby__list">
+        <p class="lbl eyebrow">{content.nearby.eyebrow}</p>
+        <h2 class="serif nearby__title">{content.nearby.title}</h2>
+        <ul>
+          {content.nearby.places.map((place) => <li><span>{place.name}</span><span class="nearby__distance">{place.distance}</span></li>)}
+        </ul>
+        <p class="nearby__note">{content.nearby.note}</p>
+      </div>
+      <a href={SITE.directionsUrl} class="nearby__map" target="_blank" rel="noopener">
+        <Image src={mapImage} alt={content.nearby.mapAlt} class="cover" widths={[480, 760]} sizes="(max-width: 860px) 100vw, 560px" />
+        <span class="nearby__pin" aria-hidden="true"></span>
+        <span class="pill pill--dark nearby__open">{content.nearby.mapLabel} <span aria-hidden="true">↗</span><span class="visually-hidden">{ui.opensInNewTab}</span></span>
+        <small class="nearby__credit">© OpenStreetMap</small>
+      </a>
+    </div>
+  </section>
+
+  <section class="section bg-nuit">
+    <div class="wrap access">
+      <Title parts={content.access.title} goldEm class="access__title" />
+      <div class="access__grid">
+        {
+          content.access.ways.map((way) => (
+            <article>
+              <h3 class="lbl eyebrow">{way.title}</h3>
+              <ul>
+                {way.lines.map((line) => <li>{line}</li>)}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-blanc">
+    <div class="wrap guide">
+      <div class="guide__head">
+        <div>
+          <p class="lbl eyebrow">{content.guide.eyebrow}</p>
+          <Title parts={content.guide.title} class="guide__title" />
+        </div>
+        <a href={localizedPath('guide', locale)} class="pill pill--outline">{content.guide.cta} <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="guide__grid">
+        {
+          content.guide.articles.map((article) => (
+            <a href={localizedPath('guide', locale)} class="guide__card">
+              <Image src={photo(article.photo)} alt={altFor(article.photo, locale)} class="guide__photo" widths={[400, 640, 960]} sizes="(max-width: 860px) 100vw, 400px" />
+              <span class="serif">{article.title}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <FaqSection title={content.faq.title} items={faqItems(locale, content.faq.ids)} tone="ivoire" />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    if (!navigator.clipboard) return;
+    button.hidden = false;
+    const label = button.textContent ?? '';
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy ?? '');
+        button.textContent = button.dataset.copied ?? label;
+        const status = document.querySelector('[data-copy-status]');
+        if (status) status.textContent = button.dataset.copied ?? '';
+        setTimeout(() => (button.textContent = label), 2000);
+      } catch {
+        button.hidden = true;
+      }
+    });
+  });
+</script>
+
+<style>
+  .loc-h1 {
+    max-width: 1100px;
+    font-size: clamp(48px, 7vw, 104px);
+    line-height: 0.95;
+  }
+
+  .loc-h1 .t-em {
+    display: block;
+  }
+
+  .loc-address {
+    font-style: normal;
+    font-size: 17px;
+    font-weight: 300;
+  }
+
+  .loc-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .loc-copy {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .loc-copy[hidden] {
+    display: none;
+  }
+
+  .nearby {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .nearby__list {
+    grid-column: 1 / 6;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .nearby__title {
+    font-size: clamp(44px, 4.5vw, 56px);
+  }
+
+  .nearby ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .nearby li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 15px;
+  }
+
+  .nearby__distance {
+    font-size: 14px;
+    color: var(--gris);
+    white-space: nowrap;
+  }
+
+  .nearby__note {
+    font-size: 12px;
+    color: var(--gris);
+  }
+
+  .nearby__map {
+    position: relative;
+    grid-column: 7 / 13;
+    height: 720px;
+    overflow: hidden;
+    display: block;
+  }
+
+  /* The hotel sits at 50% / 46.4% of the generated map. */
+  .nearby__pin {
+    position: absolute;
+    left: 50%;
+    top: 46.4%;
+    width: 22px;
+    height: 22px;
+    border: 3px solid var(--nuit);
+    border-radius: 50%;
+    background: var(--or);
+    box-shadow: 0 0 0 8px rgba(203, 179, 118, 0.35);
+    transform: translate(-50%, -50%);
+  }
+
+  .nearby__open {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .nearby__credit {
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    font-size: 10px;
+    color: var(--gris);
+  }
+
+  .access {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .access :global(.access__title) {
+    text-align: center;
+    font-size: clamp(44px, 5vw, 64px);
+    color: var(--blanc);
+  }
+
+  .access__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border: 1px solid rgba(221, 218, 204, 0.25);
+  }
+
+  .access__grid article {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .access__grid article + article {
+    border-left: 1px solid rgba(221, 218, 204, 0.25);
+  }
+
+  .access__grid ul {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .guide {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .guide__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .guide__head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .guide :global(.guide__title) {
+    font-size: clamp(40px, 4.5vw, 56px);
+  }
+
+  .guide__head .pill {
+    color: var(--nuit);
+  }
+
+  .guide__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .guide__card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .guide__card :global(.guide__photo) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .guide__card span {
+    font-size: 26px;
+    line-height: 1.15;
+  }
+
+  @media (max-width: 860px) {
+    .nearby {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 40px;
+    }
+
+    .nearby__map {
+      height: 440px;
+    }
+
+    .access__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .access__grid article + article {
+      border-left: 0;
+      border-top: 1px solid rgba(221, 218, 204, 0.25);
+    }
+
+    .guide__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

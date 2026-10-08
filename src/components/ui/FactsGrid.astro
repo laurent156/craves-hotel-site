@@ -1,0 +1,89 @@
+---
+// Bordered grid of key facts on a dark background (opening hours, figures…).
+export interface Fact {
+  label?: string;
+  /** Large serif figure, e.g. "75" or "4,4 ★". */
+  big?: string;
+  /** Plain lines under the label or figure. */
+  lines?: string[];
+}
+
+interface Props {
+  items: Fact[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<dl class:list={['facts', className]} style={`--facts-cols: ${items.length}`}>
+  {
+    items.map((item) => (
+      <div class="facts__item">
+        {item.label && <dt class="lbl facts__label">{item.label}</dt>}
+        {item.big && <dd class="serif facts__big">{item.big}</dd>}
+        {item.lines?.map((line) => <dd class="facts__line">{line}</dd>)}
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .facts {
+    width: 100%;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--facts-cols), minmax(0, 1fr));
+    border: 1px solid rgba(221, 218, 204, 0.25);
+    text-align: center;
+  }
+
+  .facts__item {
+    padding: 28px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .facts__item + .facts__item {
+    border-left: 1px solid rgba(221, 218, 204, 0.25);
+  }
+
+  .facts dd {
+    margin: 0;
+  }
+
+  .facts__label {
+    color: var(--or);
+    font-size: 11px;
+  }
+
+  .facts__big {
+    font-size: 40px;
+    line-height: 1;
+    color: var(--or);
+  }
+
+  .facts__line {
+    font-size: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .facts__item + .facts__item {
+      border-left: 0;
+    }
+
+    .facts__item:nth-child(even) {
+      border-left: 1px solid rgba(221, 218, 204, 0.25);
+    }
+
+    .facts__item:nth-child(n + 3) {
+      border-top: 1px solid rgba(221, 218, 204, 0.25);
+    }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import Title from '../../components/ui/Title.astro';
+import { photo } from '../../lib/images';
+import type { HomeContent } from '../../content/home';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { SITE } from '../../config/site';
+
+interface Props {
+  content: HomeContent['location'];
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+---
+
+<section class="section bg-ivoire">
+  <div class="wrap home-loc">
+    <div class="home-loc__text">
+      <p class="lbl eyebrow">{content.eyebrow}</p>
+      <Title parts={content.title} />
+      <address>{SITE.address.street}, {SITE.address.postalCode} {SITE.address.city}</address>
+      <ul>
+        {content.places.map((place) => <li><span>{place.name}</span><span class="home-loc__time">{place.time}</span></li>)}
+      </ul>
+      <a href={localizedPath('guide', locale)} class="pill pill--outline">{content.cta}</a>
+    </div>
+    <Image
+      src={photo('grand-place-bruxelles-hotel-de-ville')}
+      alt={content.photoAlt}
+      class="cover home-loc__photo"
+      widths={[480, 720, 1080, 1440]}
+      sizes="(max-width: 860px) 100vw, 600px"
+    />
+  </div>
+</section>
+
+<style>
+  .home-loc {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: center;
+  }
+
+  .home-loc__text {
+    grid-column: 1 / 6;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .home-loc__text :global(h2) {
+    font-size: clamp(44px, 5vw, 64px);
+  }
+
+  address {
+    font-style: normal;
+    color: var(--encre);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--ligne);
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 15px;
+  }
+
+  .home-loc__time {
+    color: var(--gris);
+    white-space: nowrap;
+  }
+
+  .pill {
+    align-self: flex-start;
+  }
+
+  .home-loc :global(.home-loc__photo) {
+    grid-column: 7 / 13;
+    height: 620px;
+  }
+
+  @media (max-width: 860px) {
+    .home-loc {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 40px;
+    }
+
+    .home-loc :global(.home-loc__photo) {
+      height: 380px;
+    }
+  }
+</style>

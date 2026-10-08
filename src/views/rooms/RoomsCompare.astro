@@ -1,0 +1,84 @@
+---
+import Title from '../../components/ui/Title.astro';
+import type { RoomsPageContent } from '../../content/roomsPage';
+
+interface Props {
+  content: RoomsPageContent['compare'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section bg-blanc">
+  <div class="wrap compare">
+    <Title parts={content.title} class="compare__title" />
+    <div class="compare__scroll" tabindex="0" role="region" aria-label={`${content.title.text} ${content.title.em ?? ''}`}>
+      <table>
+        <thead>
+          <tr>
+            <td aria-hidden="true"></td>
+            {content.shortNames.map((name) => <th scope="col">{name}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            content.rows.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                {row.values.map((value) => <td>{value}</td>)}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .compare {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .compare :global(.compare__title) {
+    text-align: center;
+    font-size: clamp(40px, 4.5vw, 56px);
+  }
+
+  .compare__scroll {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  th,
+  td {
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--ligne);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead th {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 400;
+  }
+
+  tbody th {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or-profond);
+    white-space: nowrap;
+  }
+</style>

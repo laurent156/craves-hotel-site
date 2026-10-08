@@ -1,0 +1,144 @@
+---
+// Shared template for Le Conteur (restaurant) and Scène (bar).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhotoHero from '../../components/ui/PhotoHero.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import PerkBadge from '../../components/ui/PerkBadge.astro';
+import FactsGrid from '../../components/ui/FactsGrid.astro';
+import Mosaic from '../../components/ui/Mosaic.astro';
+import ArchPair from '../../components/ui/ArchPair.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import CrossSell from '../../components/booking/CrossSell.astro';
+import { VENUES, type VenueKey } from '../../content/venues';
+import { altFor } from '../../content/photos';
+import { pick } from '../../content/localize';
+import { PARTNERS } from '../../config/site';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  venue: VenueKey;
+}
+
+const { locale, venue } = Astro.props;
+const content = pick(VENUES[venue], locale);
+const links = PARTNERS[venue][locale];
+const ui = t(locale);
+const external = { target: '_blank', rel: 'noopener' };
+const [c1, c2] = content.cards;
+const card = (c: typeof c1) => ({
+  photo: c.photo,
+  alt: altFor(c.photo, locale),
+  title: c.title,
+  text: c.text,
+  headingLevel: 'h2' as const,
+  cta: { label: c.cta, href: links[c.link], external: true },
+});
+---
+
+<BaseLayout locale={locale} route={venue} title={content.metaTitle} description={content.metaDescription} transparentHeader>
+  <PhotoHero image={content.hero.photo} alt={altFor(content.hero.photo, locale)} position={content.hero.position} minHeight="820px">
+    <Breadcrumb label={ui.breadcrumb} items={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav[venue] }]} />
+    <h1 class="serif venue-h1">
+      {content.hero.title}
+      <span class="t-em">{content.hero.subtitle}</span>
+    </h1>
+    <p class="venue-lead">{content.hero.lead}</p>
+    <PerkBadge label={ui.guestPerkLabel} text={content.hero.perk} />
+    <div class="venue-ctas">
+      <a href={links.reservation} class="pill pill--gold" {...external}>{content.hero.bookCta} <span aria-hidden="true">↗</span><span class="visually-hidden">{ui.opensInNewTab}</span></a>
+      <a href={links.menu} class="pill pill--outline venue-ctas__menu" {...external}>{content.hero.menuCta} <span aria-hidden="true">↗</span><span class="visually-hidden">{ui.opensInNewTab}</span></a>
+    </div>
+  </PhotoHero>
+
+  <section class="section bg-nuit">
+    <div class="wrap venue-intro">
+      <p class="lbl eyebrow">{content.intro.eyebrow}</p>
+      <p class="serif venue-intro__lead">{content.intro.lead}</p>
+      <p class="venue-intro__text">{content.intro.text}</p>
+      <FactsGrid items={content.intro.facts} class="venue-intro__facts" />
+    </div>
+  </section>
+
+  <Mosaic
+    eyebrow={content.mosaic.eyebrow}
+    title={content.mosaic.title}
+    photos={content.mosaic.photos.map((name) => ({ name, alt: altFor(name, locale) }))}
+  />
+
+  <section class="section bg-petrole">
+    <div class="wrap">
+      <ArchPair cards={[card(c1), card(c2)]} newTabLabel={ui.opensInNewTab} />
+    </div>
+  </section>
+
+  <CrossSell locale={locale} eyebrow={content.cross.eyebrow} text={content.cross.text} em={content.cross.em} />
+
+  <FaqSection title={content.faq.title} items={content.faq.items} tone="ivoire" />
+</BaseLayout>
+
+<style>
+  .venue-h1 {
+    font-size: clamp(64px, 9vw, 136px);
+    line-height: 0.92;
+  }
+
+  .venue-h1 .t-em {
+    display: block;
+    margin-top: 14px;
+    font-size: 0.32em;
+    line-height: 1.3;
+  }
+
+  .venue-lead {
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  .venue-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .venue-ctas__menu {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .venue-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .venue-intro__lead {
+    max-width: 980px;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.25;
+    color: var(--blanc);
+  }
+
+  .venue-intro__text {
+    max-width: 680px;
+    font-weight: 300;
+  }
+
+  .venue-intro :global(.venue-intro__facts) {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 860px) {
+    .venue-h1 {
+      font-size: 64px;
+    }
+
+    .venue-h1 .t-em {
+      font-size: 22px;
+    }
+  }
+</style>

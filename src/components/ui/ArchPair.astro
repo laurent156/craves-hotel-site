@@ -1,0 +1,126 @@
+---
+// Two cards with arch-topped photos, the second one offset lower (Le Conteur & Scène, menus, events).
+import { Image } from 'astro:assets';
+import { photo } from '../../lib/images';
+
+export interface ArchCard {
+  photo: string;
+  alt: string;
+  eyebrow?: string;
+  title: string;
+  text: string;
+  perk?: string;
+  cta: { label: string; href: string; external?: boolean };
+  /** Heading level of the card title. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+interface Props {
+  cards: [ArchCard, ArchCard];
+  photoHeight?: number;
+  /** Screen-reader note for links that open a new tab. */
+  newTabLabel?: string;
+}
+
+const { cards, photoHeight = 520, newTabLabel = '' } = Astro.props;
+---
+
+<div class="arches" style={`--arch-h: ${photoHeight}px`}>
+  {
+    cards.map((card) => {
+      const Heading = card.headingLevel ?? 'h3';
+      return (
+        <article class="arch">
+          <Image src={photo(card.photo)} alt={card.alt} class="arch__photo" widths={[480, 720, 1080]} sizes="(max-width: 860px) 100vw, 560px" />
+          {card.eyebrow && <p class="lbl eyebrow">{card.eyebrow}</p>}
+          <Heading class="serif arch__title">{card.title}</Heading>
+          <p class="arch__text">{card.text}</p>
+          {card.perk && <p class="arch__perk">{card.perk}</p>}
+          <a
+            href={card.cta.href}
+            class="pill pill--outline arch__cta"
+            {...(card.cta.external ? { target: '_blank', rel: 'noopener' } : {})}
+          >
+            {card.cta.label}
+            {card.cta.external && <span aria-hidden="true">↗</span>}
+            {card.cta.external && newTabLabel && <span class="visually-hidden">{newTabLabel}</span>}
+          </a>
+        </article>
+      );
+    })
+  }
+</div>
+
+<style>
+  .arches {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    align-items: start;
+  }
+
+  .arch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .arch:nth-child(2) {
+    margin-top: 120px;
+  }
+
+  .arch :global(.arch__photo) {
+    width: 100%;
+    height: var(--arch-h);
+    margin-bottom: 8px;
+    object-fit: cover;
+    border-radius: 999px 999px 0 0;
+  }
+
+  .arch__title {
+    font-size: 44px;
+    line-height: 1;
+    color: var(--blanc);
+  }
+
+  .arch__text {
+    max-width: 440px;
+    font-weight: 300;
+  }
+
+  .arch__perk {
+    font-size: 13px;
+    color: var(--or);
+  }
+
+  .arch__cta {
+    color: var(--blanc);
+    border-color: rgba(221, 218, 204, 0.6);
+  }
+
+  .arch__cta:hover {
+    background: var(--blanc);
+    color: var(--nuit);
+  }
+
+  @media (max-width: 860px) {
+    .arches {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+
+    .arch:nth-child(2) {
+      margin-top: 0;
+    }
+
+    .arch :global(.arch__photo) {
+      height: min(var(--arch-h), 440px);
+    }
+
+    .arch__title {
+      font-size: 36px;
+    }
+  }
+</style>

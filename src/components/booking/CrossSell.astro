@@ -1,0 +1,57 @@
+---
+// "Dîner et dormir au Craves" band: pushes restaurant and bar visitors towards a room.
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+import { buildBookingUrl } from '../../lib/booking';
+
+interface Props {
+  locale: Locale;
+  eyebrow: string;
+  text: string;
+  em: string;
+}
+
+const { locale, eyebrow, text, em } = Astro.props;
+const ui = t(locale);
+---
+
+<section class="section bg-blanc">
+  <div class="wrap cross">
+    <p class="lbl eyebrow">{eyebrow}</p>
+    <p class="serif cross__text">{text} <span class="t-em">{em}</span></p>
+    <div class="cross__actions">
+      <a href={localizedPath('rooms', locale)} class="pill pill--outline">{ui.seeRooms}</a>
+      <a href={buildBookingUrl({ locale })} class="pill pill--dark" data-book-link>{ui.seeAvailability}</a>
+    </div>
+    <p class="cross__note">{ui.directDiscountLong}</p>
+  </div>
+</section>
+
+<style>
+  .cross {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .cross__text {
+    max-width: 900px;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1.15;
+  }
+
+  .cross__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .cross__note {
+    font-size: 13px;
+    color: var(--or-profond);
+  }
+</style>

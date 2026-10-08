@@ -1,0 +1,219 @@
+---
+import { Image } from 'astro:assets';
+import { photo } from '../../lib/images';
+import { buildBookingUrl } from '../../lib/booking';
+import { altFor } from '../../content/photos';
+import { ROOMS, roomText } from '../../content/rooms';
+import type { RoomsPageContent } from '../../content/roomsPage';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import type { UiStrings } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  content: RoomsPageContent;
+  ui: UiStrings;
+}
+
+const { locale, content, ui } = Astro.props;
+const capacities = ROOMS.map((r) => r.capacity);
+---
+
+<section class="bg-ivoire rooms-list">
+  <div class="wrap">
+    <!-- Filters are a progressive enhancement: without JavaScript every room stays visible. -->
+    <div class="filters" role="group" aria-label={content.filters.label} data-room-filters hidden>
+      <button type="button" class="pill filter" aria-pressed="true" data-capacity="all">{content.filters.all}</button>
+      {
+        capacities.map((capacity) => (
+          <button type="button" class="pill filter" aria-pressed="false" data-capacity={capacity}>
+            {content.filters.byCapacity[capacity]}
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="visually-hidden" role="status" aria-live="polite" data-room-status data-template={ui.roomsShown}></p>
+
+    <div class="rooms-list__items">
+      {
+        ROOMS.map((room, i) => {
+          const text = roomText(room, locale);
+          return (
+            <article class:list={['room-row', { 'room-row--flip': i % 2 === 1 }]} data-room-capacity={room.capacity}>
+              <a href={localizedPath(room.key, locale)} class="room-row__photo" tabindex="-1" aria-hidden="true">
+                <Image src={photo(room.listPhoto)} alt={altFor(room.listPhoto, locale)} class="cover" widths={[480, 720, 1080, 1440]} sizes="(max-width: 860px) 100vw, 720px" />
+              </a>
+              <div class="room-row__text">
+                <p class="lbl eyebrow">{content.roomNumber} {String(i + 1).padStart(2, '0')}</p>
+                <h2 class="serif">
+                  <a href={localizedPath(room.key, locale)}>{text.name}</a>
+                </h2>
+                <p class="room-row__facts">
+                  <span>{room.size} m²</span>
+                  <span>{text.capacityLabel}</span>
+                  <span>{text.beds}</span>
+                </p>
+                <p class="room-row__desc">{text.listText}</p>
+                {text.note && <p class="room-row__note">{text.note}</p>}
+                <div class="room-row__actions">
+                  <a href={localizedPath(room.key, locale)} class="pill pill--outline">{ui.viewRoom}</a>
+                  <a href={buildBookingUrl({ locale })} class="pill pill--dark" data-book-link>{ui.book}</a>
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-room-filters]').forEach((group) => {
+    group.hidden = false;
+    const rows = document.querySelectorAll<HTMLElement>('[data-room-capacity]');
+    const buttons = group.querySelectorAll<HTMLButtonElement>('[data-capacity]');
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const wanted = button.dataset.capacity;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        rows.forEach((row) => {
+          row.hidden = wanted !== 'all' && row.dataset.roomCapacity !== wanted;
+        });
+        const status = document.querySelector<HTMLElement>('[data-room-status]');
+        if (status) {
+          const shown = [...rows].filter((row) => !row.hidden).length;
+          status.textContent = (status.dataset.template ?? '{n}').replace('{n}', String(shown));
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .rooms-list {
+    padding-bottom: var(--space-section);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 48px;
+  }
+
+  .filters[hidden] {
+    display: none;
+  }
+
+  .filter {
+    min-height: 40px;
+    border: 1px solid var(--ligne);
+    color: var(--nuit);
+  }
+
+  .filter[aria-pressed='true'] {
+    background: var(--nuit);
+    border-color: var(--nuit);
+    color: var(--blanc);
+  }
+
+  .rooms-list__items {
+    padding-top: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 120px;
+  }
+
+  .room-row {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: center;
+  }
+
+  .room-row[hidden] {
+    display: none;
+  }
+
+  .room-row__photo {
+    grid-column: 1 / 8;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .room-row__text {
+    grid-column: 9 / 13;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .room-row--flip .room-row__photo {
+    grid-column: 6 / 13;
+    order: 2;
+  }
+
+  .room-row--flip .room-row__text {
+    grid-column: 1 / 5;
+  }
+
+  .room-row h2 {
+    font-size: clamp(40px, 4.2vw, 56px);
+  }
+
+  .room-row h2 a {
+    text-decoration: none;
+  }
+
+  .room-row__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 14px;
+    color: var(--encre);
+  }
+
+  .room-row__desc {
+    color: var(--encre);
+  }
+
+  .room-row__note {
+    padding-left: 14px;
+    border-left: 1px solid var(--or-profond);
+    font-size: 14px;
+    color: var(--gris);
+  }
+
+  .room-row__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .room-row__actions .pill--outline {
+    color: var(--nuit);
+  }
+
+  @media (max-width: 860px) {
+    .rooms-list__items {
+      padding-top: 48px;
+      gap: 72px;
+    }
+
+    .room-row {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 24px;
+    }
+
+    .room-row--flip .room-row__photo {
+      order: 0;
+    }
+  }
+</style>

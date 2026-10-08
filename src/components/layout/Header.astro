@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logoBlanc from '../../assets/brand/logo-craves-blanc.png';
+import logoOr from '../../assets/brand/logo-craves-or.png';
 import MenuDialog from './MenuDialog.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import type { Locale } from '../../i18n/locales';
@@ -46,7 +46,7 @@ const bookingUrl = buildBookingUrl({ locale });
     </div>
 
     <a href={localizedPath('home', locale)} class="site-header__logo" aria-label={ui.homeLabel}>
-      <Image src={logoBlanc} alt="" height={46} densities={[1, 2]} loading="eager" />
+      <Image src={logoOr} alt="" height={46} densities={[1, 2]} loading="eager" />
     </a>
 
     <div class="site-header__right">

@@ -1,0 +1,86 @@
+---
+// Full-bleed photo with a navy veil and centred content; the transparent header sits on top.
+import { Image } from 'astro:assets';
+import { photo } from '../../lib/images';
+
+interface Props {
+  image: string;
+  alt: string;
+  position?: string;
+  minHeight?: string;
+  /** Darkness of the navy veil, 0–1. */
+  veil?: number;
+}
+
+const { image, alt, position = '50% 50%', minHeight = '720px', veil = 0.5 } = Astro.props;
+---
+
+<section class="photo-hero" style={`--hero-min: ${minHeight}; --hero-veil: ${veil}`}>
+  <Image
+    src={photo(image)}
+    alt={alt}
+    class="photo-hero__image"
+    style={`object-position: ${position}`}
+    widths={[640, 960, 1280, 1920, 2400]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="photo-hero__veil" aria-hidden="true"></div>
+  <div class="photo-hero__content">
+    <slot />
+  </div>
+  <slot name="after" />
+</section>
+
+<style>
+  .photo-hero {
+    position: relative;
+    min-height: var(--hero-min);
+    display: flex;
+    flex-direction: column;
+    background: var(--nuit);
+    color: var(--blanc);
+  }
+
+  .photo-hero :global(.photo-hero__image) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-hero__veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(9, 27, 41, var(--hero-veil));
+  }
+
+  .photo-hero__content {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: calc(var(--header-h) + 60px) 24px 100px;
+    text-align: center;
+  }
+
+  .photo-hero__content :global(.crumbs) {
+    justify-content: center;
+    color: var(--or);
+  }
+
+  @media (max-width: 860px) {
+    .photo-hero {
+      min-height: min(var(--hero-min), 640px);
+    }
+
+    .photo-hero__content {
+      padding: calc(var(--header-h) + 40px) 16px 64px;
+    }
+  }
+</style>

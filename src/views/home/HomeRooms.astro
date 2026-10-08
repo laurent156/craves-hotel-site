@@ -1,0 +1,105 @@
+---
+import Title from '../../components/ui/Title.astro';
+import RoomCard from '../../components/ui/RoomCard.astro';
+import type { HomeContent } from '../../content/home';
+import { ROOMS } from '../../content/rooms';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import type { UiStrings } from '../../i18n/ui';
+
+interface Props {
+  content: HomeContent['rooms'];
+  locale: Locale;
+  ui: UiStrings;
+}
+
+const { content, locale, ui } = Astro.props;
+---
+
+<section class="section bg-ivoire">
+  <div class="wrap home-rooms">
+    <div class="home-rooms__head">
+      <div class="home-rooms__title">
+        <p class="lbl eyebrow">{content.eyebrow}</p>
+        <Title parts={content.title} />
+      </div>
+      <div class="home-rooms__aside">
+        <p>{content.text}</p>
+        <a href={localizedPath('rooms', locale)} class="pill pill--outline">{ui.allRooms} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="home-rooms__grid">
+      {ROOMS.map((room) => <RoomCard room={room} locale={locale} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-rooms {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .home-rooms__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px 40px;
+  }
+
+  .home-rooms__title {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .home-rooms__title :global(h2) {
+    font-size: clamp(48px, 5.5vw, 72px);
+  }
+
+  .home-rooms__aside {
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    color: var(--encre);
+  }
+
+  .home-rooms__aside .pill {
+    color: var(--nuit);
+  }
+
+  .home-rooms__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  @media (max-width: 1024px) {
+    .home-rooms__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Phones: swipeable row, the next card peeks in. */
+  @media (max-width: 640px) {
+    .home-rooms__grid {
+      display: flex;
+      gap: 12px;
+      margin-right: calc(-1 * var(--gutter));
+      padding-right: var(--gutter);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .home-rooms__grid > :global(*) {
+      flex: none;
+      width: 78%;
+      scroll-snap-align: start;
+    }
+  }
+</style>

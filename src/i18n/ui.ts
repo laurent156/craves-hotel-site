@@ -26,6 +26,30 @@ export interface UiStrings {
   footerNav: string;
   legalNav: string;
   followUs: string;
+  home: string;
+  breadcrumb: string;
+  seeRooms: string;
+  allRooms: string;
+  viewRoom: string;
+  bookThisRoom: string;
+  directDiscountLong: string;
+  guestPerkLabel: string;
+  allFaq: string;
+  allPhotos: string;
+  close: string;
+  photoOf: string;
+  surface: string;
+  persons: string;
+  beds: string;
+  amenities: string;
+  goodToKnow: string;
+  question: string;
+  footerStay: string;
+  footerDiscover: string;
+  footerInfo: string;
+  vat: string;
+  opensInNewTab: string;
+  roomsShown: string;
   nav: Record<NavKey, string>;
 }
 
@@ -50,6 +74,30 @@ const UI: Record<Locale, UiStrings> = {
     footerNav: 'Plan du site',
     legalNav: 'Informations légales',
     followUs: 'Suivez-nous',
+    home: 'Accueil',
+    breadcrumb: "Fil d'Ariane",
+    seeRooms: 'Voir les chambres',
+    allRooms: 'Toutes les chambres',
+    viewRoom: 'Voir la chambre',
+    bookThisRoom: 'Réserver cette chambre',
+    directDiscountLong: '-10 % en réservant en direct avec le code THANKYOU',
+    guestPerkLabel: 'Client du Craves',
+    allFaq: 'Toute la FAQ →',
+    allPhotos: 'Toutes les photos',
+    close: 'Fermer',
+    photoOf: 'Photo {n} sur {total}',
+    surface: 'Surface',
+    persons: 'Personnes',
+    beds: 'Lits',
+    amenities: 'Équipements',
+    goodToKnow: 'Bon à savoir',
+    question: 'Une question ?',
+    footerStay: 'Séjourner',
+    footerDiscover: 'Découvrir',
+    footerInfo: 'Infos',
+    vat: 'TVA',
+    opensInNewTab: '(nouvel onglet)',
+    roomsShown: '{n} chambre(s) affichée(s)',
     nav: {
       rooms: 'Chambres',
       conteur: 'Le Conteur',
@@ -85,6 +133,30 @@ const UI: Record<Locale, UiStrings> = {
     footerNav: 'Site map',
     legalNav: 'Legal information',
     followUs: 'Follow us',
+    home: 'Home',
+    breadcrumb: 'Breadcrumb',
+    seeRooms: 'See the rooms',
+    allRooms: 'All rooms',
+    viewRoom: 'View the room',
+    bookThisRoom: 'Book this room',
+    directDiscountLong: '-10% when you book direct with the code THANKYOU',
+    guestPerkLabel: 'Craves guest',
+    allFaq: 'Full FAQ →',
+    allPhotos: 'All photos',
+    close: 'Close',
+    photoOf: 'Photo {n} of {total}',
+    surface: 'Size',
+    persons: 'Guests',
+    beds: 'Beds',
+    amenities: 'Amenities',
+    goodToKnow: 'Good to know',
+    question: 'A question?',
+    footerStay: 'Stay',
+    footerDiscover: 'Discover',
+    footerInfo: 'Info',
+    vat: 'VAT',
+    opensInNewTab: '(opens in a new tab)',
+    roomsShown: '{n} room(s) shown',
     nav: {
       rooms: 'Rooms',
       conteur: 'Le Conteur',
@@ -120,6 +192,30 @@ const UI: Record<Locale, UiStrings> = {
     footerNav: 'Sitemap',
     legalNav: 'Juridische informatie',
     followUs: 'Volg ons',
+    home: 'Home',
+    breadcrumb: 'Kruimelpad',
+    seeRooms: 'Bekijk de kamers',
+    allRooms: 'Alle kamers',
+    viewRoom: 'Bekijk de kamer',
+    bookThisRoom: 'Deze kamer boeken',
+    directDiscountLong: '-10% bij rechtstreeks boeken met de code THANKYOU',
+    guestPerkLabel: 'Gast van Craves',
+    allFaq: 'Alle vragen →',
+    allPhotos: "Alle foto's",
+    close: 'Sluiten',
+    photoOf: 'Foto {n} van {total}',
+    surface: 'Oppervlakte',
+    persons: 'Personen',
+    beds: 'Bedden',
+    amenities: 'Voorzieningen',
+    goodToKnow: 'Goed om te weten',
+    question: 'Een vraag?',
+    footerStay: 'Verblijven',
+    footerDiscover: 'Ontdekken',
+    footerInfo: 'Info',
+    vat: 'Btw',
+    opensInNewTab: '(opent in een nieuw tabblad)',
+    roomsShown: '{n} kamer(s) getoond',
     nav: {
       rooms: 'Kamers',
       conteur: 'Le Conteur',

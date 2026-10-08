@@ -3,7 +3,8 @@
   --nuit: #091b29;
   --petrole: #0e314c;
   --or: #cbb376;
-  --or-profond: #8d7234;
+  /* Darkened from #8d7234 so small labels reach WCAG AA (4.5:1) on ivoire. */
+  --or-profond: #7a6129;
   --creme: #dddacc;
   --ivoire: #f6f3ec;
   --blanc: #ffffff;
@@ -18,7 +19,7 @@
   --header-h: 84px;
   --bookbar-h: 76px;
 
-  --bp-nav: 860px;
+  --space-section: clamp(64px, 8vw, 120px);
 }
 
 @media (max-width: 860px) {
@@ -84,6 +85,58 @@ p {
 :focus-visible {
   outline: 2px solid var(--or);
   outline-offset: 3px;
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.bg-blanc {
+  background: var(--blanc);
+  color: var(--nuit);
+}
+
+.bg-ivoire {
+  background: var(--ivoire);
+  color: var(--nuit);
+}
+
+.bg-nuit {
+  background: var(--nuit);
+  color: var(--creme);
+}
+
+.bg-petrole {
+  background: var(--petrole);
+  color: var(--creme);
+}
+
+/* Gold eyebrow on light backgrounds, light gold on dark ones. */
+.eyebrow {
+  color: var(--or-profond);
+}
+
+.bg-nuit .eyebrow,
+.bg-petrole .eyebrow {
+  color: var(--or);
+}
+
+/* Titles: the italic part of "Questions *fréquentes*". */
+.t-em {
+  font-style: italic;
+}
+
+.bg-nuit .t-em--gold,
+.bg-petrole .t-em--gold {
+  color: var(--or);
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ---------- Utilities ---------- */

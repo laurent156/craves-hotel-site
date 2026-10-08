@@ -1,0 +1,68 @@
+---
+import Title from '../../components/ui/Title.astro';
+import ArchPair from '../../components/ui/ArchPair.astro';
+import type { HomeContent } from '../../content/home';
+import { altFor } from '../../content/photos';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+
+interface Props {
+  content: HomeContent['venues'];
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+---
+
+<section class="section bg-petrole">
+  <div class="wrap venues">
+    <div class="venues__head">
+      <p class="lbl eyebrow">{content.eyebrow}</p>
+      <Title parts={content.title} goldEm class="venues__title" />
+    </div>
+    <ArchPair
+      photoHeight={560}
+      cards={[
+        {
+          photo: 'le-conteur-restaurant-craves-bruxelles',
+          alt: altFor('le-conteur-restaurant-craves-bruxelles', locale),
+          eyebrow: content.conteur.eyebrow,
+          title: 'Le Conteur',
+          text: content.conteur.text,
+          perk: content.conteur.perk,
+          cta: { label: content.conteur.cta, href: localizedPath('conteur', locale) },
+        },
+        {
+          photo: 'scene-bar-craves-bruxelles',
+          alt: altFor('scene-bar-craves-bruxelles', locale),
+          eyebrow: content.scene.eyebrow,
+          title: 'Scène',
+          text: content.scene.text,
+          perk: content.scene.perk,
+          cta: { label: content.scene.cta, href: localizedPath('scene', locale) },
+        },
+      ]}
+    />
+  </div>
+</section>
+
+<style>
+  .venues {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .venues__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .venues__head :global(.venues__title) {
+    font-size: clamp(48px, 5.5vw, 72px);
+    color: var(--blanc);
+  }
+</style>

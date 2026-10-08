@@ -53,7 +53,10 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
     <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
 
     <meta name="theme-color" content="#091B29" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <Font cssVariable="--font-serif" preload />
     <Font cssVariable="--font-sans" preload />

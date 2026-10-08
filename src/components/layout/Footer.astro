@@ -1,9 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import logoOr from '../../assets/brand/logo-craves-or.png';
+import logoBouquet from '../../assets/brand/logo-craves-bouquet.webp';
 import type { Locale } from '../../i18n/locales';
 import { localizedPath } from '../../i18n/routes';
-import { LEGAL_NAV, MENU_NAV, MENU_SECONDARY, t } from '../../i18n/ui';
+import { LEGAL_NAV, t, type NavKey } from '../../i18n/ui';
 import { SITE } from '../../config/site';
 
 interface Props {
@@ -12,42 +12,50 @@ interface Props {
 
 const { locale } = Astro.props;
 const ui = t(locale);
-const year = new Date().getFullYear();
+
+const COLUMNS: { title: string; links: NavKey[] }[] = [
+  { title: ui.footerStay, links: ['rooms', 'gallery', 'story'] },
+  { title: ui.footerDiscover, links: ['conteur', 'scene', 'guide'] },
+  { title: ui.footerInfo, links: ['faq', 'contact', 'press'] },
+];
 ---
 
 <footer class="site-footer">
   <div class="wrap site-footer__grid">
     <div class="site-footer__brand">
-      <Image src={logoOr} alt={SITE.name} height={56} densities={[1, 2]} class="site-footer__logo" />
+      <Image src={logoBouquet} alt={SITE.name} width={180} densities={[1, 2]} class="site-footer__logo" />
       <address>
         {SITE.address.street}<br />
-        {SITE.address.postalCode} {SITE.address.city}
+        {SITE.address.postalCode} {SITE.address.city}<br />
+        <a href={SITE.phoneHref}>{SITE.phone}</a><br />
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
       </address>
-      <a href={SITE.phoneHref}>{SITE.phone}</a>
-      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
     </div>
 
-    <nav aria-label={ui.footerNav} class="site-footer__nav">
-      <ul>
-        {MENU_NAV.map((key) => <li><a href={localizedPath(key, locale)}>{ui.nav[key]}</a></li>)}
-      </ul>
-      <ul>
-        {[...MENU_SECONDARY, 'press' as const].map((key) => <li><a href={localizedPath(key, locale)}>{ui.nav[key]}</a></li>)}
-      </ul>
-    </nav>
-
-    <div class="site-footer__social">
-      <span class="lbl">{ui.followUs}</span>
-      <a href={SITE.social.instagram}>Instagram ↗</a>
-      <a href={SITE.social.facebook}>Facebook ↗</a>
-    </div>
+    {
+      COLUMNS.map((column) => (
+        <nav aria-label={column.title} class="site-footer__col">
+          <p class="lbl site-footer__heading">{column.title}</p>
+          <ul>
+            {column.links.map((key) => (
+              <li>
+                <a href={localizedPath(key, locale)}>{ui.nav[key]}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
   </div>
 
   <div class="wrap site-footer__legal">
-    <span>© {year} {SITE.name}</span>
+    <span>© {SITE.name} · {ui.vat} {SITE.vat}</span>
     <nav aria-label={ui.legalNav}>
       {LEGAL_NAV.map((key) => <a href={localizedPath(key, locale)}>{ui.nav[key]}</a>)}
     </nav>
+    <span class="site-footer__social">
+      <a href={SITE.social.instagram}>Instagram</a> · <a href={SITE.social.facebook}>Facebook</a>
+    </span>
   </div>
 </footer>
 
@@ -55,7 +63,6 @@ const year = new Date().getFullYear();
   .site-footer {
     background: var(--nuit);
     color: var(--creme);
-    font-size: 14px;
   }
 
   .site-footer a {
@@ -68,37 +75,43 @@ const year = new Date().getFullYear();
 
   .site-footer__grid {
     padding-top: 72px;
-    padding-bottom: 56px;
+    padding-bottom: 48px;
     display: grid;
-    grid-template-columns: 1.4fr 1.6fr 1fr;
-    gap: 48px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px;
+    border-top: 1px solid rgba(221, 218, 204, 0.2);
   }
 
-  .site-footer__brand,
-  .site-footer__social {
+  .site-footer__brand {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .site-footer__brand :global(.site-footer__logo) {
-    align-self: flex-start;
-    width: auto;
-    height: 56px;
-    margin-bottom: 12px;
+    width: 180px;
+    height: auto;
   }
 
   address {
     font-style: normal;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
   }
 
-  .site-footer__nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+  .site-footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
   }
 
-  .site-footer__nav ul {
+  .site-footer__heading {
+    color: var(--or);
+  }
+
+  .site-footer__col ul {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -107,34 +120,33 @@ const year = new Date().getFullYear();
     gap: 10px;
   }
 
-  .site-footer__social .lbl {
-    color: var(--or);
-    font-size: 11px;
-  }
-
   .site-footer__legal {
     padding-top: 24px;
     padding-bottom: 32px;
-    border-top: 1px solid var(--ligne-sombre);
+    border-top: 1px solid rgba(221, 218, 204, 0.2);
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--gris-clair);
   }
 
   .site-footer__legal nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 16px;
   }
 
   @media (max-width: 860px) {
     .site-footer__grid {
-      grid-template-columns: 1fr;
-      gap: 36px;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px 24px;
       padding-top: 48px;
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
     }
 
     /* Leave room for the fixed booking bar. */
