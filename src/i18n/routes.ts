@@ -30,8 +30,11 @@ export const ROUTES = {
 
 export type RouteKey = keyof typeof ROUTES;
 
+// Site served from a sub-folder on preview hosts (e.g. /craves-hotel-site/ on GitHub Pages); '' in production.
+const BASE = (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '');
+
 export function localizedPath(key: RouteKey, locale: Locale): string {
-  const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
+  const prefix = `${BASE}${locale === DEFAULT_LOCALE ? '' : `/${locale}`}`;
   const slug = ROUTES[key][locale];
   return slug ? `${prefix}/${slug}/` : `${prefix}/`;
 }

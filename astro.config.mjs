@@ -2,8 +2,10 @@
 import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
+// Production by default. Preview builds (GitHub Pages) set SITE_URL and BASE_PATH.
 export default defineConfig({
-  site: 'https://craves-hotel.com',
+  site: process.env.SITE_URL ?? 'https://craves-hotel.com',
+  base: process.env.BASE_PATH ?? '/',
   trailingSlash: 'always',
   i18n: {
     locales: ['en', 'fr', 'nl'],

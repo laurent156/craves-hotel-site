@@ -12,8 +12,12 @@ function htmlFiles(dir) {
   });
 }
 
+// Preview builds live in a sub-folder (BASE_PATH, e.g. /craves-hotel-site): links include it, files do not.
+const BASE = (process.env.BASE_PATH ?? '').replace(/\/$/, '');
+
 function exists(href) {
-  const path = decodeURIComponent(href.split(/[?#]/)[0]);
+  const raw = decodeURIComponent(href.split(/[?#]/)[0]);
+  const path = BASE && raw.startsWith(`${BASE}/`) ? raw.slice(BASE.length) : raw;
   const target = join(DIST, path);
   return existsSync(path.endsWith('/') ? join(target, 'index.html') : target);
 }

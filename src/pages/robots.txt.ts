@@ -17,6 +17,9 @@ const AI_CRAWLERS = [
 ];
 
 export const GET: APIRoute = ({ site }) => {
+  if (import.meta.env.PUBLIC_PREVIEW === 'true') {
+    return new Response('User-agent: *\nDisallow: /\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  }
   const lines = [
     'User-agent: *',
     'Allow: /',
