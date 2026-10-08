@@ -1,13 +1,14 @@
 import { describe, expect, test } from 'vitest';
 import { buildBookingUrl } from './booking';
 
-const BASE = 'https://bookingengine.mylighthouse.com/v2/10550/Rooms/Select';
+const ROOMS = 'https://bookingengine.mylighthouse.com/v2/10550/Rooms/Select';
+const START = 'https://bookingengine.mylighthouse.com/v2/10550';
 
 describe('buildBookingUrl', () => {
-  test('always applies the language and the THANKYOU discount code', () => {
+  test('without dates, opens the date step, which keeps the THANKYOU code (Rooms/Select would drop it)', () => {
     const url = new URL(buildBookingUrl({ locale: 'fr' }));
 
-    expect(`${url.origin}${url.pathname}`).toBe(BASE);
+    expect(`${url.origin}${url.pathname}`).toBe(START);
     expect(url.searchParams.get('lang')).toBe('fr');
     expect(url.searchParams.get('DiscountCode')).toBe('THANKYOU');
     expect(url.searchParams.has('Arrival')).toBe(false);
@@ -19,7 +20,9 @@ describe('buildBookingUrl', () => {
       buildBookingUrl({ locale: 'nl', arrival: '2026-11-12', departure: '2026-11-14' }),
     );
 
+    expect(`${url.origin}${url.pathname}`).toBe(ROOMS);
     expect(url.searchParams.get('lang')).toBe('nl');
+    expect(url.searchParams.get('DiscountCode')).toBe('THANKYOU');
     expect(url.searchParams.get('Arrival')).toBe('2026-11-12');
     expect(url.searchParams.get('Departure')).toBe('2026-11-14');
   });

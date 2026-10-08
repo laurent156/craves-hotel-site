@@ -22,7 +22,7 @@ const heading = title === false ? undefined : (title ?? (variant === 'light' ? u
 <!-- Works without JavaScript: a plain GET to the booking engine produces the same deep link. -->
 <form
   class:list={['booking-form', `booking-form--${variant}`]}
-  action={BOOKING.engineUrl}
+  action={BOOKING.roomsUrl}
   method="get"
   data-booking-form
   data-locale={locale}

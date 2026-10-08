@@ -57,8 +57,16 @@ import '../../styles/motion.css';
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
+          const el = entry.target as HTMLElement;
+          el.classList.add('is-revealed');
+          observer.unobserve(el);
+          // Once revealed, remove every trace of the effect (transform, clip-path, transition)
+          // so it can never affect layout, stacking or popups opened from inside the block.
+          window.setTimeout(() => {
+            el.removeAttribute('data-reveal');
+            el.classList.remove('is-revealed');
+            el.style.removeProperty('--reveal-delay');
+          }, 2200);
         });
       },
       { rootMargin: '0px 0px -8% 0px', threshold: 0 },

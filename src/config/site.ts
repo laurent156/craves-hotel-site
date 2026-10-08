@@ -26,7 +26,10 @@ export const SITE = {
 } as const;
 
 export const BOOKING = {
-  engineUrl: 'https://bookingengine.mylighthouse.com/v2/10550/Rooms/Select',
+  /** Date step: used without dates. It keeps the discount code (Rooms/Select redirects here and drops it). */
+  engineUrl: 'https://bookingengine.mylighthouse.com/v2/10550',
+  /** Room list for given dates. */
+  roomsUrl: 'https://bookingengine.mylighthouse.com/v2/10550/Rooms/Select',
   discountCode: 'THANKYOU',
   discountLabel: '-10 %',
 } as const;

@@ -25,11 +25,12 @@ export function buildBookingUrl({ locale, arrival, departure }: BookingRequest):
 
   const from = parseIsoDate(arrival);
   const to = parseIsoDate(departure);
-  if (from && to && to > from) {
+  const hasDates = Boolean(from && to && to > from);
+  if (hasDates) {
     params.set('Arrival', arrival as string);
     params.set('Departure', departure as string);
   }
 
   params.set('DiscountCode', BOOKING.discountCode);
-  return `${BOOKING.engineUrl}?${params.toString()}`;
+  return `${hasDates ? BOOKING.roomsUrl : BOOKING.engineUrl}?${params.toString()}`;
 }

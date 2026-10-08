@@ -82,6 +82,10 @@
   [data-reveal].is-revealed {
     opacity: 1;
     transform: none;
+  }
+
+  /* Only photos are clipped while revealing; text blocks never clip what they contain (calendar…). */
+  [data-reveal='image'].is-revealed {
     clip-path: inset(0);
   }
 }
