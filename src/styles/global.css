@@ -47,6 +47,8 @@ html {
 
 body {
   margin: 0;
+  /* Entrance zooms never create a horizontal scroll ('clip' keeps sticky elements working). */
+  overflow-x: clip;
   background: var(--blanc);
   color: var(--nuit);
   font-family: var(--font-sans);

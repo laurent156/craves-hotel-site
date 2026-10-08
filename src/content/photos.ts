@@ -49,6 +49,10 @@ const FR: Record<string, string> = {
   'grand-place-bruxelles-hotel-de-ville': 'L’Hôtel de Ville sur la Grand-Place de Bruxelles, à 4 minutes à pied du Craves',
   'manneken-pis-bruxelles': 'La statue du Manneken-Pis à Bruxelles',
   'palais-de-justice-bruxelles': 'Colonnes du Palais de Justice de Bruxelles',
+  'plaisirs-d-hiver-grande-roue-bruxelles': 'La grande roue illuminée des Plaisirs d’Hiver à Bruxelles',
+  'plaisirs-d-hiver-eglise-sainte-catherine': 'L’église Sainte-Catherine illuminée pendant les Plaisirs d’Hiver',
+  'sapin-de-noel-grand-place-bruxelles': 'Le sapin de Noël illuminé devant l’Hôtel de Ville, sur la Grand-Place de Bruxelles',
+  'gare-bruxelles-midi-quai-train': 'Un train à grande vitesse à quai à la gare de Bruxelles-Midi',
 };
 
 const EN: Record<string, string> = {
@@ -98,6 +102,10 @@ const EN: Record<string, string> = {
   'grand-place-bruxelles-hotel-de-ville': 'The Town Hall on the Grand-Place in Brussels, a 4-minute walk from Craves',
   'manneken-pis-bruxelles': 'The Manneken Pis statue in Brussels',
   'palais-de-justice-bruxelles': 'Columns of the Palace of Justice in Brussels',
+  'plaisirs-d-hiver-grande-roue-bruxelles': 'The illuminated Ferris wheel of Winter Wonders in Brussels',
+  'plaisirs-d-hiver-eglise-sainte-catherine': 'Saint Catherine’s Church lit up during Winter Wonders',
+  'sapin-de-noel-grand-place-bruxelles': 'The lit Christmas tree in front of the Town Hall on the Grand-Place, Brussels',
+  'gare-bruxelles-midi-quai-train': 'A high-speed train at the platform of Brussels-Midi station',
 };
 
 const NL: Record<string, string> = {
@@ -147,6 +155,10 @@ const NL: Record<string, string> = {
   'grand-place-bruxelles-hotel-de-ville': 'Het stadhuis op de Grote Markt van Brussel, op 4 minuten wandelen van Craves',
   'manneken-pis-bruxelles': 'Het standbeeld van Manneken Pis in Brussel',
   'palais-de-justice-bruxelles': 'Zuilen van het Justitiepaleis in Brussel',
+  'plaisirs-d-hiver-grande-roue-bruxelles': 'Het verlichte reuzenrad van Winterpret in Brussel',
+  'plaisirs-d-hiver-eglise-sainte-catherine': 'De verlichte Sint-Katelijnekerk tijdens Winterpret',
+  'sapin-de-noel-grand-place-bruxelles': 'De verlichte kerstboom voor het stadhuis op de Grote Markt in Brussel',
+  'gare-bruxelles-midi-quai-train': 'Een hogesnelheidstrein aan het perron van station Brussel-Zuid',
 };
 
 const ALTS: Localized<Record<string, string>> = { fr: FR, en: EN, nl: NL };

@@ -5,6 +5,8 @@ import PageHeader from '../../components/ui/PageHeader.astro';
 import { LEGAL, type LegalKey } from '../../content/legal';
 import { pick } from '../../content/localize';
 import { CONSENT } from '../../content/consent';
+import { PHOTO_CREDITS, licenseUrl } from '../../content/photoCredits';
+import { altFor } from '../../content/photos';
 import { buildBookingUrl } from '../../lib/booking';
 import type { Locale } from '../../i18n/locales';
 import { localizedPath } from '../../i18n/routes';
@@ -84,6 +86,19 @@ const NAV: LegalKey[] = ['privacy', 'cookies', 'legal'];
           ))
         }
         {page.note && <p class="legal__note">{page.note}</p>}
+        {key === 'legal' && (
+          <section>
+            <h2 class="serif">{ui.photoCredit.listTitle}</h2>
+            <ul>
+              {Object.entries(PHOTO_CREDITS).map(([name, c]) => (
+                <li>
+                  {altFor(name, locale)} · <a href={c.source} rel="noopener">{c.author}</a>, <a href={licenseUrl(c)} rel="license noopener">{c.license}</a>
+                  {c.cropped && `, ${ui.photoCredit.cropped}`} ({ui.photoCredit.via})
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {key === 'cookies' && (
           <button type="button" class="pill pill--dark legal__manage" data-cc="show-preferencesModal">
             {CONSENT[locale].manage}

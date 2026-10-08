@@ -1,0 +1,39 @@
+---
+// Author credit for Creative Commons photos (renders nothing for the hotel's own photos).
+import { PHOTO_CREDITS, licenseUrl } from '../../content/photoCredits';
+import type { Locale } from '../../i18n/locales';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  photo: string;
+  locale: Locale;
+  class?: string;
+}
+
+const { photo, locale, class: className } = Astro.props;
+const credit = PHOTO_CREDITS[photo];
+const ui = t(locale).photoCredit;
+---
+
+{
+  credit && (
+    <p class:list={['credit', className]}>
+      {ui.photo} <a href={credit.source} rel="noopener">{credit.author}</a>,{' '}
+      <a href={licenseUrl(credit)} rel="license noopener">{credit.license}</a>
+      {credit.cropped && `, ${ui.cropped}`} ({ui.via})
+    </p>
+  )
+}
+
+<style>
+  .credit {
+    margin-top: 6px;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--gris);
+  }
+
+  .credit a {
+    color: inherit;
+  }
+</style>

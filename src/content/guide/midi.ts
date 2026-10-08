@@ -14,8 +14,8 @@ const FR: GuideArticle = {
   title: { text: 'De la gare du Midi à la Grand-Place :', em: 'tram, train, taxi ou à pied' },
   teaser:
     'Vous arrivez en Eurostar ou en TGV à Bruxelles-Midi ? Quatre façons de rejoindre la Grand-Place et le Craves Hotel, avec les temps de trajet réels.',
-  heroPhoto: 'craves-reception-hall',
-  heroAlt: 'La réception du Craves Hotel, à 150 m de l’arrêt de tram Bourse - Grand-Place',
+  heroPhoto: 'gare-bruxelles-midi-quai-train',
+  heroAlt: 'Un train à grande vitesse à quai sous la verrière de la gare de Bruxelles-Midi',
   byline: 'Par l’équipe du Craves Hotel · mis à jour le 8 octobre 2026 · 5 min de lecture',
   published: '2026-10-08',
   updated: '2026-10-08',
@@ -133,8 +133,8 @@ const EN: GuideArticle = {
   title: { text: 'Brussels-Midi to the Grand-Place:', em: 'tram, train, taxi or on foot' },
   teaser:
     'Arriving at Brussels-Midi by Eurostar or TGV? Here are four ways to reach the Grand-Place and Craves Hotel, with real journey times.',
-  heroPhoto: 'craves-reception-hall',
-  heroAlt: 'The Craves Hotel reception, 150 m from the Bourse - Grand-Place tram stop',
+  heroPhoto: 'gare-bruxelles-midi-quai-train',
+  heroAlt: 'A high-speed train at the platform under the canopy of Brussels-Midi station',
   byline: 'By the Craves Hotel team · updated 8 October 2026 · 5 min read',
   published: '2026-10-08',
   updated: '2026-10-08',
@@ -252,8 +252,8 @@ const NL: GuideArticle = {
   title: { text: 'Van Brussel-Zuid naar de Grote Markt:', em: 'tram, trein, taxi of te voet' },
   teaser:
     'Komt u met de Eurostar of TGV aan in Brussel-Zuid? Vier manieren om de Grote Markt en Craves Hotel te bereiken, met de werkelijke reistijden.',
-  heroPhoto: 'craves-reception-hall',
-  heroAlt: 'De receptie van Craves Hotel, op 150 m van tramhalte Beurs - Grote Markt',
+  heroPhoto: 'gare-bruxelles-midi-quai-train',
+  heroAlt: 'Een hogesnelheidstrein aan het perron onder de overkapping van station Brussel-Zuid',
   byline: 'Door het team van Craves Hotel · bijgewerkt op 8 oktober 2026 · 5 min leestijd',
   published: '2026-10-08',
   updated: '2026-10-08',

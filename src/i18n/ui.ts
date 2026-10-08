@@ -52,6 +52,7 @@ export interface UiStrings {
   roomsShown: string;
   storyLink: string;
   bookingTitle: string;
+  photoCredit: { photo: string; cropped: string; via: string; listTitle: string };
   calendar: { title: string; choose: string; night: string; nights: string; prev: string; next: string; done: string };
   nav: Record<NavKey, string>;
 }
@@ -103,6 +104,7 @@ const UI: Record<Locale, UiStrings> = {
     roomsShown: '{n} chambre(s) affichée(s)',
     storyLink: 'Notre histoire',
     bookingTitle: 'Quand souhaitez-vous venir ?',
+    photoCredit: { photo: 'Photo :', cropped: 'recadrée', via: 'via Wikimedia Commons', listTitle: 'Photos sous licence Creative Commons' },
     calendar: { title: 'Vos dates', choose: 'Choisir', night: '{n} nuit', nights: '{n} nuits', prev: 'Mois précédent', next: 'Mois suivant', done: 'Valider' },
     nav: {
       rooms: 'Chambres',
@@ -165,6 +167,7 @@ const UI: Record<Locale, UiStrings> = {
     roomsShown: '{n} room(s) shown',
     storyLink: 'Our story',
     bookingTitle: 'When would you like to stay?',
+    photoCredit: { photo: 'Photo:', cropped: 'cropped', via: 'via Wikimedia Commons', listTitle: 'Photos under Creative Commons licences' },
     calendar: { title: 'Your dates', choose: 'Select', night: '{n} night', nights: '{n} nights', prev: 'Previous month', next: 'Next month', done: 'Done' },
     nav: {
       rooms: 'Rooms',
@@ -227,6 +230,7 @@ const UI: Record<Locale, UiStrings> = {
     roomsShown: '{n} kamer(s) getoond',
     storyLink: 'Ons verhaal',
     bookingTitle: 'Wanneer wilt u komen?',
+    photoCredit: { photo: 'Foto:', cropped: 'bijgesneden', via: 'via Wikimedia Commons', listTitle: 'Foto’s onder Creative Commons-licentie' },
     calendar: { title: 'Uw data', choose: 'Kiezen', night: '{n} nacht', nights: '{n} nachten', prev: 'Vorige maand', next: 'Volgende maand', done: 'Bevestigen' },
     nav: {
       rooms: 'Kamers',

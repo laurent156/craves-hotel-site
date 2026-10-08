@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/ui/Breadcrumb.astro';
 import Title from '../../components/ui/Title.astro';
 import Rich from '../../components/ui/Rich.astro';
+import PhotoCredit from '../../components/ui/PhotoCredit.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import { GUIDE_ARTICLES } from '../../content/guide';
 import { altFor } from '../../content/photos';
@@ -83,6 +84,7 @@ const structured = {
     </header>
 
     <Image src={photo(a.heroPhoto)} alt={a.heroAlt} class="cover article-hero" widths={[640, 960, 1440, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <div class="wrap"><PhotoCredit photo={a.heroPhoto} locale={locale} /></div>
 
     <div class="wrap article-body">
       <div class="article-main">
@@ -130,7 +132,10 @@ const structured = {
                 {i + 1}. {p.name}
               </h2>
               {p.photo && (
-                <Image src={photo(p.photo)} alt={altFor(p.photo, locale)} class="cover article-place__photo" widths={[640, 960, 1280]} sizes="(max-width: 860px) 100vw, 760px" />
+                <figure class="article-place__figure">
+                  <Image src={photo(p.photo)} alt={altFor(p.photo, locale)} class="cover article-place__photo" widths={[640, 960, 1280]} sizes="(max-width: 860px) 100vw, 760px" />
+                  <PhotoCredit photo={p.photo} locale={locale} />
+                </figure>
               )}
               {p.paragraphs.map((text) => (
                 <p>
@@ -222,8 +227,14 @@ const structured = {
     color: var(--gris);
   }
 
-  :global(.article-hero) {
-    height: min(620px, 60vh);
+  /* img + class: must outrank the generic .cover rule (height: 100%) whatever the CSS order. */
+  :global(img.article-hero) {
+    width: 100%;
+    height: clamp(220px, 48vw, 620px);
+  }
+
+  .article-place__figure {
+    margin: 0;
   }
 
   .article-body {

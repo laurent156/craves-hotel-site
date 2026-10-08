@@ -16,8 +16,8 @@ const FR: GuideArticle = {
   title: { text: 'Plaisirs d’Hiver 2026 :', em: 'le marché de Noël de Bruxelles, à deux pas' },
   teaser:
     'Du 27 novembre 2026 au 3 janvier 2027, plus de 200 chalets de la Grand-Place au Marché aux Poissons. Dates, horaires et notre balade, à pied depuis l’hôtel.',
-  heroPhoto: 'grand-place-bruxelles-hotel-de-ville',
-  heroAlt: 'L’Hôtel de Ville sur la Grand-Place, cœur des Plaisirs d’Hiver à Bruxelles',
+  heroPhoto: 'plaisirs-d-hiver-grande-roue-bruxelles',
+  heroAlt: 'La grande roue illuminée et les installations lumineuses des Plaisirs d’Hiver à Bruxelles',
   byline: 'Par l’équipe du Craves Hotel · mis à jour le 8 octobre 2026 · 6 min de lecture',
   published: '2026-10-08',
   updated: '2026-10-08',
@@ -39,7 +39,7 @@ const FR: GuideArticle = {
       name: 'La Grand-Place',
       distance: '280 m · 4 min',
       entry: 'Sapin et son et lumière',
-      photo: 'grand-place-bruxelles-crepuscule',
+      photo: 'sapin-de-noel-grand-place-bruxelles',
       schemaType: 'TouristAttraction',
       paragraphs: [
         'Le cœur des festivités : le **grand sapin de Noël** se dresse devant l’Hôtel de Ville et, à la tombée de la nuit, un **spectacle son et lumière** fait vibrer les façades de la place, classée au patrimoine mondial de l’UNESCO.',
@@ -68,6 +68,7 @@ const FR: GuideArticle = {
       name: 'La place Sainte-Catherine',
       distance: '410 m · 6 min',
       entry: 'Chalets et vin chaud',
+      photo: 'plaisirs-d-hiver-eglise-sainte-catherine',
       schemaType: 'Place',
       paragraphs: [
         'L’ambiance la plus conviviale du marché : chalets gourmands, vin chaud et spécialités à partager autour de l’église Sainte-Catherine.',
@@ -146,8 +147,8 @@ const EN: GuideArticle = {
   title: { text: 'Brussels Christmas Market 2026:', em: 'Winter Wonders, right on our doorstep' },
   teaser:
     'From 27 November 2026 to 3 January 2027, more than 200 chalets stretch from the Grand-Place to the Marché aux Poissons. Dates, opening hours and our favourite walk, all on foot from the hotel.',
-  heroPhoto: 'grand-place-bruxelles-hotel-de-ville',
-  heroAlt: 'The Town Hall on the Grand-Place, heart of the Winter Wonders Christmas market in Brussels',
+  heroPhoto: 'plaisirs-d-hiver-grande-roue-bruxelles',
+  heroAlt: 'The illuminated Ferris wheel and light installations of Winter Wonders in Brussels',
   byline: 'By the Craves Hotel team · updated 8 October 2026 · 6 min read',
   published: '2026-10-08',
   updated: '2026-10-08',
@@ -169,7 +170,7 @@ const EN: GuideArticle = {
       name: 'Grand-Place',
       distance: '280 m · 4 min',
       entry: 'Christmas tree and light show',
-      photo: 'grand-place-bruxelles-crepuscule',
+      photo: 'sapin-de-noel-grand-place-bruxelles',
       schemaType: 'TouristAttraction',
       paragraphs: [
         'The heart of the festivities: the **giant Christmas tree** stands in front of the Town Hall and, as night falls, a **sound and light show** brings the façades of this UNESCO World Heritage square to life.',
@@ -198,6 +199,7 @@ const EN: GuideArticle = {
       name: 'Place Sainte-Catherine',
       distance: '410 m · 6 min',
       entry: 'Chalets and mulled wine',
+      photo: 'plaisirs-d-hiver-eglise-sainte-catherine',
       schemaType: 'Place',
       paragraphs: [
         'The friendliest atmosphere of the whole market: food chalets, mulled wine and specialities to share around Sainte-Catherine church.',
@@ -276,8 +278,8 @@ const NL: GuideArticle = {
   title: { text: 'Kerstmarkt Brussel 2026:', em: 'Winterpret, vlak bij het hotel' },
   teaser:
     'Van 27 november 2026 tot 3 januari 2027 staan er meer dan 200 kraampjes van de Grote Markt tot de Vismarkt. Data, openingsuren en onze wandeling, te voet vanaf het hotel.',
-  heroPhoto: 'grand-place-bruxelles-hotel-de-ville',
-  heroAlt: 'Het stadhuis op de Grote Markt, het hart van de kerstmarkt Winterpret in Brussel',
+  heroPhoto: 'plaisirs-d-hiver-grande-roue-bruxelles',
+  heroAlt: 'Het verlichte reuzenrad en de lichtinstallaties van Winterpret in Brussel',
   byline: 'Door het team van Craves Hotel · bijgewerkt op 8 oktober 2026 · 6 min leestijd',
   published: '2026-10-08',
   updated: '2026-10-08',
@@ -299,7 +301,7 @@ const NL: GuideArticle = {
       name: 'De Grote Markt',
       distance: '280 m · 4 min',
       entry: 'Kerstboom en licht- en geluidsshow',
-      photo: 'grand-place-bruxelles-crepuscule',
+      photo: 'sapin-de-noel-grand-place-bruxelles',
       schemaType: 'TouristAttraction',
       paragraphs: [
         'Het hart van de feestelijkheden: de **grote kerstboom** staat voor het stadhuis en zodra het donker wordt, brengt een **licht- en geluidsshow** de gevels van dit UNESCO-werelderfgoed tot leven.',
@@ -328,6 +330,7 @@ const NL: GuideArticle = {
       name: 'Het Sint-Katelijneplein',
       distance: '410 m · 6 min',
       entry: 'Kraampjes en glühwein',
+      photo: 'plaisirs-d-hiver-eglise-sainte-catherine',
       schemaType: 'Place',
       paragraphs: [
         'De gezelligste sfeer van de markt: lekkere kraampjes, glühwein en specialiteiten om te delen rond de Sint-Katelijnekerk.',
