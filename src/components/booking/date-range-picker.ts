@@ -136,8 +136,10 @@ export function createDateRangePicker(options: PickerOptions): { open: () => voi
 
   function place(): void {
     if (PHONE.matches) return;
-    panel.classList.remove('cal--up');
+    panel.classList.remove('cal--up', 'cal--right');
     const rect = root.getBoundingClientRect();
+    // Narrow column near the right edge (room pages): open towards the left instead of off-screen.
+    if (rect.left + panel.offsetWidth > document.documentElement.clientWidth - 16) panel.classList.add('cal--right');
     const spaceBelow = window.innerHeight - rect.bottom;
     if (spaceBelow < panel.offsetHeight + 16 && rect.top > spaceBelow) panel.classList.add('cal--up');
   }

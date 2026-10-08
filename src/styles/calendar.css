@@ -10,10 +10,19 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: var(--blanc);
+  /* Ivory, outlined and lifted, so it stands out on white pages as well as over photos. */
+  background: var(--ivoire);
   color: var(--nuit);
-  box-shadow: 0 18px 50px rgba(9, 27, 41, 0.22);
+  border: 1px solid var(--ligne);
+  box-shadow:
+    0 2px 6px rgba(9, 27, 41, 0.08),
+    0 24px 60px rgba(9, 27, 41, 0.28);
   text-align: left;
+}
+
+.cal--right {
+  left: auto;
+  right: 0;
 }
 
 .cal[hidden],
@@ -83,7 +92,7 @@
 }
 
 .cal__nav:hover:not(:disabled) {
-  background: var(--ivoire);
+  background: rgba(203, 179, 118, 0.22);
 }
 
 .cal__nav:disabled {
@@ -124,7 +133,13 @@
 }
 
 .cal__day:hover:not(:disabled) {
-  background: var(--ivoire);
+  background: rgba(203, 179, 118, 0.22);
+}
+
+.cal__day:focus-visible {
+  outline: 2px solid var(--or-profond);
+  outline-offset: -3px;
+  border-radius: 999px;
 }
 
 .cal__day:disabled {
@@ -138,7 +153,7 @@
 }
 
 .cal__day.is-between {
-  background: var(--ivoire);
+  background: rgba(203, 179, 118, 0.22);
 }
 
 .cal__day.is-start,
@@ -162,7 +177,7 @@
 }
 
 .cal__day.is-preview-end {
-  background: var(--ivoire);
+  background: rgba(203, 179, 118, 0.22);
   border-radius: 0 999px 999px 0;
   outline: 1px dashed var(--or-profond);
   outline-offset: -3px;

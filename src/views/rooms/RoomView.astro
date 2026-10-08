@@ -254,6 +254,8 @@ const schemaRoom = roomNode({
   .room-book {
     grid-column: 9 / 13;
     position: sticky;
+    /* Above the page content, so the calendar opening from it is never covered. */
+    z-index: 5;
     top: calc(var(--header-h) + 24px);
     padding: 32px;
     display: flex;
