@@ -2,6 +2,7 @@
 import { BOOKING } from '../../config/site';
 import type { Locale } from '../../i18n/locales';
 import { t } from '../../i18n/ui';
+import '../../styles/calendar.css';
 
 interface Props {
   locale: Locale;
@@ -22,18 +23,28 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
   method="get"
   data-booking-form
   data-locale={locale}
+  data-calendar={JSON.stringify({ ...ui.calendar, close: ui.close })}
 >
   <input type="hidden" name="lang" value={locale} />
   <input type="hidden" name="DiscountCode" value={BOOKING.discountCode} />
-  <div class="booking-form__dates">
-    <label for={`${id}-arrival`}>
+  <div class="booking-form__dates" data-dates>
+    <!-- Native date fields: the fallback without JavaScript. With JavaScript they are replaced by the range calendar. -->
+    <label for={`${id}-arrival`} class="booking-form__native">
       <span class="booking-form__label">{ui.arrival}</span>
       <input id={`${id}-arrival`} type="date" name="Arrival" data-arrival required />
     </label>
-    <label for={`${id}-departure`}>
+    <label for={`${id}-departure`} class="booking-form__native">
       <span class="booking-form__label">{ui.departure}</span>
       <input id={`${id}-departure`} type="date" name="Departure" data-departure required />
     </label>
+    <div class="booking-form__field booking-form__enhanced">
+      <span class="booking-form__label" id={`${id}-arrival-label`}>{ui.arrival}</span>
+      <button type="button" class="booking-form__date is-empty" aria-labelledby={`${id}-arrival-label ${id}-arrival-btn`} id={`${id}-arrival-btn`} data-arrival-btn>{ui.calendar.choose}</button>
+    </div>
+    <div class="booking-form__field booking-form__enhanced">
+      <span class="booking-form__label" id={`${id}-departure-label`}>{ui.departure}</span>
+      <button type="button" class="booking-form__date is-empty" aria-labelledby={`${id}-departure-label ${id}-departure-btn`} id={`${id}-departure-btn`} data-departure-btn>{ui.calendar.choose}</button>
+    </div>
   </div>
   <div class="booking-form__action">
     <button type="submit" class:list={['pill', variant === 'light' ? 'pill--dark' : 'pill--gold']}>
@@ -46,40 +57,34 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
 <script>
   import { buildBookingUrl } from '../../lib/booking';
   import { isLocale } from '../../i18n/locales';
-
-  const pad = (n: number) => String(n).padStart(2, '0');
-  // Visitor's local calendar day (not UTC), so "today" is right at any hour and in any time zone.
-  const localIso = (date: Date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-  const addDays = (iso: string, days: number) => {
-    const [y, m, d] = iso.split('-').map(Number);
-    return localIso(new Date(y, m - 1, d + days));
-  };
+  import { createDateRangePicker, type PickerStrings } from './date-range-picker';
 
   document.querySelectorAll<HTMLFormElement>('[data-booking-form]').forEach((form) => {
     const arrival = form.querySelector<HTMLInputElement>('[data-arrival]');
     const departure = form.querySelector<HTMLInputElement>('[data-departure]');
-    if (!arrival || !departure) return;
+    const arrivalButton = form.querySelector<HTMLButtonElement>('[data-arrival-btn]');
+    const departureButton = form.querySelector<HTMLButtonElement>('[data-departure-btn]');
+    const dates = form.querySelector<HTMLElement>('[data-dates]');
+    const locale = form.dataset.locale;
+    if (!arrival || !departure || !arrivalButton || !departureButton || !dates || !isLocale(locale)) return;
 
-    const today = localIso(new Date());
-    arrival.min = today;
-    departure.min = addDays(today, 1);
-
-    arrival.addEventListener('change', () => {
-      if (!arrival.value) return;
-      const firstNight = addDays(arrival.value, 1);
-      departure.min = firstNight;
-      if (!departure.value || departure.value <= arrival.value) departure.value = firstNight;
+    const picker = createDateRangePicker({
+      root: dates,
+      arrivalInput: arrival,
+      departureInput: departure,
+      arrivalButton,
+      departureButton,
+      locale: { fr: 'fr-BE', en: 'en-GB', nl: 'nl-BE' }[locale],
+      strings: JSON.parse(form.dataset.calendar ?? '{}') as PickerStrings,
     });
+    form.classList.add('is-enhanced');
+    form.noValidate = true;
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const locale = form.dataset.locale;
-      if (!isLocale(locale)) return;
-      window.location.href = buildBookingUrl({
-        locale,
-        arrival: arrival.value,
-        departure: departure.value,
-      });
+      // No dates yet: open the calendar rather than sending the visitor away empty-handed.
+      if (!arrival.value || !departure.value) return picker.open();
+      window.location.href = buildBookingUrl({ locale, arrival: arrival.value, departure: departure.value });
     });
   });
 </script>
@@ -106,12 +111,51 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
     gap: 14px;
   }
 
-  .booking-form__dates label {
+  .booking-form__dates {
+    position: relative;
+  }
+
+  .booking-form__dates label,
+  .booking-form__field {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 4px;
     min-width: 0;
+  }
+
+  .booking-form__enhanced,
+  .is-enhanced .booking-form__native {
+    display: none;
+  }
+
+  .is-enhanced .booking-form__enhanced {
+    display: flex;
+  }
+
+  .booking-form__date {
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--gris);
+    background: transparent;
+    color: inherit;
+    font: 400 16px var(--font-sans);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .booking-form__date.is-empty {
+    color: var(--gris);
+  }
+
+  .booking-form--dark .booking-form__date {
+    border-bottom-color: rgba(221, 218, 204, 0.4);
+  }
+
+  .booking-form--dark .booking-form__date.is-empty {
+    color: var(--gris-clair);
   }
 
   .booking-form__label {
