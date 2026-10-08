@@ -18,6 +18,11 @@ export const ROUTES = {
   faq: { en: 'faq', fr: 'faq', nl: 'faq' },
   contact: { en: 'contact', fr: 'contact', nl: 'contact' },
   guide: { en: 'guide', fr: 'guide', nl: 'gids' },
+  guideGrandPlace: {
+    en: 'guide/things-to-do-near-grand-place-brussels',
+    fr: 'guide/que-faire-autour-grand-place-bruxelles',
+    nl: 'gids/wat-te-doen-rond-de-grote-markt-brussel',
+  },
   privacy: { en: 'privacy-policy', fr: 'confidentialite', nl: 'privacybeleid' },
   cookies: { en: 'cookie-policy', fr: 'cookies', nl: 'cookiebeleid' },
   legal: { en: 'legal-notice', fr: 'mentions-legales', nl: 'juridische-informatie' },

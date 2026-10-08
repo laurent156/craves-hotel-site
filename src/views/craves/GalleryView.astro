@@ -1,0 +1,181 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import CravesSubnav from '../../components/ui/CravesSubnav.astro';
+import { CRAVES, GALLERY_PHOTOS, type GalleryCategory } from '../../content/craves';
+import { altFor } from '../../content/photos';
+import { pick } from '../../content/localize';
+import { photo } from '../../lib/images';
+import { buildBookingUrl } from '../../lib/booking';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const section = pick(CRAVES, locale);
+const content = section.gallery;
+const ui = t(locale);
+const categories: (GalleryCategory | 'all')[] = ['all', 'rooms', 'hotel', 'conteur', 'scene', 'area'];
+---
+
+<BaseLayout locale={locale} route="gallery" title={content.metaTitle} description={content.metaDescription}>
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: section.subnav }, { label: ui.nav.gallery }]}
+    title={content.title}
+    lead={content.lead}
+  >
+    <CravesSubnav locale={locale} current="gallery" label={section.subnav} />
+    <div class="filters" role="group" aria-label={content.filtersLabel} data-gallery-filters hidden>
+      {
+        categories.map((cat) => (
+          <button type="button" class="pill filter" aria-pressed={cat === 'all' ? 'true' : 'false'} data-category={cat}>
+            {content.categories[cat]}
+          </button>
+        ))
+      }
+    </div>
+  </PageHeader>
+
+  <section class="bg-ivoire gallery-page">
+    <div class="wrap">
+      <ul class="masonry">
+        {
+          GALLERY_PHOTOS.map((p) => (
+            <li data-photo-category={p.category}>
+              <figure>
+                <Image src={photo(p.name)} alt="" widths={[400, 640, 960]} sizes="(max-width: 520px) 100vw, (max-width: 860px) 50vw, 420px" />
+                <figcaption>{altFor(p.name, locale)}</figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-nuit">
+    <div class="wrap gallery-cta">
+      <p class="serif">{content.cta}</p>
+      <a href={buildBookingUrl({ locale })} class="pill pill--gold" data-book-link>{ui.seeAvailability}</a>
+      <span>{ui.directDiscountLong}</span>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery-filters]').forEach((group) => {
+    group.hidden = false;
+    const items = document.querySelectorAll<HTMLElement>('[data-photo-category]');
+    const buttons = group.querySelectorAll<HTMLButtonElement>('[data-category]');
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const wanted = button.dataset.category;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        items.forEach((item) => {
+          item.hidden = wanted !== 'all' && item.dataset.photoCategory !== wanted;
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .filters[hidden] {
+    display: none;
+  }
+
+  .filter {
+    min-height: 40px;
+    border: 1px solid var(--ligne);
+    color: var(--nuit);
+  }
+
+  .filter[aria-pressed='true'] {
+    background: var(--nuit);
+    border-color: var(--nuit);
+    color: var(--blanc);
+  }
+
+  .gallery-page {
+    padding-bottom: var(--space-section);
+  }
+
+  .masonry {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    column-count: 3;
+    column-gap: 16px;
+  }
+
+  .masonry li {
+    margin-bottom: 16px;
+    break-inside: avoid;
+  }
+
+  .masonry li[hidden] {
+    display: none;
+  }
+
+  figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    font-size: 12px;
+    color: var(--gris);
+  }
+
+  .gallery-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .gallery-cta .serif {
+    font-size: clamp(40px, 4.2vw, 52px);
+    line-height: 1;
+    color: var(--blanc);
+  }
+
+  .gallery-cta span {
+    font-size: 13px;
+    color: var(--or);
+  }
+
+  @media (max-width: 860px) {
+    .masonry {
+      column-count: 2;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .masonry {
+      column-count: 1;
+    }
+  }
+</style>

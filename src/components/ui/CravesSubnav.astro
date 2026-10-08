@@ -1,0 +1,51 @@
+---
+// Links between the three "Le Craves" pages: story, gallery, press.
+import type { Locale } from '../../i18n/locales';
+import { localizedPath, type RouteKey } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  current: 'story' | 'gallery' | 'press';
+  label: string;
+}
+
+const { locale, current, label } = Astro.props;
+const ui = t(locale);
+const LINKS: { key: RouteKey & ('story' | 'gallery' | 'press'); label: string }[] = [
+  { key: 'story', label: ui.storyLink },
+  { key: 'gallery', label: ui.nav.gallery },
+  { key: 'press', label: ui.nav.press },
+];
+---
+
+<nav class="lbl subnav" aria-label={label}>
+  {
+    LINKS.map((link) => (
+      <a href={localizedPath(link.key, locale)} aria-current={link.key === current ? 'page' : undefined}>
+        {link.label}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .subnav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 28px;
+  }
+
+  .subnav a {
+    opacity: 0.8;
+    text-decoration: none;
+    text-underline-offset: 8px;
+  }
+
+  .subnav a:hover,
+  .subnav a[aria-current='page'] {
+    opacity: 1;
+    text-decoration: underline;
+  }
+</style>

@@ -7,6 +7,14 @@ import RoomsView from '../views/rooms/RoomsView.astro';
 import RoomView from '../views/rooms/RoomView.astro';
 import VenueView from '../views/venue/VenueView.astro';
 import LocationView from '../views/location/LocationView.astro';
+import StoryView from '../views/craves/StoryView.astro';
+import GalleryView from '../views/craves/GalleryView.astro';
+import PressView from '../views/craves/PressView.astro';
+import FaqView from '../views/info/FaqView.astro';
+import ContactView from '../views/info/ContactView.astro';
+import LegalView from '../views/info/LegalView.astro';
+import GuideView from '../views/guide/GuideView.astro';
+import ArticleView from '../views/guide/ArticleView.astro';
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '../i18n/locales';
 import { ROUTES, type RouteKey } from '../i18n/routes';
 
@@ -28,6 +36,16 @@ export const getStaticPaths = (() => {
     conteur: { view: VenueView, props: { venue: 'conteur' } },
     scene: { view: VenueView, props: { venue: 'scene' } },
     location: { view: LocationView },
+    story: { view: StoryView },
+    gallery: { view: GalleryView },
+    press: { view: PressView },
+    faq: { view: FaqView },
+    contact: { view: ContactView },
+    guide: { view: GuideView },
+    guideGrandPlace: { view: ArticleView, props: { article: 'guideGrandPlace' } },
+    privacy: { view: LegalView, props: { page: 'privacy' } },
+    cookies: { view: LegalView, props: { page: 'cookies' } },
+    legal: { view: LegalView, props: { page: 'legal' } },
   };
 
   return LOCALES.flatMap((locale) =>

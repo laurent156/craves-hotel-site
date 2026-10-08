@@ -90,7 +90,7 @@ const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.a
       <div class="guide__grid">
         {
           content.guide.articles.map((article) => (
-            <a href={localizedPath('guide', locale)} class="guide__card">
+            <a href={localizedPath(article.route, locale)} class="guide__card">
               <Image src={photo(article.photo)} alt={altFor(article.photo, locale)} class="guide__photo" widths={[400, 640, 960]} sizes="(max-width: 860px) 100vw, 400px" />
               <span class="serif">{article.title}</span>
             </a>

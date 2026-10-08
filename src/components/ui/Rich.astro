@@ -1,0 +1,11 @@
+---
+import { richText } from '../../lib/richText';
+
+interface Props {
+  text: string;
+}
+
+const segments = richText(Astro.props.text);
+---
+
+{segments.map((s) => (s.strong ? <strong>{s.text}</strong> : s.text))}

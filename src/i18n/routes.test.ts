@@ -15,6 +15,12 @@ describe('localizedPath', () => {
     expect(localizedPath('rooms', 'nl')).toBe('/nl/kamers/');
     expect(localizedPath('roomDouble', 'fr')).toBe('/fr/chambres/chambre-double/');
   });
+
+  test('nests guide articles under the guide in every language', () => {
+    expect(localizedPath('guideGrandPlace', 'fr')).toBe('/fr/guide/que-faire-autour-grand-place-bruxelles/');
+    expect(localizedPath('guideGrandPlace', 'en')).toBe('/guide/things-to-do-near-grand-place-brussels/');
+    expect(localizedPath('guideGrandPlace', 'nl')).toBe('/nl/gids/wat-te-doen-rond-de-grote-markt-brussel/');
+  });
 });
 
 describe('alternatePaths', () => {

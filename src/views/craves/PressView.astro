@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import CravesSubnav from '../../components/ui/CravesSubnav.astro';
+import { CRAVES } from '../../content/craves';
+import { pick } from '../../content/localize';
+import { SITE } from '../../config/site';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const section = pick(CRAVES, locale);
+const content = section.press;
+const ui = t(locale);
+---
+
+<BaseLayout locale={locale} route="press" title={content.metaTitle} description={content.metaDescription}>
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: section.subnav }, { label: ui.nav.press }]}
+    title={content.title}
+    lead={content.lead}
+  >
+    <CravesSubnav locale={locale} current="press" label={section.subnav} />
+  </PageHeader>
+
+  <section class="bg-blanc press">
+    <div class="wrap">
+      {
+        content.articles.map((article) => (
+          <article class="press__item">
+            <h2 class="serif">{article.media}</h2>
+            <div class="press__body">
+              <p>{article.summary}</p>
+              {article.language && <span>{article.language}</span>}
+            </div>
+            {article.url && (
+              <a href={article.url} class="pill pill--outline press__link" target="_blank" rel="noopener">
+                {content.readCta} <span aria-hidden="true">↗</span>
+                <span class="visually-hidden">
+                  {article.media} {ui.opensInNewTab}
+                </span>
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="bg-nuit press-kit">
+    <div class="wrap press-kit__inner">
+      <div>
+        <p class="serif press-kit__title">{content.kit.title}</p>
+        <p class="press-kit__text">{content.kit.text}</p>
+      </div>
+      <a href={`mailto:${SITE.email}`} class="pill pill--gold">{content.kit.cta}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .press {
+    padding-top: 72px;
+    padding-bottom: var(--space-section);
+  }
+
+  .press__item {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: baseline;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--ligne);
+  }
+
+  .press__item h2 {
+    grid-column: 1 / 4;
+    font-size: 40px;
+  }
+
+  .press__body {
+    grid-column: 4 / 10;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--encre);
+  }
+
+  .press__body span {
+    font-size: 13px;
+    color: var(--gris);
+  }
+
+  .press__link {
+    grid-column: 10 / 13;
+    justify-self: end;
+    color: var(--nuit);
+  }
+
+  .press-kit {
+    padding-block: 80px;
+  }
+
+  .press-kit__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .press-kit__title {
+    font-size: 44px;
+    line-height: 1;
+    color: var(--blanc);
+  }
+
+  .press-kit__text {
+    margin-top: 8px;
+    font-weight: 300;
+  }
+
+  @media (max-width: 860px) {
+    .press__item {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .press__link {
+      justify-self: auto;
+      align-self: flex-start;
+    }
+  }
+</style>

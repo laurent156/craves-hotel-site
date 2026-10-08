@@ -1,4 +1,5 @@
 import type { Localized, TitleParts } from './localize';
+import type { RouteKey } from '../i18n/routes';
 
 export interface LocationContent {
   metaTitle: string;
@@ -10,7 +11,7 @@ export interface LocationContent {
     eyebrow: string;
     title: TitleParts;
     cta: string;
-    articles: { photo: string; title: string }[];
+    articles: { photo: string; title: string; route: RouteKey }[];
   };
   faq: { title: TitleParts; ids: string[] };
 }
@@ -59,7 +60,7 @@ export const LOCATION: Localized<LocationContent> = {
       eyebrow: 'Guide de Bruxelles',
       title: { text: 'Que faire', em: 'autour de l’hôtel' },
       cta: 'Tous les articles',
-      articles: [{ photo: 'grand-place-bruxelles-hotel-de-ville', title: 'Que faire autour de la Grand-Place' }],
+      articles: [{ photo: 'grand-place-bruxelles-hotel-de-ville', title: 'Que faire autour de la Grand-Place', route: 'guideGrandPlace' }],
     },
     faq: {
       title: { text: 'Questions', em: 'pratiques' },

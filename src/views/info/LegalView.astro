@@ -1,0 +1,232 @@
+---
+// One template for the privacy policy, cookie policy and legal notice.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import { LEGAL, type LegalKey } from '../../content/legal';
+import { pick } from '../../content/localize';
+import { buildBookingUrl } from '../../lib/booking';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  page: LegalKey;
+}
+
+const { locale, page: key } = Astro.props;
+const legal = pick(LEGAL, locale);
+const page = legal.pages[key];
+const ui = t(locale);
+const NAV: LegalKey[] = ['privacy', 'cookies', 'legal'];
+---
+
+<BaseLayout locale={locale} route={key} title={page.metaTitle} description={page.metaDescription}>
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: legal.sectionLabel }, { label: ui.nav[key] }]}
+    title={page.title}
+    lead={page.updated}
+  />
+
+  <section class="bg-blanc legal">
+    <div class="wrap legal__grid">
+      <nav class="legal__nav" aria-label={legal.navLabel}>
+        {NAV.map((k) => <a href={localizedPath(k, locale)} class="lbl" aria-current={k === key ? 'page' : undefined}>{ui.nav[k]}</a>)}
+        <a href={buildBookingUrl({ locale })} class="lbl" target="_blank" rel="noopener">
+          {legal.bookingTerms} <span aria-hidden="true">↗</span><span class="visually-hidden">{ui.opensInNewTab}</span>
+        </a>
+      </nav>
+
+      <div class="legal__body">
+        {page.intro && <p>{page.intro}</p>}
+        {
+          page.sections.map((s) => (
+            <section>
+              <h2 class="serif">{s.title}</h2>
+              {s.text && <p>{s.text}</p>}
+              {s.list && (
+                <ul>
+                  {s.list.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+              {s.rows && (
+                <dl class="legal__rows">
+                  {s.rows.map((r) => (
+                    <div>
+                      <dt>{r.k}</dt>
+                      <dd>{r.v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {s.cookies && (
+                <div class="legal__table" tabindex="0" role="region" aria-label={s.title}>
+                  <table>
+                    <thead>
+                      <tr>{legal.cookieHeaders.map((h) => <th scope="col">{h}</th>)}</tr>
+                    </thead>
+                    <tbody>
+                      {s.cookies.map((c) => (
+                        <tr>
+                          <td>{c.name}</td>
+                          <td>{c.service}</td>
+                          <td>{c.purpose}</td>
+                          <td>{c.duration}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+          ))
+        }
+        {page.note && <p class="legal__note">{page.note}</p>}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-top: 72px;
+    padding-bottom: var(--space-section);
+  }
+
+  .legal__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .legal__nav {
+    grid-column: 1 / 4;
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .legal__nav a {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 11px;
+    text-decoration: none;
+  }
+
+  .legal__nav a[aria-current='page'] {
+    color: var(--or-profond);
+  }
+
+  .legal__body {
+    grid-column: 5 / 12;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--encre);
+  }
+
+  .legal__body section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .legal__body h2 {
+    font-size: 32px;
+    line-height: 1.1;
+    color: var(--nuit);
+  }
+
+  .legal__body ul {
+    margin: 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .legal__rows {
+    margin: 0;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .legal__rows div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 15px;
+  }
+
+  .legal__rows dt {
+    flex: 0 0 220px;
+    color: var(--nuit);
+    font-weight: 500;
+  }
+
+  .legal__rows dd {
+    flex: 1 1 260px;
+    margin: 0;
+  }
+
+  .legal__table {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid var(--ligne);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--or-profond);
+  }
+
+  .legal__note {
+    font-size: 13px;
+    color: var(--gris);
+  }
+
+  @media (max-width: 860px) {
+    .legal {
+      padding-top: 40px;
+    }
+
+    .legal__grid {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 40px;
+    }
+
+    .legal__body {
+      min-width: 0;
+    }
+
+    .legal__nav {
+      position: static;
+      width: 100%;
+    }
+  }
+</style>

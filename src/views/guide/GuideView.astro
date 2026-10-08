@@ -1,0 +1,205 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Title from '../../components/ui/Title.astro';
+import { GUIDE_ARTICLES, GUIDE_INDEX } from '../../content/guide';
+import { pick } from '../../content/localize';
+import { photo } from '../../lib/images';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = pick(GUIDE_INDEX, locale);
+const articles = GUIDE_ARTICLES.map((a) => pick(a, locale));
+const [featured, ...others] = articles;
+const ui = t(locale);
+---
+
+<BaseLayout locale={locale} route="guide" title={content.metaTitle} description={content.metaDescription}>
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.guide }]}
+    title={content.title}
+    lead={content.lead}
+    breakEm
+  />
+
+  {
+    featured && (
+      <section class="bg-ivoire featured">
+        <a href={localizedPath(featured.route, locale)} class="wrap featured__link">
+          <Image src={photo(featured.heroPhoto)} alt={featured.heroAlt} class="cover featured__photo" widths={[640, 960, 1280]} sizes="(max-width: 860px) 100vw, 720px" />
+          <div class="featured__text">
+            <p class="lbl eyebrow">
+              {content.featuredLabel} · {featured.category}
+            </p>
+            <Title parts={featured.title} />
+            <p>{featured.teaser}</p>
+            <span class="lbl">{content.readCta}</span>
+          </div>
+        </a>
+      </section>
+    )
+  }
+
+  {
+    others.length > 0 && (
+      <section class="section bg-blanc">
+        <div class="wrap guide-grid">
+          {others.map((a) => (
+            <a href={localizedPath(a.route, locale)} class="guide-card">
+              <Image src={photo(a.heroPhoto)} alt={a.heroAlt} class="cover" widths={[400, 640]} sizes="(max-width: 860px) 100vw, 400px" />
+              <span class="lbl eyebrow">{a.category}</span>
+              <span class="serif guide-card__title">{a.shortTitle}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section bg-nuit">
+    <div class="wrap events">
+      <Title parts={content.events.title} goldEm class="events__title" />
+      <div class="events__grid">
+        {
+          content.events.items.map((e) => (
+            <article>
+              <p class="lbl eyebrow">{e.when}</p>
+              <h3 class="serif">{e.title}</h3>
+              <p class="events__text">{e.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .featured {
+    padding-bottom: var(--space-section);
+  }
+
+  .featured__link {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .featured :global(.featured__photo) {
+    grid-column: 1 / 8;
+    height: 520px;
+  }
+
+  .featured__text {
+    grid-column: 9 / 13;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--encre);
+  }
+
+  .featured__text :global(h2) {
+    font-size: clamp(36px, 3.8vw, 48px);
+    line-height: 1.05;
+    color: var(--nuit);
+  }
+
+  .featured__link:hover .featured__text > .lbl:last-child {
+    text-decoration: underline;
+  }
+
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+
+  .guide-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .guide-card :global(img) {
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
+  .guide-card__title {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+
+  .events {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .events :global(.events__title) {
+    text-align: center;
+    font-size: clamp(40px, 4.5vw, 56px);
+    color: var(--blanc);
+  }
+
+  .events__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid rgba(221, 218, 204, 0.25);
+  }
+
+  .events__grid article {
+    padding: 32px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .events__grid article + article {
+    border-left: 1px solid rgba(221, 218, 204, 0.25);
+  }
+
+  .events__grid h3 {
+    font-size: 32px;
+    color: var(--blanc);
+  }
+
+  .events__text {
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  @media (max-width: 860px) {
+    .featured__link {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 24px;
+    }
+
+    .featured :global(.featured__photo) {
+      height: 300px;
+    }
+
+    .guide-grid,
+    .events__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .events__grid article + article {
+      border-left: 0;
+      border-top: 1px solid rgba(221, 218, 204, 0.25);
+    }
+  }
+</style>

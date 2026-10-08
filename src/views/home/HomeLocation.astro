@@ -24,7 +24,7 @@ const { content, locale } = Astro.props;
       <ul>
         {content.places.map((place) => <li><span>{place.name}</span><span class="home-loc__time">{place.time}</span></li>)}
       </ul>
-      <a href={localizedPath('guide', locale)} class="pill pill--outline">{content.cta}</a>
+      <a href={localizedPath('guideGrandPlace', locale)} class="pill pill--outline">{content.cta}</a>
     </div>
     <Image
       src={photo('grand-place-bruxelles-hotel-de-ville')}

@@ -50,6 +50,7 @@ export interface UiStrings {
   vat: string;
   opensInNewTab: string;
   roomsShown: string;
+  storyLink: string;
   nav: Record<NavKey, string>;
 }
 
@@ -98,6 +99,7 @@ const UI: Record<Locale, UiStrings> = {
     vat: 'TVA',
     opensInNewTab: '(nouvel onglet)',
     roomsShown: '{n} chambre(s) affichée(s)',
+    storyLink: 'Notre histoire',
     nav: {
       rooms: 'Chambres',
       conteur: 'Le Conteur',
@@ -157,6 +159,7 @@ const UI: Record<Locale, UiStrings> = {
     vat: 'VAT',
     opensInNewTab: '(opens in a new tab)',
     roomsShown: '{n} room(s) shown',
+    storyLink: 'Our story',
     nav: {
       rooms: 'Rooms',
       conteur: 'Le Conteur',
@@ -216,6 +219,7 @@ const UI: Record<Locale, UiStrings> = {
     vat: 'Btw',
     opensInNewTab: '(opent in een nieuw tabblad)',
     roomsShown: '{n} kamer(s) getoond',
+    storyLink: 'Ons verhaal',
     nav: {
       rooms: 'Kamers',
       conteur: 'Le Conteur',

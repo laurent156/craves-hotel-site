@@ -11,6 +11,7 @@ Static site for craves-hotel.com, built with [Astro](https://docs.astro.build) a
 | `npm test` | Unit tests (Vitest) |
 | `npm run check` | Type-check `.astro` and `.ts` files |
 | `npm run build` | Build the static site into `dist/` |
+| `npm run check:links` | After a build: fails if a page links to an internal URL that does not exist |
 
 ## How it is organised
 

@@ -83,8 +83,21 @@ p {
 }
 
 :focus-visible {
-  outline: 2px solid var(--or);
+  outline: 2px solid var(--or-profond);
   outline-offset: 3px;
+}
+
+/* Light gold ring on dark surfaces, where the deep gold would not stand out. */
+.bg-nuit :focus-visible,
+.bg-petrole :focus-visible,
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.menu :focus-visible,
+.photo-hero :focus-visible,
+.room-book :focus-visible,
+.aside-book :focus-visible,
+.brief :focus-visible {
+  outline-color: var(--or);
 }
 
 /* ---------- Sections ---------- */

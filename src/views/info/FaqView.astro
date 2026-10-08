@@ -1,0 +1,320 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import { FAQ } from '../../content/faq';
+import { FAQ_PAGE } from '../../content/infoPages';
+import { pick } from '../../content/localize';
+import { SITE } from '../../config/site';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = pick(FAQ_PAGE, locale);
+const categories = pick(FAQ, locale);
+const ui = t(locale);
+const structured = {
+  '@type': 'FAQPage',
+  mainEntity: categories.flatMap((c) =>
+    Object.values(c.questions).map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  ),
+};
+---
+
+<BaseLayout locale={locale} route="faq" title={content.metaTitle} description={content.metaDescription}>
+  <JsonLd slot="head" data={structured} />
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.faq }]}
+    title={content.title}
+    lead={content.lead}
+  >
+    <label class="faq-search" data-faq-search hidden>
+      <span class="visually-hidden">{content.searchLabel}</span>
+      <input type="search" placeholder={content.searchPlaceholder} autocomplete="off" />
+    </label>
+  </PageHeader>
+
+  <section class="bg-blanc faq-page">
+    <div class="wrap faq-page__grid">
+      <nav class="faq-themes" aria-label={content.themesLabel}>
+        {
+          categories.map((c) => (
+            <a href={`#${c.id}`}>
+              <span class="lbl">{c.title}</span>
+              <span class="faq-themes__count">{Object.keys(c.questions).length}</span>
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="faq-page__list">
+        <p class="faq-page__empty" role="status" data-faq-empty hidden>{content.noResult}</p>
+        {
+          categories.map((c) => (
+            <section id={c.id} class="faq-cat" data-faq-cat>
+              <h2 class="serif">{c.title}</h2>
+              {Object.entries(c.questions).map(([id, item]) => (
+                <details id={`q-${id}`} data-faq-item>
+                  <summary>
+                    <h3 class="serif">{item.q}</h3>
+                    <span class="faq-icon" aria-hidden="true" />
+                  </summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-nuit">
+    <div class="wrap faq-help">
+      <p class="serif faq-help__title">{content.help.title}</p>
+      <p class="faq-help__text">{content.help.text}</p>
+      <div class="faq-help__ctas">
+        <a href={SITE.phoneHref} class="pill pill--outline">{SITE.phone}</a>
+        <a href={localizedPath('contact', locale)} class="pill pill--gold">{content.help.write}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Search is a progressive enhancement: without JavaScript all questions stay listed.
+  const normalize = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  const label = document.querySelector<HTMLElement>('[data-faq-search]');
+  const input = label?.querySelector('input');
+  const items = [...document.querySelectorAll<HTMLDetailsElement>('[data-faq-item]')];
+  const cats = [...document.querySelectorAll<HTMLElement>('[data-faq-cat]')];
+  const empty = document.querySelector<HTMLElement>('[data-faq-empty]');
+
+  if (label && input) {
+    label.hidden = false;
+    const texts = items.map((item) => normalize(item.textContent ?? ''));
+    input.addEventListener('input', () => {
+      const query = normalize(input.value.trim());
+      items.forEach((item, i) => {
+        const match = !query || texts[i].includes(query);
+        item.hidden = !match;
+        item.open = Boolean(query) && match;
+      });
+      cats.forEach((cat) => {
+        cat.hidden = !cat.querySelector('[data-faq-item]:not([hidden])');
+      });
+      if (empty) empty.hidden = cats.some((cat) => !cat.hidden);
+    });
+  }
+
+  // Open the question targeted by a link such as /fr/faq/#q-parking.
+  const target = location.hash.startsWith('#q-') ? document.querySelector<HTMLDetailsElement>(location.hash) : null;
+  if (target) target.open = true;
+</script>
+
+<style>
+  .faq-search {
+    width: min(640px, 100%);
+    margin-top: 16px;
+    display: flex;
+  }
+
+  .faq-search[hidden] {
+    display: none;
+  }
+
+  .faq-search input {
+    flex: 1;
+    height: 54px;
+    padding: 0 26px;
+    border: 1px solid var(--gris);
+    border-radius: 999px;
+    background: var(--blanc);
+    color: var(--nuit);
+    font: 400 16px var(--font-sans);
+  }
+
+  .faq-page {
+    padding-top: 72px;
+    padding-bottom: var(--space-section);
+  }
+
+  .faq-page__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .faq-themes {
+    grid-column: 1 / 4;
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .faq-themes a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ligne);
+    text-decoration: none;
+  }
+
+  .faq-themes .lbl {
+    font-size: 11px;
+  }
+
+  .faq-themes__count {
+    font-size: 13px;
+    color: var(--or-profond);
+  }
+
+  .faq-page__list {
+    grid-column: 5 / 13;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  .faq-page__empty {
+    color: var(--encre);
+  }
+
+  .faq-cat[hidden],
+  details[hidden],
+  .faq-page__empty[hidden] {
+    display: none;
+  }
+
+  .faq-cat {
+    scroll-margin-top: 24px;
+  }
+
+  .faq-cat h2 {
+    margin-bottom: 12px;
+    font-size: clamp(36px, 4vw, 48px);
+  }
+
+  details {
+    border-bottom: 1px solid var(--ligne);
+    scroll-margin-top: 24px;
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary h3 {
+    font-size: clamp(20px, 2vw, 24px);
+    line-height: 1.2;
+  }
+
+  .faq-icon {
+    position: relative;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin-top: 6px;
+  }
+
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    inset: 6px 0 auto;
+    height: 1.5px;
+    background: var(--or-profond);
+    transition: transform 0.2s;
+  }
+
+  .faq-icon::after {
+    transform: rotate(90deg);
+  }
+
+  details[open] .faq-icon::after {
+    transform: rotate(0deg);
+  }
+
+  details p {
+    padding: 0 40px 20px 0;
+    font-size: 15px;
+    color: var(--encre);
+  }
+
+  .faq-help {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .faq-help__title {
+    font-size: clamp(36px, 4vw, 48px);
+    line-height: 1;
+    color: var(--blanc);
+  }
+
+  .faq-help__text {
+    font-weight: 300;
+  }
+
+  .faq-help__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .faq-help__ctas .pill--outline {
+    border-color: rgba(221, 218, 204, 0.6);
+    color: var(--blanc);
+  }
+
+  @media (max-width: 860px) {
+    .faq-page {
+      padding-top: 40px;
+    }
+
+    .faq-page__grid {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .faq-themes {
+      position: static;
+      width: 100%;
+    }
+
+    .faq-page__list {
+      width: 100%;
+      gap: 48px;
+    }
+  }
+</style>

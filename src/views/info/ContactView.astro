@@ -1,0 +1,259 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Title from '../../components/ui/Title.astro';
+import { CONTACT_PAGE } from '../../content/infoPages';
+import { altFor } from '../../content/photos';
+import { pick } from '../../content/localize';
+import { photo } from '../../lib/images';
+import { buildBookingUrl } from '../../lib/booking';
+import { SITE } from '../../config/site';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = pick(CONTACT_PAGE, locale);
+const form = content.form;
+const ui = t(locale);
+---
+
+<BaseLayout locale={locale} route="contact" title={content.metaTitle} description={content.metaDescription}>
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.contact }]}
+    title={content.title}
+    lead={content.lead}
+  />
+
+  <section class="bg-blanc contact">
+    <div class="wrap contact__grid">
+      <div class="contact__info">
+        <Image src={photo('craves-reception-accueil')} alt={altFor('craves-reception-accueil', locale)} class="cover contact__photo" widths={[480, 720, 1080]} sizes="(max-width: 860px) 100vw, 520px" />
+        <div class="contact__details">
+          <p class="lbl eyebrow">{content.details}</p>
+          <address class="serif">
+            {SITE.address.street}<br />
+            {SITE.address.postalCode} {SITE.address.city}
+          </address>
+          <a href={SITE.phoneHref}>{SITE.phone}</a>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          <p class="contact__hours">{content.hours}</p>
+        </div>
+        <dl class="contact__list">
+          {
+            content.contacts.map((c) => (
+              <div>
+                <dt>{c.label}</dt>
+                <dd>
+                  <a href={c.href}>{c.value}</a>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <!-- Sending is wired in step 4 (Cloudflare function + Turnstile anti-spam). -->
+      <form class="contact__form" method="post" data-contact-form>
+        <Title parts={form.title} />
+        <p class="contact__intro">
+          {form.intro} <a href={buildBookingUrl({ locale })} data-book-link>{form.bookingLink}</a>.
+        </p>
+        <div class="contact__row">
+          <label>{form.firstName}<input type="text" name="firstName" autocomplete="given-name" required /></label>
+          <label>{form.lastName}<input type="text" name="lastName" autocomplete="family-name" required /></label>
+        </div>
+        <label>{form.email}<input type="email" name="email" autocomplete="email" required /></label>
+        <label>
+          {form.subject}
+          <select name="subject">
+            {form.subjects.map((s) => <option>{s}</option>)}
+          </select>
+        </label>
+        <label>{form.booking}<input type="text" name="bookingNumber" /></label>
+        <label>{form.message}<textarea name="message" rows="5" required></textarea></label>
+        <label class="contact__consent">
+          <input type="checkbox" name="consent" required />
+          <span>
+            {form.consent} <a href={localizedPath('privacy', locale)}>{form.privacyLink}</a>.
+          </span>
+        </label>
+        <button type="submit" class="pill pill--dark">{form.send}</button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    padding-top: 80px;
+    padding-bottom: var(--space-section);
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .contact__info {
+    grid-column: 1 / 6;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .contact :global(.contact__photo) {
+    height: 360px;
+  }
+
+  .contact__details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+  }
+
+  .contact__details address {
+    font-style: normal;
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .contact__hours {
+    font-size: 14px;
+    color: var(--gris);
+  }
+
+  .contact__list {
+    margin: 0;
+    border-top: 1px solid var(--ligne);
+  }
+
+  .contact__list div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 14px;
+  }
+
+  .contact__list dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .contact__form {
+    grid-column: 7 / 13;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--ivoire);
+  }
+
+  .contact__form :global(h2) {
+    font-size: clamp(36px, 3.6vw, 44px);
+  }
+
+  .contact__intro {
+    font-size: 14px;
+    color: var(--gris);
+  }
+
+  .contact__row {
+    display: flex;
+    gap: 18px;
+  }
+
+  .contact__row label {
+    flex: 1;
+  }
+
+  .contact__form label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--or-profond);
+  }
+
+  .contact__form input:not([type='checkbox']),
+  .contact__form select,
+  .contact__form textarea {
+    width: 100%;
+    min-height: 42px;
+    padding: 6px 0;
+    border: 0;
+    border-bottom: 1px solid var(--gris);
+    border-radius: 0;
+    background: transparent;
+    color: var(--nuit);
+    font: 400 16px var(--font-sans);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .contact__form textarea {
+    resize: vertical;
+  }
+
+  .contact__form .contact__consent {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--encre);
+  }
+
+  .contact__consent input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+  }
+
+  .contact__form button {
+    align-self: flex-start;
+  }
+
+  @media (max-width: 860px) {
+    .contact {
+      padding-top: 40px;
+    }
+
+    .contact__grid {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .contact__info,
+    .contact__form {
+      width: 100%;
+    }
+
+    .contact__form {
+      padding: 28px 20px;
+    }
+
+    .contact__row {
+      flex-direction: column;
+    }
+  }
+</style>
