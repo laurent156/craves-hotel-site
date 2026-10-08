@@ -39,7 +39,7 @@ export const HOME: Localized<HomeContent> = {
       facts: [
         { big: '75', text: 'chambres climatisées' },
         { big: '4 min', text: 'à pied de la Grand-Place' },
-        { big: '24h/24', text: 'réception, en FR · EN · NL' },
+        { big: '24h/24', text: 'réception' },
         { big: '-10 %', text: 'en direct avec THANKYOU' },
       ],
       perks: ['-15 % sur le repas au Conteur', 'Premier cocktail 1 acheté = 1 offert à Scène'],

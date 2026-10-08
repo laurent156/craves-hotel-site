@@ -1,4 +1,6 @@
 ---
+import { roomNode } from '../../lib/schema';
+import { photo } from '../../lib/images';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/ui/Breadcrumb.astro';
 import Title from '../../components/ui/Title.astro';
@@ -26,9 +28,16 @@ const page = pick(ROOMS_PAGE, locale).roomPage;
 const policies = pick(ROOM_POLICIES, locale);
 const others = ROOMS.filter((r) => r.key !== roomKey);
 const ui = t(locale);
+const schemaRoom = roomNode({
+  site: Astro.site!.href,
+  room,
+  locale,
+  url: new URL(localizedPath(roomKey, locale), Astro.site).href,
+  image: new URL(photo(room.gallery[0]).src, Astro.site).href,
+});
 ---
 
-<BaseLayout locale={locale} route={roomKey} title={text.metaTitle} description={text.metaDescription}>
+<BaseLayout locale={locale} route={roomKey} title={text.metaTitle} description={text.metaDescription} ogImage={room.gallery[0]} schema={[schemaRoom]}>
   <section class="bg-ivoire">
     <div class="wrap room-head">
       <Breadcrumb

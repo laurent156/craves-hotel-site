@@ -55,9 +55,49 @@ export const PARTNERS: Record<'conteur' | 'scene', Record<Locale, PartnerLinks>>
   },
 };
 
-// Review scores shown on the home page (October 2026). Google is meant to be refreshed automatically in step 4.
+// Review scores shown on the home page (October 2026). Update by hand when the scores change.
 export const RATINGS = [
   { platform: 'Google', logo: 'google', score: '4,3', scale: 5, count: { fr: '730 avis', en: '730 reviews', nl: '730 reviews' } },
   { platform: 'Booking.com', logo: 'booking', score: '8,4', scale: 10, count: { fr: 'Plus de 7 000 avis', en: 'Over 7,000 reviews', nl: 'Meer dan 7.000 reviews' } },
   { platform: 'Tripadvisor', logo: 'tripadvisor', score: '3,7', scale: 5, count: { fr: '137 avis', en: '137 reviews', nl: '137 reviews' } },
 ] as const;
+
+type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+
+export interface VenueFacts {
+  schemaType: 'Restaurant' | 'BarOrPub';
+  name: string;
+  telephone?: string;
+  cuisine?: Record<Locale, string>;
+  hours: { days: DayOfWeek[]; opens: string; closes: string }[];
+}
+
+// Same opening hours as on the venue pages and the FAQ.
+export const VENUE_FACTS: Record<'conteur' | 'scene', VenueFacts> = {
+  conteur: {
+    schemaType: 'Restaurant',
+    name: 'Le Conteur',
+    telephone: '+32 2 347 02 91',
+    cuisine: { fr: 'Méditerranéenne', en: 'Mediterranean', nl: 'Mediterraans' },
+    hours: [
+      { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'], opens: '18:00', closes: '00:00' },
+      { days: ['Friday', 'Saturday'], opens: '18:00', closes: '01:00' },
+    ],
+  },
+  scene: {
+    schemaType: 'BarOrPub',
+    name: 'Scène',
+    hours: [
+      { days: ['Wednesday'], opens: '19:00', closes: '00:00' },
+      { days: ['Thursday', 'Friday', 'Saturday'], opens: '19:00', closes: '02:30' },
+    ],
+  },
+};
+
+/** Profiles of the hotel on other sites, for entity linking by search and AI engines. */
+export const SAME_AS = [
+  'https://www.instagram.com/craveshotel_brussels',
+  'https://www.facebook.com/CravesHotelBrussels',
+  'https://www.booking.com/hotel/be/craves.html',
+  'https://www.tripadvisor.com/Hotel_Review-g188644-d24098857-Reviews-Craves_Hotel_Brussels-Brussels.html',
+];

@@ -1,4 +1,6 @@
 ---
+import { venueNode } from '../../lib/schema';
+import { photo } from '../../lib/images';
 // Shared template for Le Conteur (restaurant) and Scène (bar).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PhotoHero from '../../components/ui/PhotoHero.astro';
@@ -26,6 +28,18 @@ const { locale, venue } = Astro.props;
 const content = pick(VENUES[venue], locale);
 const links = PARTNERS[venue][locale];
 const ui = t(locale);
+const schemaVenue = {
+  ...venueNode({
+    site: Astro.site!.href,
+    venue,
+    locale,
+    url: new URL(localizedPath(venue, locale), Astro.site).href,
+    image: new URL(photo(content.hero.photo).src, Astro.site).href,
+  }),
+  description: content.metaDescription,
+  sameAs: [links.site],
+  hasMenu: links.menu,
+};
 const external = { target: '_blank', rel: 'noopener' };
 const [c1, c2] = content.cards;
 const card = (c: typeof c1) => ({
@@ -38,7 +52,7 @@ const card = (c: typeof c1) => ({
 });
 ---
 
-<BaseLayout locale={locale} route={venue} title={content.metaTitle} description={content.metaDescription} transparentHeader>
+<BaseLayout locale={locale} route={venue} title={content.metaTitle} description={content.metaDescription} ogImage={content.hero.photo} schema={[schemaVenue]} transparentHeader>
   <PhotoHero image={content.hero.photo} alt={altFor(content.hero.photo, locale)} position={content.hero.position} minHeight="820px">
     <Breadcrumb label={ui.breadcrumb} items={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav[venue] }]} />
     <h1 class="serif venue-h1">

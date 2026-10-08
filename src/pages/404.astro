@@ -1,0 +1,50 @@
+---
+// Served by Cloudflare Pages for any unknown URL. Trilingual, since the language is unknown.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizedPath } from '../i18n/routes';
+---
+
+<BaseLayout locale="en" route="home" title="Page not found | Craves Hotel" description="This page does not exist." noindex>
+  <section class="bg-ivoire">
+    <div class="wrap not-found">
+      <p class="lbl eyebrow">404</p>
+      <h1 class="serif">Page not found <span class="t-em">· Page introuvable · Pagina niet gevonden</span></h1>
+      <div class="not-found__links">
+        <a href={localizedPath('home', 'en')} class="pill pill--dark" lang="en">Home</a>
+        <a href={localizedPath('home', 'fr')} class="pill pill--dark" lang="fr">Accueil</a>
+        <a href={localizedPath('home', 'nl')} class="pill pill--dark" lang="nl">Home (NL)</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    padding-block: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    text-align: center;
+  }
+
+  h1 {
+    max-width: 900px;
+    font-size: clamp(44px, 6vw, 80px);
+  }
+
+  h1 .t-em {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.45em;
+  }
+
+  .not-found__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+</style>

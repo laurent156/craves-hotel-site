@@ -2,62 +2,20 @@
 // One file generates every page in every language from the ROUTES table,
 // so translated slugs and hreflang alternates can never drift apart.
 import type { GetStaticPaths } from 'astro';
-import HomeView from '../views/home/HomeView.astro';
-import RoomsView from '../views/rooms/RoomsView.astro';
-import RoomView from '../views/rooms/RoomView.astro';
-import VenueView from '../views/venue/VenueView.astro';
-import LocationView from '../views/location/LocationView.astro';
-import StoryView from '../views/craves/StoryView.astro';
-import GalleryView from '../views/craves/GalleryView.astro';
-import PressView from '../views/craves/PressView.astro';
-import FaqView from '../views/info/FaqView.astro';
-import ContactView from '../views/info/ContactView.astro';
-import LegalView from '../views/info/LegalView.astro';
-import GuideView from '../views/guide/GuideView.astro';
-import ArticleView from '../views/guide/ArticleView.astro';
+import { PAGES, type PageEntry } from '../views/registry';
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '../i18n/locales';
 import { ROUTES, type RouteKey } from '../i18n/routes';
 
-// Astro components with different props: rendered generically below.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyView = (props: any) => any;
-type PageEntry = { view: AnyView; props?: Record<string, unknown> };
-
-export const getStaticPaths = (() => {
-  // getStaticPaths runs in isolation: the page map must be declared here, not in the page body.
-  // Pages are added here as they are built.
-  const pages: Partial<Record<RouteKey, PageEntry>> = {
-    home: { view: HomeView },
-    rooms: { view: RoomsView },
-    roomSingle: { view: RoomView, props: { roomKey: 'roomSingle' } },
-    roomDouble: { view: RoomView, props: { roomKey: 'roomDouble' } },
-    roomTriple: { view: RoomView, props: { roomKey: 'roomTriple' } },
-    roomFamily: { view: RoomView, props: { roomKey: 'roomFamily' } },
-    conteur: { view: VenueView, props: { venue: 'conteur' } },
-    scene: { view: VenueView, props: { venue: 'scene' } },
-    location: { view: LocationView },
-    story: { view: StoryView },
-    gallery: { view: GalleryView },
-    press: { view: PressView },
-    faq: { view: FaqView },
-    contact: { view: ContactView },
-    guide: { view: GuideView },
-    guideGrandPlace: { view: ArticleView, props: { article: 'guideGrandPlace' } },
-    privacy: { view: LegalView, props: { page: 'privacy' } },
-    cookies: { view: LegalView, props: { page: 'cookies' } },
-    legal: { view: LegalView, props: { page: 'legal' } },
-  };
-
-  return LOCALES.flatMap((locale) =>
-    (Object.entries(pages) as [RouteKey, PageEntry][]).map(([route, page]) => {
+export const getStaticPaths = (() =>
+  LOCALES.flatMap((locale) =>
+    (Object.entries(PAGES) as [RouteKey, PageEntry][]).map(([route, page]) => {
       const segments = [locale === DEFAULT_LOCALE ? '' : locale, ROUTES[route][locale]].filter(Boolean);
       return {
         params: { path: segments.length ? segments.join('/') : undefined },
         props: { locale, page },
       };
     }),
-  );
-}) satisfies GetStaticPaths;
+  )) satisfies GetStaticPaths;
 
 interface Props {
   locale: Locale;

@@ -1,5 +1,5 @@
 ---
-import { Font } from 'astro:assets';
+import { Font, getImage } from 'astro:assets';
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -8,23 +8,54 @@ import { DEFAULT_LOCALE, HREFLANG, LOCALES, type Locale } from '../i18n/locales'
 import { alternatePaths, type RouteKey } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { SITE } from '../config/site';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { hotelNode, websiteNode } from '../lib/schema';
+import { photo } from '../lib/images';
+import logoOr from '../assets/brand/logo-craves-or.png';
 
 interface Props {
   locale: Locale;
   route: RouteKey;
   title: string;
   description: string;
-  /** Absolute or root-relative URL of the social sharing image. */
+  /** Photo shown when the page is shared (file name in src/assets/images). */
   ogImage?: string;
+  /** Extra schema.org nodes for this page (room, restaurant, article…), added to the sitewide graph. */
+  schema?: Record<string, unknown>[];
+  /** Error pages: not indexed, no canonical or language alternates. */
+  noindex?: boolean;
   /** Header sits on top of the hero photo (home) instead of a solid navy bar. */
   transparentHeader?: boolean;
 }
 
-const { locale, route, title, description, ogImage, transparentHeader = false } = Astro.props;
+const {
+  locale,
+  route,
+  title,
+  description,
+  ogImage = 'craves-hotel-bruxelles-chambre-velours-bleu',
+  schema = [],
+  noindex = false,
+  transparentHeader = false,
+} = Astro.props;
 const ui = t(locale);
 const alternates = alternatePaths(route);
 const canonical = new URL(alternates[locale], Astro.site).href;
-const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+const site = Astro.site!.href;
+const absolute = (src: string) => new URL(src, Astro.site).href;
+
+// 1200×630 JPEG: the size and format every social network and messaging app accepts.
+const og = await getImage({ src: photo(ogImage), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+const ogImageUrl = absolute(og.src);
+
+const HOTEL_PHOTOS = ['craves-hotel-bruxelles-chambre-velours-bleu', 'chambres-craves-hotel-bruxelles', 'craves-reception-hall'];
+const structured = {
+  '@graph': [
+    websiteNode(site, locale),
+    hotelNode({ site, locale, images: HOTEL_PHOTOS.map((name) => absolute(photo(name).src)), logo: absolute(logoOr.src) }),
+    ...schema,
+  ],
+};
 const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE' };
 ---
 
@@ -35,13 +66,17 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
     {
-      LOCALES.map((l) => (
-        <link rel="alternate" hreflang={HREFLANG[l]} href={new URL(alternates[l], Astro.site).href} />
-      ))
+      !noindex && (
+        <>
+          <link rel="canonical" href={canonical} />
+          {LOCALES.map((l) => (
+            <link rel="alternate" hreflang={HREFLANG[l]} href={new URL(alternates[l], Astro.site).href} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={new URL(alternates[DEFAULT_LOCALE], Astro.site).href} />
+        </>
+      )
     }
-    <link rel="alternate" hreflang="x-default" href={new URL(alternates[DEFAULT_LOCALE], Astro.site).href} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
@@ -49,8 +84,11 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={OG_LOCALE[locale]} />
-    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
-    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
 
     <meta name="theme-color" content="#091B29" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
@@ -60,6 +98,7 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
 
     <Font cssVariable="--font-serif" preload />
     <Font cssVariable="--font-sans" preload />
+    <JsonLd data={structured} />
     <slot name="head" />
   </head>
   <body>

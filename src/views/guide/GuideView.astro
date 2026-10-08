@@ -21,7 +21,7 @@ const [featured, ...others] = articles;
 const ui = t(locale);
 ---
 
-<BaseLayout locale={locale} route="guide" title={content.metaTitle} description={content.metaDescription}>
+<BaseLayout locale={locale} route="guide" title={content.metaTitle} description={content.metaDescription} ogImage="grand-place-bruxelles-crepuscule">
   <PageHeader
     crumbLabel={ui.breadcrumb}
     crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.guide }]}

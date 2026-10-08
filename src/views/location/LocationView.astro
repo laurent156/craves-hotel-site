@@ -26,7 +26,7 @@ const ui = t(locale);
 const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.address.city}`;
 ---
 
-<BaseLayout locale={locale} route="location" title={content.metaTitle} description={content.metaDescription} transparentHeader>
+<BaseLayout locale={locale} route="location" title={content.metaTitle} description={content.metaDescription} ogImage="grand-place-bruxelles-crepuscule" transparentHeader>
   <PhotoHero image="grand-place-bruxelles-crepuscule" alt={altFor('grand-place-bruxelles-crepuscule', locale)} minHeight="720px">
     <Breadcrumb label={ui.breadcrumb} items={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.location }]} />
     <h1 class="serif loc-h1">

@@ -1,4 +1,5 @@
 ---
+import { ROOMS, roomText } from '../../content/rooms';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PhotoHero from '../../components/ui/PhotoHero.astro';
 import Breadcrumb from '../../components/ui/Breadcrumb.astro';
@@ -22,9 +23,19 @@ interface Props {
 const { locale } = Astro.props;
 const content = pick(ROOMS_PAGE, locale);
 const ui = t(locale);
+const roomList = {
+  '@type': 'ItemList',
+  name: content.metaTitle,
+  itemListElement: ROOMS.map((room, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(localizedPath(room.key, locale), Astro.site).href,
+    name: roomText(room, locale).name,
+  })),
+};
 ---
 
-<BaseLayout locale={locale} route="rooms" title={content.metaTitle} description={content.metaDescription} transparentHeader>
+<BaseLayout locale={locale} route="rooms" title={content.metaTitle} description={content.metaDescription} ogImage="chambres-craves-hotel-bruxelles" schema={[roomList]} transparentHeader>
   <PhotoHero image="chambres-craves-hotel-bruxelles" alt={altFor('chambres-craves-hotel-bruxelles', locale)} minHeight="640px">
     <Breadcrumb label={ui.breadcrumb} items={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.rooms }]} />
     <Title parts={content.hero.title} as="h1" class="rooms-h1" />
