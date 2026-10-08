@@ -2,6 +2,8 @@
 
 Static site for craves-hotel.com, built with [Astro](https://docs.astro.build) and hosted on Cloudflare Pages.
 
+Preview (not indexed, rebuilt on every push to `main`): https://laurent156.github.io/craves-hotel-site/
+
 ## Commands
 
 | Command | What it does |
