@@ -15,7 +15,8 @@
     "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
-    "astro": "^7.3.7"
+    "astro": "^7.3.7",
+    "vanilla-cookieconsent": "^3.1.0"
   },
   "allowScripts": {
     "esbuild": true

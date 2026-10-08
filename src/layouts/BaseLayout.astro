@@ -9,6 +9,9 @@ import { alternatePaths, type RouteKey } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { SITE } from '../config/site';
 import JsonLd from '../components/seo/JsonLd.astro';
+import ConsentDefaults from '../components/consent/ConsentDefaults.astro';
+import ConsentManager from '../components/consent/ConsentManager.astro';
+import Motion from '../components/motion/Motion.astro';
 import { hotelNode, websiteNode } from '../lib/schema';
 import { photo } from '../lib/images';
 import logoOr from '../assets/brand/logo-craves-or.png';
@@ -64,6 +67,7 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ConsentDefaults />
     <title>{title}</title>
     <meta name="description" content={description} />
     {
@@ -109,5 +113,7 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
     </main>
     <Footer locale={locale} />
     <MobileBookBar locale={locale} startHidden={transparentHeader} />
+    <ConsentManager locale={locale} />
+    <Motion />
   </body>
 </html>

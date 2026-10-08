@@ -62,7 +62,8 @@ const bookingUrl = buildBookingUrl({ locale });
 
 <style>
   .site-header {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 20;
     background: var(--nuit);
     color: var(--blanc);
@@ -73,6 +74,26 @@ const bookingUrl = buildBookingUrl({ locale });
     inset: 0 0 auto;
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Smart header (src/components/motion/Motion.astro): solid once scrolled, hidden while scrolling down. */
+  .site-header.is-floating {
+    background: var(--nuit);
+    border-bottom-color: transparent;
+    box-shadow: 0 8px 24px rgba(9, 27, 41, 0.18);
+  }
+
+  /* Pages opening on a photo: the header leaves the hero and follows the page. Others stay sticky. */
+  .site-header--transparent.is-floating {
+    position: fixed;
+  }
+
+  .site-header.is-settled {
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .site-header.is-hidden {
+    transform: translateY(-100%);
   }
 
   .site-header__inner {

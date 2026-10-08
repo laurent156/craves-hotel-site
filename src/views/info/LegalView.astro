@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/ui/PageHeader.astro';
 import { LEGAL, type LegalKey } from '../../content/legal';
 import { pick } from '../../content/localize';
+import { CONSENT } from '../../content/consent';
 import { buildBookingUrl } from '../../lib/booking';
 import type { Locale } from '../../i18n/locales';
 import { localizedPath } from '../../i18n/routes';
@@ -83,6 +84,11 @@ const NAV: LegalKey[] = ['privacy', 'cookies', 'legal'];
           ))
         }
         {page.note && <p class="legal__note">{page.note}</p>}
+        {key === 'cookies' && (
+          <button type="button" class="pill pill--dark legal__manage" data-cc="show-preferencesModal">
+            {CONSENT[locale].manage}
+          </button>
+        )}
       </div>
     </div>
   </section>
@@ -104,7 +110,7 @@ const NAV: LegalKey[] = ['privacy', 'cookies', 'legal'];
   .legal__nav {
     grid-column: 1 / 4;
     position: sticky;
-    top: 24px;
+    top: calc(var(--header-h) + 24px);
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--ligne);
@@ -201,6 +207,10 @@ const NAV: LegalKey[] = ['privacy', 'cookies', 'legal'];
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--or-profond);
+  }
+
+  .legal__manage {
+    align-self: flex-start;
   }
 
   .legal__note {

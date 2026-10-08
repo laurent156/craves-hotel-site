@@ -385,8 +385,8 @@ const structured = {
   .article-aside {
     grid-column: 10 / 13;
     position: sticky;
-    top: 24px;
-    max-height: calc(100vh - 48px);
+    top: calc(var(--header-h) + 24px);
+    max-height: calc(100vh - var(--header-h) - 48px);
     overflow: auto;
     display: flex;
     flex-direction: column;

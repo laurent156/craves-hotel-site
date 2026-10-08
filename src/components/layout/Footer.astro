@@ -5,6 +5,7 @@ import type { Locale } from '../../i18n/locales';
 import { localizedPath } from '../../i18n/routes';
 import { LEGAL_NAV, t, type NavKey } from '../../i18n/ui';
 import { SITE } from '../../config/site';
+import { CONSENT } from '../../content/consent';
 
 interface Props {
   locale: Locale;
@@ -52,6 +53,7 @@ const COLUMNS: { title: string; links: NavKey[] }[] = [
     <span>© {SITE.name} · {ui.vat} {SITE.vat}</span>
     <nav aria-label={ui.legalNav}>
       {LEGAL_NAV.map((key) => <a href={localizedPath(key, locale)}>{ui.nav[key]}</a>)}
+      <button type="button" class="site-footer__cookies" data-cc="show-preferencesModal">{CONSENT[locale].manage}</button>
     </nav>
     <span class="site-footer__social">
       <a href={SITE.social.instagram}>Instagram</a> · <a href={SITE.social.facebook}>Facebook</a>
@@ -130,6 +132,19 @@ const COLUMNS: { title: string; links: NavKey[] }[] = [
     gap: 12px;
     font-size: 12px;
     color: var(--gris-clair);
+  }
+
+  .site-footer__cookies {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .site-footer__cookies:hover {
+    color: var(--or);
   }
 
   .site-footer__legal nav {

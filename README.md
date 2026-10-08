@@ -35,6 +35,17 @@ Static site for craves-hotel.com, built with [Astro](https://docs.astro.build) a
 
 Links go to Lighthouse (`bookingengine.mylighthouse.com/v2/10550`) with `lang`, `Arrival`, `Departure` and `DiscountCode=THANKYOU`. The booking form also works without JavaScript (plain GET to the engine).
 
+## Cookies and tags
+
+- Cookie banner: `src/components/consent/` (vanilla-cookieconsent, texts in `src/content/consent.ts`).
+- Google Consent Mode v2: everything denied by default; Google Tag Manager is loaded only after the visitor accepts analytics or marketing.
+- Set `PUBLIC_GTM_ID` (and `PUBLIC_GTM_URL` for the Stape loader domain) in the Cloudflare Pages environment, see `.env.example`. Without them no tag is loaded.
+- In GTM, non-Google tags (Meta, Sojern, Brevo…) should still use consent checks as a safety net.
+
+## Motion
+
+`src/components/motion/Motion.astro` + `src/styles/motion.css`: entrance animations, scroll reveals and the smart header. Disabled for visitors who ask for reduced motion; nothing is hidden without JavaScript.
+
 ## Fonts
 
 Instrument Serif and Mona Sans are downloaded at build time and served from the site itself (no call to Google Fonts from visitors' browsers).

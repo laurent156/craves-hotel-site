@@ -1,0 +1,106 @@
+---
+// Scroll reveals and the smart header. Progressive enhancement: without JavaScript nothing is hidden,
+// and elements already on screen when the page loads are never hidden (no flicker).
+import '../../styles/motion.css';
+---
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MAX_STAGGER = 6;
+  const STAGGER_MS = 90;
+  // Sections with their own load animation.
+  const SKIP = '.hero, .photo-hero, .page-header, .room-head, .article-head';
+
+  function isCollection(el: Element): boolean {
+    if (el.children.length < 3) return false;
+    if (el.matches('ul, ol, dl')) return true;
+    const style = getComputedStyle(el);
+    return style.display === 'grid' || (style.display === 'flex' && style.flexDirection === 'row' && style.flexWrap === 'wrap');
+  }
+
+  function isImage(el: Element): boolean {
+    return el.matches('img, picture') || (el.children.length === 1 && el.firstElementChild!.matches('img, picture'));
+  }
+
+  const elements = (list: Element[]) =>
+    list.filter((c): c is HTMLElement => c instanceof HTMLElement && !c.matches('script, style, [hidden], dialog'));
+
+  /**
+   * Splits children into reveal groups: grid/list items one by one; a block taller than the screen
+   * (an article body…) is never hidden as a whole, its own children are revealed instead.
+   */
+  function collect(children: Element[], groups: HTMLElement[][], depth = 0): void {
+    const blocks: HTMLElement[] = [];
+    elements(children).forEach((child) => {
+      if (isCollection(child)) groups.push(elements([...child.children]));
+      else if (child.offsetHeight > window.innerHeight) {
+        if (depth < 2) collect([...child.children], groups, depth + 1);
+      } else blocks.push(child);
+    });
+    if (blocks.length) groups.push(blocks);
+  }
+
+  /** Blocks to reveal: the children of each section's container, cards of a grid one by one. */
+  function candidates(): HTMLElement[][] {
+    const groups: HTMLElement[][] = [];
+    document.querySelectorAll<HTMLElement>('main section, main article > div.wrap').forEach((section) => {
+      if (section.closest(SKIP)) return;
+      const wrap = section.matches('.wrap') ? section : section.querySelector<HTMLElement>(':scope > .wrap');
+      if (!wrap) return;
+      collect([...wrap.children], groups);
+    });
+    return groups;
+  }
+
+  if (!reduced && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0 },
+    );
+
+    const fold = window.innerHeight;
+    candidates().forEach((group) => {
+      group
+        .filter((el) => el.getBoundingClientRect().top > fold)
+        .forEach((el, i) => {
+          el.dataset.reveal = isImage(el) ? 'image' : 'block';
+          el.style.setProperty('--reveal-delay', `${Math.min(i, MAX_STAGGER) * STAGGER_MS}ms`);
+          observer.observe(el);
+        });
+    });
+  }
+
+  // Smart header: hides while scrolling down, comes back (solid navy) when scrolling up.
+  const header = document.querySelector<HTMLElement>('.site-header');
+  if (header) {
+    let lastY = window.scrollY;
+    let ticking = false;
+    const threshold = () => header.offsetHeight * 2;
+    const update = () => {
+      const y = window.scrollY;
+      const past = y > threshold();
+      const wasFloating = header.classList.contains('is-floating');
+      header.classList.toggle('is-floating', past);
+      header.classList.toggle('is-hidden', past && y > lastY);
+      // Animate only once floating, so the header never visibly slides away while it detaches.
+      if (past && !wasFloating) window.requestAnimationFrame(() => header.classList.add('is-settled'));
+      if (!past) header.classList.remove('is-settled');
+      lastY = y;
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) window.requestAnimationFrame(update);
+        ticking = true;
+      },
+      { passive: true },
+    );
+  }
+</script>

@@ -1,0 +1,14 @@
+---
+// Must run before any tag: Google Consent Mode v2 defaults (everything denied until the visitor chooses).
+import { DEFAULT_CONSENT } from '../../lib/consentMode';
+---
+
+<script is:inline define:vars={{ defaults: DEFAULT_CONSENT }}>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('consent', 'default', defaults);
+  window.gtag('set', 'ads_data_redaction', true);
+  window.gtag('set', 'url_passthrough', true);
+</script>

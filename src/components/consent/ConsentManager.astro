@@ -1,0 +1,119 @@
+---
+// Cookie banner + preferences (vanilla-cookieconsent) and Google Tag Manager, loaded only after consent.
+// GTM is configured with environment variables (see .env.example); without them no tag is loaded.
+import 'vanilla-cookieconsent/dist/cookieconsent.css';
+import '../../styles/consent.css';
+import { CONSENT } from '../../content/consent';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const config = {
+  locale,
+  texts: CONSENT[locale],
+  cookiePage: localizedPath('cookies', locale),
+  cookiePageLabel: t(locale).nav.cookies,
+  gtmId: import.meta.env.PUBLIC_GTM_ID ?? '',
+  gtmUrl: import.meta.env.PUBLIC_GTM_URL ?? 'https://www.googletagmanager.com',
+};
+---
+
+<div hidden data-consent-config={JSON.stringify(config)}></div>
+
+<script>
+  import * as CookieConsent from 'vanilla-cookieconsent';
+  import { googleConsent, shouldLoadTags } from '../../lib/consentMode';
+  import type { ConsentTexts } from '../../content/consent';
+
+  interface Config {
+    locale: string;
+    texts: ConsentTexts;
+    cookiePage: string;
+    cookiePageLabel: string;
+    gtmId: string;
+    gtmUrl: string;
+  }
+
+  type Gtag = (...args: unknown[]) => void;
+  const w = window as unknown as { gtag: Gtag; dataLayer: unknown[] };
+  const element = document.querySelector<HTMLElement>('[data-consent-config]');
+  const config = JSON.parse(element?.dataset.consentConfig ?? '{}') as Config;
+  let tagsLoaded = false;
+
+  function loadTagManager(): void {
+    if (tagsLoaded || !/^GTM-[A-Z0-9]+$/.test(config.gtmId)) return;
+    tagsLoaded = true;
+    w.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `${config.gtmUrl.replace(/\/$/, '')}/gtm.js?id=${config.gtmId}`;
+    document.head.append(script);
+  }
+
+  function applyConsent(): void {
+    const accepted = CookieConsent.getUserPreferences().acceptedCategories;
+    w.gtag('consent', 'update', googleConsent(accepted));
+    w.dataLayer.push({ event: 'consent_update', consent_categories: accepted });
+    if (shouldLoadTags(accepted)) loadTagManager();
+  }
+
+  const { texts } = config;
+  const more = `${texts.preferences.more} <a href="${config.cookiePage}">${config.cookiePageLabel}</a>.`;
+
+  CookieConsent.run({
+    revision: 1,
+    cookie: { name: 'craves_consent', expiresAfterDays: 182 },
+    guiOptions: {
+      consentModal: { layout: 'box', position: 'bottom left', equalWeightButtons: true, flipButtons: false },
+      preferencesModal: { layout: 'box', equalWeightButtons: true, flipButtons: false },
+    },
+    categories: {
+      necessary: { enabled: true, readOnly: true },
+      analytics: {},
+      marketing: {},
+    },
+    onConsent: applyConsent,
+    onChange: () => {
+      // Consent withdrawn after tags were loaded: reload so no tag keeps running in this page.
+      if (tagsLoaded && !shouldLoadTags(CookieConsent.getUserPreferences().acceptedCategories)) {
+        window.location.reload();
+        return;
+      }
+      applyConsent();
+    },
+    language: {
+      default: config.locale,
+      translations: {
+        [config.locale]: {
+          consentModal: {
+            title: texts.banner.title,
+            description: texts.banner.description,
+            acceptAllBtn: texts.banner.acceptAll,
+            acceptNecessaryBtn: texts.banner.rejectAll,
+            showPreferencesBtn: texts.banner.preferences,
+            footer: `<a href="${config.cookiePage}">${config.cookiePageLabel}</a>`,
+          },
+          preferencesModal: {
+            title: texts.preferences.title,
+            acceptAllBtn: texts.preferences.acceptAll,
+            acceptNecessaryBtn: texts.preferences.rejectAll,
+            savePreferencesBtn: texts.preferences.save,
+            closeIconLabel: texts.preferences.close,
+            sections: [
+              { description: texts.preferences.intro },
+              { title: texts.preferences.necessary.title, description: texts.preferences.necessary.description, linkedCategory: 'necessary' },
+              { title: texts.preferences.analytics.title, description: texts.preferences.analytics.description, linkedCategory: 'analytics' },
+              { title: texts.preferences.marketing.title, description: texts.preferences.marketing.description, linkedCategory: 'marketing' },
+              { description: more },
+            ],
+          },
+        },
+      },
+    },
+  });
+</script>

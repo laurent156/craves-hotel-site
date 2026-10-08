@@ -1,0 +1,87 @@
+/* Motion: page-load entrances (CSS) and scroll reveals (classes set by src/components/motion/Motion.astro).
+   Everything is skipped when the visitor asks for reduced motion. */
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-distance: 28px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---- Page load: hero photos settle, hero text and page headers rise in sequence. ---- */
+  @keyframes craves-settle {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes craves-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, var(--reveal-distance), 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .hero__image,
+  .photo-hero__image,
+  .article-hero {
+    animation: craves-settle 2.4s var(--ease-out) both;
+  }
+
+  .hero__content > *,
+  .hero__booking,
+  .photo-hero__content > *,
+  .page-header > *,
+  .room-head > *,
+  .article-head > * {
+    animation: craves-rise 1.1s var(--ease-out) both;
+  }
+
+  :is(.hero__content, .photo-hero__content, .page-header, .room-head, .article-head) > :nth-child(2) {
+    animation-delay: 0.12s;
+  }
+
+  :is(.hero__content, .photo-hero__content, .page-header, .room-head, .article-head) > :nth-child(3) {
+    animation-delay: 0.24s;
+  }
+
+  :is(.hero__content, .photo-hero__content, .page-header, .room-head, .article-head) > :nth-child(n + 4) {
+    animation-delay: 0.36s;
+  }
+
+  .hero__booking {
+    animation-delay: 0.45s;
+  }
+
+  /* ---- Scroll reveals: only elements below the fold at load get [data-reveal]. ---- */
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-distance), 0);
+    transition:
+      opacity 0.9s var(--ease-out),
+      transform 1.1s var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal='image'] {
+    transform: scale(1.06);
+    clip-path: inset(10% 0 0 0);
+    transition:
+      opacity 1s var(--ease-out),
+      transform 1.6s var(--ease-out),
+      clip-path 1.4s var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
