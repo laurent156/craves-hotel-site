@@ -42,15 +42,19 @@ const structured = {
       publisher: { '@id': HOTEL_ID(Astro.site!.href) },
       mainEntityOfPage: url,
     },
-    {
-      '@type': 'ItemList',
-      name: a.shortTitle,
-      itemListElement: a.places.map((p, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        item: { '@type': p.schemaType, name: p.name.replace(/^(La|Le|Les|L’) /, '') },
-      })),
-    },
+    ...(a.places.every((p) => p.schemaType)
+      ? [
+          {
+            '@type': 'ItemList',
+            name: a.shortTitle,
+            itemListElement: a.places.map((p, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              item: { '@type': p.schemaType, name: p.name.replace(/^(La|Le|Les|L’|The|De|Het) /, '') },
+            })),
+          },
+        ]
+      : []),
     {
       '@type': 'FAQPage',
       mainEntity: a.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),

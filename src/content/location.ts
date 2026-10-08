@@ -1,5 +1,4 @@
 import type { Localized, TitleParts } from './localize';
-import type { RouteKey } from '../i18n/routes';
 
 /**
  * Position on the static map (src/assets/brand/carte-craves-hotel-bruxelles.webp, 840×900, OpenStreetMap
@@ -29,7 +28,6 @@ export interface LocationContent {
     eyebrow: string;
     title: TitleParts;
     cta: string;
-    articles: { photo: string; title: string; route: RouteKey }[];
   };
   faq: { title: TitleParts; ids: string[] };
 }
@@ -78,7 +76,6 @@ export const LOCATION: Localized<LocationContent> = {
       eyebrow: 'Guide de Bruxelles',
       title: { text: 'Que faire', em: 'autour de l’hôtel' },
       cta: 'Tous les articles',
-      articles: [{ photo: 'grand-place-bruxelles-hotel-de-ville', title: 'Que faire autour de la Grand-Place', route: 'guideGrandPlace' }],
     },
     faq: {
       title: { text: 'Questions', em: 'pratiques' },
@@ -128,7 +125,6 @@ export const LOCATION: Localized<LocationContent> = {
       eyebrow: 'Brussels guide',
       title: { text: 'Things to do', em: 'around the hotel' },
       cta: 'All articles',
-      articles: [{ photo: 'grand-place-bruxelles-hotel-de-ville', title: 'Things to do around the Grand-Place', route: 'guideGrandPlace' }],
     },
     faq: {
       title: { text: 'Practical', em: 'questions' },
@@ -178,7 +174,6 @@ export const LOCATION: Localized<LocationContent> = {
       eyebrow: 'Gids van Brussel',
       title: { text: 'Wat te doen', em: 'rond het hotel' },
       cta: 'Alle artikels',
-      articles: [{ photo: 'grand-place-bruxelles-hotel-de-ville', title: 'Wat te doen rond de Grote Markt', route: 'guideGrandPlace' }],
     },
     faq: {
       title: { text: 'Praktische', em: 'vragen' },

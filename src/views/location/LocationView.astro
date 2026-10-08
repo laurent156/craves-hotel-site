@@ -7,6 +7,7 @@ import Title from '../../components/ui/Title.astro';
 import FaqSection from '../../components/ui/FaqSection.astro';
 import mapImage from '../../assets/brand/carte-craves-hotel-bruxelles.webp';
 import { LOCATION, MAP_HOTEL, MAP_POINTS } from '../../content/location';
+import { GUIDE_ARTICLES } from '../../content/guide';
 import { faqItems } from '../../content/faq';
 import { altFor } from '../../content/photos';
 import { pick } from '../../content/localize';
@@ -108,10 +109,11 @@ const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.a
       </div>
       <div class="guide__grid">
         {
-          content.guide.articles.map((article) => (
+          GUIDE_ARTICLES.map((source) => pick(source, locale)).map((article) => (
             <a href={localizedPath(article.route, locale)} class="guide__card">
-              <Image src={photo(article.photo)} alt={altFor(article.photo, locale)} class="guide__photo" widths={[400, 640, 960]} sizes="(max-width: 860px) 100vw, 400px" />
-              <span class="serif">{article.title}</span>
+              <Image src={photo(article.heroPhoto)} alt={article.heroAlt} class="guide__photo" widths={[400, 640, 960]} sizes="(max-width: 860px) 100vw, 400px" />
+              <span class="lbl eyebrow">{article.category}</span>
+              <span class="serif guide__card-title">{article.shortTitle}</span>
             </a>
           ))
         }
@@ -394,7 +396,7 @@ const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.a
     object-fit: cover;
   }
 
-  .guide__card span {
+  .guide__card-title {
     font-size: 26px;
     line-height: 1.15;
   }

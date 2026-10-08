@@ -23,6 +23,16 @@ export const ROUTES = {
     fr: 'guide/que-faire-autour-grand-place-bruxelles',
     nl: 'gids/wat-te-doen-rond-de-grote-markt-brussel',
   },
+  guideMidi: {
+    en: 'guide/brussels-midi-station-to-grand-place',
+    fr: 'guide/gare-du-midi-grand-place-bruxelles',
+    nl: 'gids/van-brussel-zuid-naar-de-grote-markt',
+  },
+  guideWinter: {
+    en: 'guide/brussels-christmas-market-winter-wonders',
+    fr: 'guide/plaisirs-d-hiver-marche-de-noel-bruxelles',
+    nl: 'gids/winterpret-kerstmarkt-brussel',
+  },
   privacy: { en: 'privacy-policy', fr: 'confidentialite', nl: 'privacybeleid' },
   cookies: { en: 'cookie-policy', fr: 'cookies', nl: 'cookiebeleid' },
   legal: { en: 'legal-notice', fr: 'mentions-legales', nl: 'juridische-informatie' },

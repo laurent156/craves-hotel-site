@@ -1,4 +1,6 @@
 import type { FaqItem, Localized, TitleParts } from './localize';
+import { MIDI_ARTICLE } from './guide/midi';
+import { WINTER_ARTICLE } from './guide/winter';
 import type { RouteKey } from '../i18n/routes';
 
 export interface GuideIndexContent {
@@ -19,7 +21,8 @@ export interface GuidePlace {
   paragraphs: string[];
   tip?: string;
   photo?: string;
-  schemaType: 'TouristAttraction' | 'Museum' | 'Church';
+  /** schema.org type when the item is a place (listed as ItemList); omit for non-places (transport options…). */
+  schemaType?: 'TouristAttraction' | 'Museum' | 'Church' | 'Place';
 }
 
 export interface GuideArticle {
@@ -64,7 +67,7 @@ export const GUIDE_INDEX: Localized<GuideIndexContent> = {
     events: {
       title: { text: 'Les grands rendez-vous', em: 'autour de l’hôtel' },
       items: [
-        { when: 'Fin novembre – début janvier', title: 'Plaisirs d’Hiver', text: 'Marché de Noël, sapin et illuminations sur la Grand-Place, patinoire place De Brouckère.' },
+        { when: 'Fin novembre – début janvier', title: 'Plaisirs d’Hiver', text: 'Marché de Noël, sapin et son et lumière sur la Grand-Place, grande roue au Marché aux Poissons.' },
         { when: 'Début juillet', title: 'Ommegang', text: 'Grand cortège Renaissance et spectacle sur la Grand-Place.' },
         { when: 'Mi-août, les années paires', title: 'Tapis de fleurs', text: 'Un tapis de bégonias recouvre la Grand-Place pendant quatre jours.' },
       ],
@@ -80,7 +83,7 @@ export const GUIDE_INDEX: Localized<GuideIndexContent> = {
     events: {
       title: { text: 'Highlights of the year', em: 'around the hotel' },
       items: [
-        { when: 'Late November – early January', title: 'Winter Wonders (Plaisirs d’Hiver)', text: 'Christmas market, tree and illuminations on the Grand-Place, ice rink on Place De Brouckère.' },
+        { when: 'Late November – early January', title: 'Winter Wonders (Plaisirs d’Hiver)', text: 'Christmas market, tree and sound-and-light show on the Grand-Place, Ferris wheel at the Marché aux Poissons.' },
         { when: 'Early July', title: 'Ommegang', text: 'A grand Renaissance procession and show on the Grand-Place.' },
         { when: 'Mid-August, even-numbered years', title: 'Flower Carpet', text: 'A carpet of begonias covers the Grand-Place for four days.' },
       ],
@@ -96,7 +99,7 @@ export const GUIDE_INDEX: Localized<GuideIndexContent> = {
     events: {
       title: { text: 'De grote afspraken', em: 'rond het hotel' },
       items: [
-        { when: 'Eind november – begin januari', title: 'Winterpret (Plaisirs d’Hiver)', text: 'Kerstmarkt, kerstboom en verlichting op de Grote Markt, schaatsbaan op het De Brouckèreplein.' },
+        { when: 'Eind november – begin januari', title: 'Winterpret (Plaisirs d’Hiver)', text: 'Kerstmarkt, kerstboom en klank-en-lichtspel op de Grote Markt, reuzenrad op de Vismarkt.' },
         { when: 'Begin juli', title: 'Ommegang', text: 'Grote renaissancestoet en spektakel op de Grote Markt.' },
         { when: 'Half augustus, in even jaren', title: 'Bloementapijt', text: 'Vier dagen lang bedekt een tapijt van begonia’s de Grote Markt.' },
       ],
@@ -250,7 +253,7 @@ const GRAND_PLACE_FR: GuideArticle = {
     title: { text: 'Quand visiter', em: 'la Grand-Place ?' },
     items: [
       '**Toute l’année, à toute heure** : la place est ouverte et gratuite. Les plus beaux moments sont tôt le matin et à la tombée de la nuit.',
-      '**Fin novembre – début janvier** : **Plaisirs d’Hiver**, le marché de Noël de Bruxelles, avec sapin et illuminations sur la Grand-Place, chalets place Sainte-Catherine et patinoire place De Brouckère. L’édition 2026-2027 se tient du **27 novembre 2026 au 3 janvier 2027**.',
+      '**Fin novembre – début janvier** : **Plaisirs d’Hiver**, le marché de Noël de Bruxelles, avec sapin et illuminations sur la Grand-Place, chalets place Sainte-Catherine et grande roue au Marché aux Poissons. L’édition 2026-2027 se tient du **27 novembre 2026 au 3 janvier 2027**.',
       '**Début juillet** : l’**Ommegang**, grand cortège Renaissance et spectacle sur la Grand-Place.',
       '**Mi-août, les années paires** : le **Tapis de fleurs**, organisé depuis 1971. La prochaine édition est attendue en août 2028.',
     ],
@@ -415,7 +418,7 @@ const GRAND_PLACE_EN: GuideArticle = {
     title: { text: 'When to visit', em: 'the Grand-Place' },
     items: [
       '**All year round, at any hour**: the square is always open and free. The loveliest moments are early in the morning and at nightfall.',
-      '**Late November – early January**: **Winter Wonders (Plaisirs d’Hiver)**, the Brussels Christmas market, with a tree and illuminations on the Grand-Place, chalets on Place Sainte-Catherine and an ice rink on Place De Brouckère. The 2026-2027 edition runs from **27 November 2026 to 3 January 2027**.',
+      '**Late November – early January**: **Winter Wonders (Plaisirs d’Hiver)**, the Brussels Christmas market, with a tree and illuminations on the Grand-Place, chalets on Place Sainte-Catherine and a Ferris wheel at the Marché aux Poissons. The 2026-2027 edition runs from **27 November 2026 to 3 January 2027**.',
       '**Early July**: the **Ommegang**, a grand Renaissance procession and show on the Grand-Place.',
       '**Mid-August, in even-numbered years**: the **Flower Carpet**, held since 1971. The next edition is expected in August 2028.',
     ],
@@ -580,7 +583,7 @@ const GRAND_PLACE_NL: GuideArticle = {
     title: { text: 'Wanneer bezoekt u', em: 'de Grote Markt?' },
     items: [
       '**Het hele jaar door, op elk uur**: het plein is altijd open en gratis. De mooiste momenten zijn vroeg in de ochtend en bij het vallen van de avond.',
-      '**Eind november – begin januari**: **Winterpret (Plaisirs d’Hiver)**, de Brusselse kerstmarkt, met kerstboom en verlichting op de Grote Markt, chalets op het Sint-Katelijneplein en een schaatsbaan op het De Brouckèreplein. De editie 2026-2027 loopt van **27 november 2026 tot 3 januari 2027**.',
+      '**Eind november – begin januari**: **Winterpret (Plaisirs d’Hiver)**, de Brusselse kerstmarkt, met kerstboom en verlichting op de Grote Markt, chalets op het Sint-Katelijneplein en een reuzenrad op de Vismarkt. De editie 2026-2027 loopt van **27 november 2026 tot 3 januari 2027**.',
       '**Begin juli**: de **Ommegang**, een grote renaissancestoet en spektakel op de Grote Markt.',
       '**Half augustus, in even jaren**: het **Bloementapijt**, dat sinds 1971 wordt aangelegd. De volgende editie wordt verwacht in augustus 2028.',
     ],
@@ -600,4 +603,9 @@ const GRAND_PLACE_NL: GuideArticle = {
 };
 
 /** Published articles, newest first. */
-export const GUIDE_ARTICLES: Localized<GuideArticle>[] = [{ fr: GRAND_PLACE_FR, en: GRAND_PLACE_EN, nl: GRAND_PLACE_NL }];
+// The first one is featured on the guide page.
+export const GUIDE_ARTICLES: Localized<GuideArticle>[] = [
+  { fr: GRAND_PLACE_FR, en: GRAND_PLACE_EN, nl: GRAND_PLACE_NL },
+  WINTER_ARTICLE,
+  MIDI_ARTICLE,
+];
