@@ -39,6 +39,7 @@ export const PAGES: Partial<Record<RouteKey, PageEntry>> = {
   guideGrandPlace: { view: ArticleView, props: { article: 'guideGrandPlace' } },
   guideWinter: { view: ArticleView, props: { article: 'guideWinter' } },
   guideMidi: { view: ArticleView, props: { article: 'guideMidi' } },
+  guideWeekend: { view: ArticleView, props: { article: 'guideWeekend' } },
   privacy: { view: LegalView, props: { page: 'privacy' } },
   cookies: { view: LegalView, props: { page: 'cookies' } },
   legal: { view: LegalView, props: { page: 'legal' } },

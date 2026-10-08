@@ -21,6 +21,7 @@ const KEY_PAGES: { route: RouteKey; label: string }[] = [
   { route: 'faq', label: 'FAQ: booking, rooms, getting here, services' },
   { route: 'guideGrandPlace', label: 'Guide: 10 sights within walking distance of the Grand-Place' },
   { route: 'guideMidi', label: 'Guide: from Brussels-Midi station (Eurostar, TGV) to the Grand-Place and the hotel' },
+  { route: 'guideWeekend', label: 'Guide: 48 hours in Brussels, a weekend itinerary from the hotel' },
   { route: 'guideWinter', label: 'Guide: Winter Wonders (Plaisirs d’Hiver) 2026, the Brussels Christmas market' },
   { route: 'contact', label: 'Contact' },
 ];

@@ -24,6 +24,16 @@ export const PHOTO_CREDITS: Record<string, PhotoCredit> = {
     source: 'https://commons.wikimedia.org/wiki/File:Brussels_Grand-Place_-_Christmas_tree.jpg',
     cropped: true,
   },
+  'eglise-notre-dame-du-sablon-bruxelles': {
+    author: 'Flocci Nivis',
+    license: 'CC BY 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:20180907_Church_of_Our_Blessed_Lady_of_the_Sablon_Brussels_01.jpg',
+  },
+  'marche-aux-puces-jeu-de-balle-bruxelles': {
+    author: 'Henxter',
+    license: 'CC BY-SA 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Brussel_oude_markt.JPG',
+  },
   'gare-bruxelles-midi-quai-train': {
     author: 'y-yoshiike',
     license: 'CC BY 3.0',

@@ -53,6 +53,8 @@ const FR: Record<string, string> = {
   'plaisirs-d-hiver-eglise-sainte-catherine': 'L’église Sainte-Catherine illuminée pendant les Plaisirs d’Hiver',
   'sapin-de-noel-grand-place-bruxelles': 'Le sapin de Noël illuminé devant l’Hôtel de Ville, sur la Grand-Place de Bruxelles',
   'gare-bruxelles-midi-quai-train': 'Un train à grande vitesse à quai à la gare de Bruxelles-Midi',
+  'eglise-notre-dame-du-sablon-bruxelles': 'L’église Notre-Dame du Sablon et la place du Grand Sablon, à Bruxelles',
+  'marche-aux-puces-jeu-de-balle-bruxelles': 'Le marché aux puces de la place du Jeu de Balle, dans les Marolles',
 };
 
 const EN: Record<string, string> = {
@@ -106,6 +108,8 @@ const EN: Record<string, string> = {
   'plaisirs-d-hiver-eglise-sainte-catherine': 'Saint Catherine’s Church lit up during Winter Wonders',
   'sapin-de-noel-grand-place-bruxelles': 'The lit Christmas tree in front of the Town Hall on the Grand-Place, Brussels',
   'gare-bruxelles-midi-quai-train': 'A high-speed train at the platform of Brussels-Midi station',
+  'eglise-notre-dame-du-sablon-bruxelles': 'The Church of Our Blessed Lady of the Sablon and the Grand Sablon square, Brussels',
+  'marche-aux-puces-jeu-de-balle-bruxelles': 'The flea market on Place du Jeu de Balle in the Marolles',
 };
 
 const NL: Record<string, string> = {
@@ -159,6 +163,8 @@ const NL: Record<string, string> = {
   'plaisirs-d-hiver-eglise-sainte-catherine': 'De verlichte Sint-Katelijnekerk tijdens Winterpret',
   'sapin-de-noel-grand-place-bruxelles': 'De verlichte kerstboom voor het stadhuis op de Grote Markt in Brussel',
   'gare-bruxelles-midi-quai-train': 'Een hogesnelheidstrein aan het perron van station Brussel-Zuid',
+  'eglise-notre-dame-du-sablon-bruxelles': 'De Onze-Lieve-Vrouw-ter-Zavelkerk en de Grote Zavel in Brussel',
+  'marche-aux-puces-jeu-de-balle-bruxelles': 'De rommelmarkt op het Vossenplein in de Marollen',
 };
 
 const ALTS: Localized<Record<string, string>> = { fr: FR, en: EN, nl: NL };

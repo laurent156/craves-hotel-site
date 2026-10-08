@@ -28,6 +28,11 @@ export const ROUTES = {
     fr: 'guide/gare-du-midi-grand-place-bruxelles',
     nl: 'gids/van-brussel-zuid-naar-de-grote-markt',
   },
+  guideWeekend: {
+    en: 'guide/48-hours-in-brussels-weekend',
+    fr: 'guide/bruxelles-en-48-heures-week-end',
+    nl: 'gids/48-uur-in-brussel-weekend',
+  },
   guideWinter: {
     en: 'guide/brussels-christmas-market-winter-wonders',
     fr: 'guide/plaisirs-d-hiver-marche-de-noel-bruxelles',

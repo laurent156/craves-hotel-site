@@ -1,6 +1,7 @@
 import type { FaqItem, Localized, TitleParts } from './localize';
 import { MIDI_ARTICLE } from './guide/midi';
 import { WINTER_ARTICLE } from './guide/winter';
+import { WEEKEND_ARTICLE } from './guide/weekend';
 import type { RouteKey } from '../i18n/routes';
 
 export interface GuideIndexContent {
@@ -607,5 +608,6 @@ const GRAND_PLACE_NL: GuideArticle = {
 export const GUIDE_ARTICLES: Localized<GuideArticle>[] = [
   { fr: GRAND_PLACE_FR, en: GRAND_PLACE_EN, nl: GRAND_PLACE_NL },
   WINTER_ARTICLE,
+  WEEKEND_ARTICLE,
   MIDI_ARTICLE,
 ];
