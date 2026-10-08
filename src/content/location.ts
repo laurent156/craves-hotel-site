@@ -39,7 +39,7 @@ export const LOCATION: Localized<LocationContent> = {
         { name: 'Galeries Royales Saint-Hubert', distance: '380 m · 5 min' },
         { name: 'Place Sainte-Catherine', distance: '410 m · 6 min' },
         { name: 'Manneken-Pis', distance: '550 m · 7 min' },
-        { name: 'Gare Centrale', distance: '650 m · 9 min' },
+        { name: 'Gare Centrale', distance: '600 m · 9 min' },
         { name: 'Mont des Arts', distance: '740 m · 10 min' },
         { name: 'Cathédrale Saints-Michel-et-Gudule', distance: '790 m · 11 min' },
       ],

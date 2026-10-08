@@ -51,6 +51,7 @@ export interface UiStrings {
   opensInNewTab: string;
   roomsShown: string;
   storyLink: string;
+  bookingTitle: string;
   calendar: { title: string; choose: string; night: string; nights: string; prev: string; next: string; done: string };
   nav: Record<NavKey, string>;
 }
@@ -101,6 +102,7 @@ const UI: Record<Locale, UiStrings> = {
     opensInNewTab: '(nouvel onglet)',
     roomsShown: '{n} chambre(s) affichée(s)',
     storyLink: 'Notre histoire',
+    bookingTitle: 'Quand souhaitez-vous venir ?',
     calendar: { title: 'Vos dates', choose: 'Choisir', night: '{n} nuit', nights: '{n} nuits', prev: 'Mois précédent', next: 'Mois suivant', done: 'Valider' },
     nav: {
       rooms: 'Chambres',
@@ -162,6 +164,7 @@ const UI: Record<Locale, UiStrings> = {
     opensInNewTab: '(opens in a new tab)',
     roomsShown: '{n} room(s) shown',
     storyLink: 'Our story',
+    bookingTitle: 'When would you like to stay?',
     calendar: { title: 'Your dates', choose: 'Select', night: '{n} night', nights: '{n} nights', prev: 'Previous month', next: 'Next month', done: 'Done' },
     nav: {
       rooms: 'Rooms',
@@ -223,6 +226,7 @@ const UI: Record<Locale, UiStrings> = {
     opensInNewTab: '(opent in een nieuw tabblad)',
     roomsShown: '{n} kamer(s) getoond',
     storyLink: 'Ons verhaal',
+    bookingTitle: 'Wanneer wilt u komen?',
     calendar: { title: 'Uw data', choose: 'Kiezen', night: '{n} nacht', nights: '{n} nachten', prev: 'Vorige maand', next: 'Volgende maand', done: 'Bevestigen' },
     nav: {
       rooms: 'Kamers',

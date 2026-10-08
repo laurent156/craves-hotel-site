@@ -9,11 +9,14 @@ interface Props {
   /** light = white panel over a photo (home hero); dark = navy aside (room pages). */
   variant?: 'light' | 'dark';
   submitLabel?: string;
+  /** Small title above the fields. Light forms show "When would you like to stay?" by default. */
+  title?: string | false;
 }
 
-const { locale, variant = 'light', submitLabel } = Astro.props;
+const { locale, variant = 'light', submitLabel, title } = Astro.props;
 const ui = t(locale);
 const id = `book-${Math.random().toString(36).slice(2, 8)}`;
+const heading = title === false ? undefined : (title ?? (variant === 'light' ? ui.bookingTitle : undefined));
 ---
 
 <!-- Works without JavaScript: a plain GET to the booking engine produces the same deep link. -->
@@ -27,6 +30,8 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
 >
   <input type="hidden" name="lang" value={locale} />
   <input type="hidden" name="DiscountCode" value={BOOKING.discountCode} />
+  {heading && <p class="serif booking-form__title">{heading}</p>}
+  <div class="booking-form__row">
   <div class="booking-form__dates" data-dates>
     <!-- Native date fields: the fallback without JavaScript. With JavaScript they are replaced by the range calendar. -->
     <label for={`${id}-arrival`} class="booking-form__native">
@@ -51,6 +56,7 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
       {submitLabel ?? ui.seeAvailability}
     </button>
     <p class="booking-form__note">{ui.codeApplied}</p>
+  </div>
   </div>
 </form>
 
@@ -104,6 +110,24 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
 
   .booking-form--dark {
     color: var(--blanc);
+  }
+
+  .booking-form__row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .booking-form__title {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+
+  /* Phones: the hero stays compact, the fields speak for themselves. */
+  @media (max-width: 640px) {
+    .booking-form--light .booking-form__title {
+      display: none;
+    }
   }
 
   .booking-form__dates {
@@ -201,10 +225,14 @@ const id = `book-${Math.random().toString(36).slice(2, 8)}`;
   /* Wide hero bar: dates and button on one line. */
   @media (min-width: 861px) {
     .booking-form--light {
+      gap: 18px;
+      padding: 22px 28px;
+    }
+
+    .booking-form--light .booking-form__row {
       flex-direction: row;
       align-items: flex-end;
       gap: 24px;
-      padding: 22px 28px;
     }
 
     .booking-form--light .booking-form__dates {

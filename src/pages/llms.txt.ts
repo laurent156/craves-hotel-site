@@ -42,7 +42,7 @@ export const GET: APIRoute = ({ site }) => {
 - Breakfast: continental buffet, 7:00–10:00 on weekdays, until 10:30 at weekends.
 - Hotel guests get 15% off their meal at Le Conteur and their first cocktail 1+1 free at Scène.
 - No private parking. Public car parks within 5 minutes: Interparking Ecuyer (280 m), Brucity (300 m), Monnaie (400 m).
-- From Brussels-Midi (Eurostar, TGV): tram 3 or 4 to Bourse (about 10 min), then a 2-minute walk. Nearest metro: De Brouckère (lines 1 and 5), 350 m. Brussels Central station: 9-minute walk.
+- From Brussels-Midi (Eurostar, TGV): tram 3 or 4 to Bourse (about 10 min), then a 2-minute walk. Nearest metro: De Brouckère (lines 1 and 5), 350 m. Brussels Central station: 600 m, a 9-minute walk.
 - Nearby on foot: Saint-Nicolas church (2 min), the Bourse and Belgian Beer World (2 min), Grand-Place (4 min), Galeries Royales Saint-Hubert (5 min), Manneken-Pis (7 min).
 - Renovated in 2022, interior design by Saar Zafrir Design.
 
