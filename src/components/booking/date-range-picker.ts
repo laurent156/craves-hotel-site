@@ -146,6 +146,11 @@ export function createDateRangePicker(options: PickerOptions): { open: () => voi
 
   function open(from: HTMLButtonElement = arrivalButton): void {
     opener = from;
+    // Phones: the bottom sheet lives at the end of <body>, above everything. Inside the form it could be
+    // trapped under the backdrop by an ancestor's own layer (entrance animations, sticky columns…).
+    // Desktop: it stays next to the fields so it opens right under them.
+    const host = PHONE.matches ? document.body : root;
+    if (panel.parentElement !== host) host.append(panel);
     view = toYearMonth(range.arrival ?? min);
     panel.hidden = false;
     backdrop.hidden = !PHONE.matches;
