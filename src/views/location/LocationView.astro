@@ -6,7 +6,7 @@ import Breadcrumb from '../../components/ui/Breadcrumb.astro';
 import Title from '../../components/ui/Title.astro';
 import FaqSection from '../../components/ui/FaqSection.astro';
 import mapImage from '../../assets/brand/carte-craves-hotel-bruxelles.webp';
-import { LOCATION } from '../../content/location';
+import { LOCATION, MAP_HOTEL, MAP_POINTS } from '../../content/location';
 import { faqItems } from '../../content/faq';
 import { altFor } from '../../content/photos';
 import { pick } from '../../content/localize';
@@ -47,13 +47,32 @@ const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.a
         <p class="lbl eyebrow">{content.nearby.eyebrow}</p>
         <h2 class="serif nearby__title">{content.nearby.title}</h2>
         <ul>
-          {content.nearby.places.map((place) => <li><span>{place.name}</span><span class="nearby__distance">{place.distance}</span></li>)}
+          {
+            content.nearby.places.map((place, i) => (
+              <li>
+                <span class="nearby__place">
+                  <span class="nearby__num" aria-hidden="true">{i + 1}</span>
+                  {place.name}
+                </span>
+                <span class="nearby__distance">{place.distance}</span>
+              </li>
+            ))
+          }
         </ul>
         <p class="nearby__note">{content.nearby.note}</p>
       </div>
       <a href={SITE.directionsUrl} class="nearby__map" target="_blank" rel="noopener">
         <Image src={mapImage} alt={content.nearby.mapAlt} class="cover" widths={[480, 760]} sizes="(max-width: 860px) 100vw, 560px" />
-        <span class="nearby__pin" aria-hidden="true"></span>
+        {
+          MAP_POINTS.map(([x, y], i) => (
+            <span class="nearby__poi" style={`left: ${x}%; top: ${y}%`} aria-hidden="true">
+              {i + 1}
+            </span>
+          ))
+        }
+        <span class="nearby__pin" style={`left: ${MAP_HOTEL[0]}%; top: ${MAP_HOTEL[1]}%`} aria-hidden="true">
+          <span class="nearby__pin-label">Craves</span>
+        </span>
         <span class="pill pill--dark nearby__open">{content.nearby.mapLabel} <span aria-hidden="true">↗</span><span class="visually-hidden">{ui.opensInNewTab}</span></span>
         <small class="nearby__credit">© OpenStreetMap</small>
       </a>
@@ -199,33 +218,85 @@ const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.a
     color: var(--gris);
   }
 
+  /* Same ratio as the map image, so pins positioned in % land exactly on their place. */
   .nearby__map {
     position: relative;
     grid-column: 7 / 13;
-    height: 720px;
+    aspect-ratio: 840 / 900;
     overflow: hidden;
     display: block;
   }
 
-  /* The hotel sits at 50% / 46.4% of the generated map. */
-  .nearby__pin {
-    position: absolute;
-    left: 50%;
-    top: 46.4%;
+  .nearby__place {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nearby__num,
+  .nearby__poi {
+    flex: none;
     width: 22px;
     height: 22px;
-    border: 3px solid var(--nuit);
     border-radius: 50%;
-    background: var(--or);
-    box-shadow: 0 0 0 8px rgba(203, 179, 118, 0.35);
+    background: var(--nuit);
+    color: var(--blanc);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  .nearby__poi {
+    position: absolute;
+    border: 2px solid var(--blanc);
+    box-sizing: content-box;
+    box-shadow: 0 2px 6px rgba(9, 27, 41, 0.3);
     transform: translate(-50%, -50%);
   }
 
-  .nearby__open {
+  /* Hotel: gold teardrop pin with its name. */
+  .nearby__pin {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border: 3px solid var(--nuit);
+    border-radius: 50% 50% 50% 0;
+    background: var(--or);
+    box-shadow: 0 6px 14px rgba(9, 27, 41, 0.35);
+    transform: translate(-50%, -100%) rotate(-45deg);
+    transform-origin: center;
+  }
+
+  .nearby__pin::after {
+    content: '';
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    background: var(--nuit);
+  }
+
+  .nearby__pin-label {
     position: absolute;
     left: 50%;
-    bottom: 24px;
-    transform: translateX(-50%);
+    bottom: 100%;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--nuit);
+    color: var(--or);
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: nowrap;
+    transform: rotate(45deg) translate(6px, -14px);
+    transform-origin: left bottom;
+  }
+
+  /* Top-left corner: the only area of the map without numbered points, at every screen size. */
+  .nearby__open {
+    position: absolute;
+    left: 16px;
+    top: 16px;
     white-space: nowrap;
   }
 
@@ -336,8 +407,12 @@ const fullAddress = `${SITE.address.street}, ${SITE.address.postalCode} ${SITE.a
       gap: 40px;
     }
 
-    .nearby__map {
-      height: 440px;
+    .nearby__poi,
+    .nearby__num {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 10px;
     }
 
     .access__grid {

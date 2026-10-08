@@ -1,6 +1,24 @@
 import type { Localized, TitleParts } from './localize';
 import type { RouteKey } from '../i18n/routes';
 
+/**
+ * Position on the static map (src/assets/brand/carte-craves-hotel-bruxelles.webp, 840×900, OpenStreetMap
+ * zoom 16), in % of its width and height. Same order as `nearby.places`. Computed from GPS coordinates.
+ */
+export const MAP_HOTEL: [number, number] = [42.4, 46.4];
+export const MAP_POINTS: [number, number][] = [
+  [45.5, 53.9], // Église Saint-Nicolas
+  [31.9, 54.8], // Bourse · Belgian Beer World
+  [50.1, 63.8], // Grand-Place
+  [53.7, 24.8], // Métro De Brouckère
+  [65.2, 51.8], // Galeries Royales Saint-Hubert
+  [24.0, 31.0], // Place Sainte-Catherine
+  [36.7, 78.1], // Manneken-Pis
+  [75.5, 74.2], // Gare Centrale
+  [74.3, 87.3], // Mont des Arts
+  [92.6, 54.7], // Cathédrale Saints-Michel-et-Gudule
+];
+
 export interface LocationContent {
   metaTitle: string;
   metaDescription: string;
