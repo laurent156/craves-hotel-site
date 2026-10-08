@@ -1,0 +1,203 @@
+---
+import { Image } from 'astro:assets';
+import logoBlanc from '../../assets/brand/logo-craves-blanc.png';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath, type RouteKey } from '../../i18n/routes';
+import { MENU_NAV, MENU_SECONDARY, t } from '../../i18n/ui';
+import { buildBookingUrl } from '../../lib/booking';
+import { SITE } from '../../config/site';
+
+interface Props {
+  locale: Locale;
+  route: RouteKey;
+}
+
+const { locale, route } = Astro.props;
+const ui = t(locale);
+---
+
+<dialog id="site-menu" class="menu" aria-label={ui.mainNav}>
+  <div class="menu__inner">
+    <div class="menu__top">
+      <button type="button" class="menu__close" data-menu-close>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M2 2l14 14M16 2L2 16"></path>
+        </svg>
+        <span class="visually-hidden">{ui.closeMenu}</span>
+      </button>
+      <Image src={logoBlanc} alt="" height={34} densities={[1, 2]} class="menu__logo" />
+      <span class="menu__spacer" aria-hidden="true"></span>
+    </div>
+
+    <nav class="menu__nav" aria-label={ui.mainNav}>
+      {
+        MENU_NAV.map((key) => (
+          <a href={localizedPath(key, locale)} class="serif" aria-current={route === key ? 'page' : undefined}>
+            {ui.nav[key]}
+            <span aria-hidden="true">→</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="menu__secondary">
+      {MENU_SECONDARY.map((key) => <a href={localizedPath(key, locale)}>{ui.nav[key]}</a>)}
+      <LanguageSwitcher locale={locale} route={route} class="menu__langs" />
+    </div>
+
+    <div class="menu__bottom">
+      <a href={buildBookingUrl({ locale })} class="pill pill--gold menu__book" data-book-link>
+        {ui.book} <span aria-hidden="true">→</span>
+      </a>
+      <div class="menu__contact">
+        <a href={SITE.phoneHref}>{SITE.phone}</a>
+        <span>{ui.directDiscount}</span>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const menu = document.querySelector<HTMLDialogElement>('#site-menu');
+  document.querySelectorAll('[data-menu-open]').forEach((button) => {
+    button.addEventListener('click', () => menu?.showModal());
+  });
+  menu?.querySelector('[data-menu-close]')?.addEventListener('click', () => menu.close());
+  // Close when clicking the backdrop area outside the panel content.
+  menu?.addEventListener('click', (event) => {
+    if (event.target === menu) menu.close();
+  });
+</script>
+
+<style>
+  .menu {
+    width: 100%;
+    max-width: 480px;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--nuit);
+    color: var(--blanc);
+  }
+
+  .menu::backdrop {
+    background: rgba(9, 27, 41, 0.6);
+  }
+
+  .menu__inner {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu__top {
+    flex: none;
+    height: var(--header-h);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--ligne-sombre);
+  }
+
+  .menu__close {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .menu__top :global(.menu__logo) {
+    width: auto;
+    height: 34px;
+  }
+
+  .menu__spacer {
+    width: 44px;
+  }
+
+  .menu__nav {
+    padding: 12px 20px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu__nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ligne-sombre);
+    font-size: 36px;
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  .menu__nav a span {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--or);
+    transition: transform 0.2s;
+  }
+
+  .menu__nav a:hover span {
+    transform: translateX(4px);
+  }
+
+  .menu__nav a[aria-current='page'] {
+    color: var(--or);
+  }
+
+  .menu__secondary {
+    padding: 18px 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 14px;
+    color: var(--creme);
+  }
+
+  .menu__secondary > a {
+    text-decoration: none;
+  }
+
+  .menu__secondary :global(.menu__langs) {
+    margin-left: auto;
+  }
+
+  .menu__bottom {
+    margin-top: auto;
+    padding: 20px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid var(--ligne-sombre);
+  }
+
+  .menu__book {
+    min-height: 52px;
+  }
+
+  .menu__contact {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--creme);
+  }
+
+  .menu__contact a {
+    text-decoration: none;
+  }
+
+  .menu__contact span {
+    color: var(--or);
+  }
+</style>

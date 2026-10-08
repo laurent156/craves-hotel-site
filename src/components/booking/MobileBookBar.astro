@@ -1,0 +1,107 @@
+---
+import type { Locale } from '../../i18n/locales';
+import { t } from '../../i18n/ui';
+import { buildBookingUrl } from '../../lib/booking';
+import { SITE } from '../../config/site';
+
+interface Props {
+  locale: Locale;
+  /** The page opens on a booking form: start hidden instead of sliding away after load. */
+  startHidden?: boolean;
+}
+
+const { locale, startHidden = false } = Astro.props;
+const ui = t(locale);
+---
+
+<div class="bookbar" data-bookbar data-hidden={startHidden ? true : undefined}>
+  <div class="bookbar__offer">
+    <span class="serif bookbar__discount">{ui.directDiscount}</span>
+    <span class="bookbar__code">{ui.withCode}</span>
+  </div>
+  <a href={SITE.phoneHref} class="bookbar__call" aria-label={ui.callHotel}>
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M5 2.5h3l1.5 4-2 1.5a10 10 0 0 0 4.5 4.5l1.5-2 4 1.5v3a1.5 1.5 0 0 1-1.5 1.5A15 15 0 0 1 3.5 4 1.5 1.5 0 0 1 5 2.5z"></path>
+    </svg>
+  </a>
+  <a href={buildBookingUrl({ locale })} class="pill pill--gold bookbar__book" data-book-link>{ui.book}</a>
+</div>
+
+<script>
+  // Hide the bar while an on-page booking form is visible, to avoid two competing calls to action.
+  const bar = document.querySelector<HTMLElement>('[data-bookbar]');
+  const forms = document.querySelectorAll('[data-booking-form]');
+  if (bar && forms.length > 0 && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => (entry.isIntersecting ? visible.add(entry.target) : visible.delete(entry.target)));
+      bar.toggleAttribute('data-hidden', visible.size > 0);
+    });
+    forms.forEach((form) => observer.observe(form));
+  }
+</script>
+
+<style>
+  .bookbar {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .bookbar {
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 30;
+      min-height: var(--bookbar-h);
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--blanc);
+      border-top: 1px solid var(--ligne);
+      box-shadow: 0 -8px 24px rgba(9, 27, 41, 0.12);
+      transition:
+        transform 0.25s ease,
+        visibility 0s linear 0s;
+    }
+
+    .bookbar[data-hidden] {
+      transform: translateY(calc(100% + 24px));
+      visibility: hidden;
+      transition:
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
+    }
+  }
+
+  .bookbar__offer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+
+  .bookbar__discount {
+    font-size: 20px;
+  }
+
+  .bookbar__code {
+    font-size: 12px;
+    color: var(--gris);
+  }
+
+  .bookbar__call {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--nuit);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bookbar__book {
+    min-height: 48px;
+    padding: 0 22px;
+  }
+</style>

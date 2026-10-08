@@ -1,0 +1,71 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MobileBookBar from '../components/booking/MobileBookBar.astro';
+import { DEFAULT_LOCALE, HREFLANG, LOCALES, type Locale } from '../i18n/locales';
+import { alternatePaths, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { SITE } from '../config/site';
+
+interface Props {
+  locale: Locale;
+  route: RouteKey;
+  title: string;
+  description: string;
+  /** Absolute or root-relative URL of the social sharing image. */
+  ogImage?: string;
+  /** Header sits on top of the hero photo (home) instead of a solid navy bar. */
+  transparentHeader?: boolean;
+}
+
+const { locale, route, title, description, ogImage, transparentHeader = false } = Astro.props;
+const ui = t(locale);
+const alternates = alternatePaths(route);
+const canonical = new URL(alternates[locale], Astro.site).href;
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE' };
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {
+      LOCALES.map((l) => (
+        <link rel="alternate" hreflang={HREFLANG[l]} href={new URL(alternates[l], Astro.site).href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates[DEFAULT_LOCALE], Astro.site).href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={OG_LOCALE[locale]} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+
+    <meta name="theme-color" content="#091B29" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <Font cssVariable="--font-serif" preload />
+    <Font cssVariable="--font-sans" preload />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ui.skipToContent}</a>
+    <Header locale={locale} route={route} transparent={transparentHeader} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <MobileBookBar locale={locale} startHidden={transparentHeader} />
+  </body>
+</html>

@@ -1,0 +1,171 @@
+---
+import { Image } from 'astro:assets';
+import logoBlanc from '../../assets/brand/logo-craves-blanc.png';
+import MenuDialog from './MenuDialog.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath, type RouteKey } from '../../i18n/routes';
+import { PRIMARY_NAV, t } from '../../i18n/ui';
+import { buildBookingUrl } from '../../lib/booking';
+
+interface Props {
+  locale: Locale;
+  route: RouteKey;
+  /** Overlays the hero photo instead of sitting on a solid navy bar. */
+  transparent?: boolean;
+}
+
+const { locale, route, transparent = false } = Astro.props;
+const ui = t(locale);
+const bookingUrl = buildBookingUrl({ locale });
+---
+
+<header class:list={['site-header', { 'site-header--transparent': transparent }]}>
+  <div class="site-header__inner">
+    <div class="site-header__left">
+      <button type="button" class="menu-toggle lbl" aria-haspopup="dialog" aria-controls="site-menu" data-menu-open>
+        <svg width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <path d="M0 1h22M0 11h22"></path>
+        </svg>
+        <span class="menu-toggle__label">{ui.menu}</span>
+        <span class="visually-hidden">{ui.openMenu}</span>
+      </button>
+      <nav class="primary-nav" aria-label={ui.mainNav}>
+        {
+          PRIMARY_NAV.map((key) => (
+            <a
+              href={localizedPath(key, locale)}
+              class="lbl"
+              aria-current={route === key || (key === 'rooms' && route.startsWith('room')) ? 'page' : undefined}
+            >
+              {ui.nav[key]}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <a href={localizedPath('home', locale)} class="site-header__logo" aria-label={ui.homeLabel}>
+      <Image src={logoBlanc} alt="" height={46} densities={[1, 2]} loading="eager" />
+    </a>
+
+    <div class="site-header__right">
+      <LanguageSwitcher locale={locale} route={route} class="site-header__langs" />
+      <a href={bookingUrl} class="pill pill--gold site-header__book" data-book-link>
+        {ui.book} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<MenuDialog locale={locale} route={route} />
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 20;
+    background: var(--nuit);
+    color: var(--blanc);
+  }
+
+  .site-header--transparent {
+    position: absolute;
+    inset: 0 0 auto;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .site-header__inner {
+    position: relative;
+    max-width: 1440px;
+    min-height: var(--header-h);
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .site-header__left,
+  .site-header__right {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .site-header__right {
+    gap: 24px;
+  }
+
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .primary-nav {
+    display: flex;
+    gap: 28px;
+  }
+
+  .primary-nav a {
+    text-decoration: none;
+    text-underline-offset: 8px;
+  }
+
+  .primary-nav a:hover,
+  .primary-nav a[aria-current='page'] {
+    text-decoration: underline;
+  }
+
+  .site-header__logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+  }
+
+  .site-header__logo img {
+    width: auto;
+    height: 46px;
+  }
+
+  /* Below this width the four links would run into the centred logo (measured in FR, the longest labels). */
+  @media (max-width: 1340px) {
+    .primary-nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .site-header__inner {
+      padding: 0 16px;
+    }
+
+    .menu-toggle__label,
+    .site-header__right :global(.site-header__langs) {
+      display: none;
+    }
+
+    .site-header__logo img {
+      height: 34px;
+    }
+
+    .site-header__book {
+      min-height: 38px;
+      padding: 0 14px;
+      font-size: 11px;
+    }
+
+    .site-header__book span {
+      display: none;
+    }
+  }
+</style>

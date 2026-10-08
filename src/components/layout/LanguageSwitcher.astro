@@ -1,0 +1,51 @@
+---
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { alternatePaths, type RouteKey } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  route: RouteKey;
+  class?: string;
+}
+
+const { locale, route, class: className } = Astro.props;
+const alternates = alternatePaths(route);
+const NAMES: Record<Locale, string> = { en: 'English', fr: 'Français', nl: 'Nederlands' };
+---
+
+<nav class:list={['langs lbl', className]} aria-label={t(locale).language}>
+  {
+    LOCALES.map((l, i) => (
+      <>
+        {i > 0 && <span aria-hidden="true">·</span>}
+        <a
+          href={alternates[l]}
+          hreflang={l}
+          lang={l}
+          aria-current={l === locale ? 'true' : undefined}
+          title={NAMES[l]}
+        >
+          {l.toUpperCase()}
+        </a>
+      </>
+    ))
+  }
+</nav>
+
+<style>
+  .langs {
+    display: flex;
+    gap: 6px;
+  }
+
+  .langs a {
+    opacity: 0.7;
+    text-decoration: none;
+  }
+
+  .langs a:hover,
+  .langs a[aria-current='true'] {
+    opacity: 1;
+  }
+</style>

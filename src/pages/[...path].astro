@@ -1,0 +1,37 @@
+---
+// One file generates every page in every language from the ROUTES table,
+// so translated slugs and hreflang alternates can never drift apart.
+import type { GetStaticPaths } from 'astro';
+import HomeView from '../views/home/HomeView.astro';
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '../i18n/locales';
+import { ROUTES, type RouteKey } from '../i18n/routes';
+
+type View = typeof HomeView;
+
+export const getStaticPaths = (() => {
+  // getStaticPaths runs in isolation: the view map must be declared here, not in the page body.
+  // Pages are added here as they are built.
+  const views: Partial<Record<RouteKey, View>> = {
+    home: HomeView,
+  };
+
+  return LOCALES.flatMap((locale) =>
+    (Object.entries(views) as [RouteKey, View][]).map(([route, view]) => {
+      const segments = [locale === DEFAULT_LOCALE ? '' : locale, ROUTES[route][locale]].filter(Boolean);
+      return {
+        params: { path: segments.length ? segments.join('/') : undefined },
+        props: { locale, view },
+      };
+    }),
+  );
+}) satisfies GetStaticPaths;
+
+interface Props {
+  locale: Locale;
+  view: View;
+}
+
+const { locale, view: PageView } = Astro.props;
+---
+
+<PageView locale={locale} />
