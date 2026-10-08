@@ -12,8 +12,9 @@ describe('faqItems', () => {
     expect(() => faqItems('fr', ['nope'])).toThrow(/nope/);
   });
 
-  test('falls back to French while a language is not translated', () => {
-    expect(faqItems('nl', ['pool'])).toEqual(faqItems('fr', ['pool']));
+  test('returns the same questions in every language', () => {
+    expect(faqItems('nl', ['pool', 'parking'])).toHaveLength(2);
+    expect(faqItems('en', ['pool'])[0].q).not.toBe(faqItems('fr', ['pool'])[0].q);
   });
 });
 

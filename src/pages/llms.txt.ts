@@ -18,7 +18,7 @@ const KEY_PAGES: { route: RouteKey; label: string }[] = [
   { route: 'conteur', label: 'Le Conteur, Mediterranean restaurant in the hotel' },
   { route: 'scene', label: 'Scène, cocktail bar in the hotel' },
   { route: 'location', label: 'Location, access and parking' },
-  { route: 'faq', label: 'FAQ (60 answers: booking, rooms, access, services)' },
+  { route: 'faq', label: 'FAQ: booking, rooms, getting here, services' },
   { route: 'guideGrandPlace', label: 'Guide: 10 sights within walking distance of the Grand-Place' },
   { route: 'contact', label: 'Contact' },
 ];

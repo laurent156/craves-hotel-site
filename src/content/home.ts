@@ -91,4 +91,138 @@ export const HOME: Localized<HomeContent> = {
       ids: ['direct', 'aircon', 'parking', 'checkIn', 'midi'],
     },
   },
+  en: {
+    metaTitle: 'Craves Hotel Brussels | 3★ boutique hotel near Grand-Place',
+    metaDescription:
+      '3★ boutique hotel in the heart of Brussels, 4 minutes’ walk from the Grand-Place. 75 unique rooms, Le Conteur restaurant, Scène bar. -10% booking direct.',
+    hero: {
+      eyebrow: '3★ boutique hotel · Brussels',
+      tagline: 'A unique experience in the heart of Brussels',
+      photoAlt: 'Room at Craves Hotel in Brussels: blue velvet headboard, round cushion and oval mirror',
+    },
+    intro: {
+      eyebrow: 'Welcome to Craves',
+      title: { text: 'A boutique hotel near the Grand-Place, with a', em: 'unique', after: ' style.' },
+      facts: [
+        { big: '75', text: 'air-conditioned rooms' },
+        { big: '4 min', text: 'walk to the Grand-Place' },
+        { big: '24/7', text: 'reception' },
+        { big: '-10%', text: 'booking direct with THANKYOU' },
+      ],
+      perks: ['-15% on your meal at Le Conteur', 'First cocktail buy one, get one free at Scène'],
+    },
+    rooms: {
+      eyebrow: 'Crave to sleep',
+      title: { text: 'Our rooms', em: 'and suites' },
+      text: '75 air-conditioned rooms, from the single room to the 50 m² family room, in the heart of Brussels.',
+    },
+    venues: {
+      eyebrow: 'Crave to eat · Crave to drink',
+      title: { text: 'Le Conteur', em: '&', after: ' Scène' },
+      conteur: {
+        eyebrow: 'Restaurant · ground floor',
+        text: 'Mediterranean tapas to share. A festive atmosphere, music and energy every evening from 20:00.',
+        perk: 'Craves guest: -15% on your meal',
+        cta: 'Discover Le Conteur',
+      },
+      scene: {
+        eyebrow: 'Speakeasy bar · Atrium level',
+        text: 'Soft lighting, luxurious seating, craft cocktails and expert mixology.',
+        perk: 'Craves guest: first cocktail buy one, get one free',
+        cta: 'Discover Scène',
+      },
+    },
+    reviews: {
+      eyebrow: 'Guest reviews',
+      quotes: [
+        { q: 'Wow! Everything about this place is spectacular.', who: 'Tauri B.' },
+        { q: 'This hotel really has a very special atmosphere.', who: 'Dorothée H.' },
+        { q: 'We are light years away from these impersonal hotels that all look alike.', who: 'Dimitri B.' },
+      ],
+    },
+    location: {
+      eyebrow: 'Crave to visit',
+      title: { text: 'A stone’s throw from', em: 'the Grand-Place' },
+      places: [
+        { name: 'St Nicholas’ Church', time: '2 min walk' },
+        { name: 'Grand-Place', time: '4 min walk' },
+        { name: 'Royal Galleries of Saint-Hubert', time: '5 min walk' },
+        { name: 'Manneken Pis', time: '7 min walk' },
+        { name: 'Brussels Central Station', time: '9 min walk' },
+      ],
+      cta: 'Things to do around the Grand-Place',
+      photoAlt: 'The Town Hall on the Grand-Place in Brussels, a 4-minute walk from Craves',
+    },
+    faq: {
+      title: { text: 'Frequently asked', em: 'questions' },
+      ids: ['direct', 'aircon', 'parking', 'checkIn', 'midi'],
+    },
+  },
+  nl: {
+    metaTitle: 'Craves Hotel Brussel | 3★ boetiekhotel bij de Grote Markt',
+    metaDescription:
+      '3★ boetiekhotel in hartje Brussel, 4 min wandelen van de Grote Markt. 75 unieke kamers, restaurant Le Conteur en bar Scène. -10% bij directe boeking.',
+    hero: {
+      eyebrow: '3★ boetiekhotel · Brussel',
+      tagline: 'Een unieke ervaring in het hart van Brussel',
+      photoAlt: 'Kamer in Craves Hotel in Brussel: hoofdbord in blauw fluweel, rond kussen en ovale spiegel',
+    },
+    intro: {
+      eyebrow: 'Welkom bij Craves',
+      title: { text: 'Een boetiekhotel bij de Grote Markt, met een', em: 'unieke', after: ' inrichting.' },
+      facts: [
+        { big: '75', text: 'kamers met airco' },
+        { big: '4 min', text: 'wandelen naar de Grote Markt' },
+        { big: '24/7', text: 'receptie' },
+        { big: '-10%', text: 'bij directe boeking met THANKYOU' },
+      ],
+      perks: ['-15% op uw maaltijd in Le Conteur', 'Eerste cocktail: 1 gekocht = 1 gratis in Scène'],
+    },
+    rooms: {
+      eyebrow: 'Crave to sleep',
+      title: { text: 'Onze kamers', em: 'en suites' },
+      text: '75 kamers met airco, van de eenpersoonskamer tot de familiekamer van 50 m², in het hart van Brussel.',
+    },
+    venues: {
+      eyebrow: 'Crave to eat · Crave to drink',
+      title: { text: 'Le Conteur', em: '&', after: ' Scène' },
+      conteur: {
+        eyebrow: 'Restaurant · gelijkvloers',
+        text: 'Mediterrane tapas om te delen. Elke avond vanaf 20.00 uur een feestelijke sfeer, muziek en energie.',
+        perk: 'Als gast van Craves: -15% op uw maaltijd',
+        cta: 'Ontdek Le Conteur',
+      },
+      scene: {
+        eyebrow: 'Speakeasy bar · Atrium-verdieping',
+        text: 'Gedempt licht, luxueuze zetels, ambachtelijke cocktails en deskundige mixologie.',
+        perk: 'Als gast van Craves: eerste cocktail 1 gekocht = 1 gratis',
+        cta: 'Ontdek Scène',
+      },
+    },
+    reviews: {
+      eyebrow: 'Gastenreviews',
+      quotes: [
+        { q: 'Wow! Everything about this place is spectacular.', who: 'Tauri B.' },
+        { q: 'This hotel really has a very special atmosphere.', who: 'Dorothée H.' },
+        { q: 'We are light years away from these impersonal hotels that all look alike.', who: 'Dimitri B.' },
+      ],
+    },
+    location: {
+      eyebrow: 'Crave to visit',
+      title: { text: 'Op een steenworp van', em: 'de Grote Markt' },
+      places: [
+        { name: 'Sint-Niklaaskerk', time: '2 min wandelen' },
+        { name: 'Grote Markt', time: '4 min wandelen' },
+        { name: 'Koninklijke Sint-Hubertusgalerijen', time: '5 min wandelen' },
+        { name: 'Manneken Pis', time: '7 min wandelen' },
+        { name: 'Centraal Station', time: '9 min wandelen' },
+      ],
+      cta: 'Wat te doen rond de Grote Markt',
+      photoAlt: 'Het stadhuis op de Grote Markt van Brussel, op 4 minuten wandelen van Craves',
+    },
+    faq: {
+      title: { text: 'Veelgestelde', em: 'vragen' },
+      ids: ['direct', 'aircon', 'parking', 'checkIn', 'midi'],
+    },
+  },
 };

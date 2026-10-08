@@ -150,4 +150,160 @@ export const CRAVES: Localized<CravesSection> = {
       kit: { title: 'Espace presse', text: 'Photos HD et informations sur l’hôtel, sur demande.', cta: 'Contact presse' },
     },
   },
+  en: {
+    subnav: 'About Craves',
+    story: {
+      metaTitle: 'Our story: a boutique hotel with unique style | Craves Hotel',
+      metaDescription:
+        'Craves, a 3★ boutique hotel near the Grand-Place: velvet, marble and petrol blue, 75 air-conditioned rooms and a sensory experience in central Brussels.',
+      title: { text: 'Craves, a boutique hotel', em: 'with a unique style' },
+      intro: {
+        text: 'Craves takes you on a',
+        em: 'sensory',
+        after: ' experience: taste, touch, sight and smell, on a journey as intimate as it is bold.',
+      },
+      facts: [
+        { big: '3★', text: 'boutique hotel' },
+        { big: '75', text: 'air-conditioned rooms' },
+        { big: '4', text: 'floors' },
+        { big: '2022', text: 'latest renovation' },
+        { big: '4 min', text: 'from the Grand-Place' },
+      ],
+      decor: {
+        eyebrow: 'The décor',
+        title: { text: 'Velvet, marble', em: 'and petrol blue' },
+        text: 'The rooms blend French chic and Art Deco. The floral wallpaper depicts the five senses that awaken desire. Velvet, marble and petrol blue create an intimate, warm atmosphere.',
+      },
+      experience: {
+        eyebrow: 'More than a hotel',
+        title: { text: 'An experience', em: 'in the heart of Brussels' },
+        text: 'Right next to the Grand-Place, Craves takes you on a journey as intimate as it is bold. With its cosy décor and magnetic colours, it heightens every sensation. Le Conteur on the ground floor and Scène on the Atrium level extend the experience.',
+        roomsCta: 'Discover the rooms',
+      },
+      press: { eyebrow: 'In the press', cta: 'All press coverage' },
+    },
+    gallery: {
+      metaTitle: 'Photo gallery of Craves Hotel in Brussels',
+      metaDescription: 'Rooms, Le Conteur, Scène and the Grand-Place area in pictures: discover Craves Hotel, a 3★ boutique hotel in the heart of Brussels.',
+      title: { text: 'Gallery', em: 'of Craves Hotel' },
+      lead: 'Rooms, Le Conteur, Scène and the Grand-Place area, in pictures.',
+      filtersLabel: 'Filter photos',
+      categories: { all: 'All', rooms: 'Rooms', hotel: 'The hotel', conteur: 'Le Conteur', scene: 'Scène', area: 'The area' },
+      cta: 'Wish you were here?',
+    },
+    press: {
+      metaTitle: 'Craves Hotel in the press',
+      metaDescription: 'What L’Officiel, Flair, Architectura, Sabato and So Soir wrote about Craves, a boutique hotel steps from the Grand-Place in Brussels.',
+      title: { text: 'Craves Hotel', em: 'in the press' },
+      lead: 'What the Belgian media have written about Craves, a boutique hotel steps from the Grand-Place.',
+      readCta: 'Read the article',
+      articles: [
+        {
+          media: 'L’Officiel',
+          summary: 'A hideaway entirely reimagined by London studio Saar Zafrir, its first hotel project in Belgium: a dark, cosy aesthetic with old-world charm, reminiscent of Art Deco interiors.',
+        },
+        {
+          media: 'So Soir',
+          summary: 'A true jewel box of luxury: Le Conteur extended by a boutique hotel, both styled by Saar Zafrir Design.',
+          language: 'Article in French',
+          url: 'https://sosoir.lesoir.be/ce-nouvel-hotel-bruxellois-est-un-veritable-ecrin-de-luxe-moins-de-150-euros-la-nuit',
+        },
+        {
+          media: 'Flair',
+          summary: 'Brussels’ new boutique hotel, designed to awaken the senses: furniture, materials and accessories with Art Deco charm.',
+          language: 'Article in French',
+          url: 'https://www.flair.be/fr/chillax/food/mode-deco-food-3-nouveaux-spots-bruxelles/',
+        },
+        {
+          media: 'Architectura',
+          summary: 'The first hotel in Belgium by London designer Saar Zafrir: dark yet enchanting rooms, designed to awaken the senses.',
+          language: 'Article in Dutch',
+          url: 'https://www.architectura.be/nl/nieuws/londense-designstudio-saar-zafrir-ontwerpt-boetiekhotel-in-brussel/',
+        },
+        {
+          media: 'Sabato',
+          summary: 'A newcomer steps from the Grand-Place, chic in style with a touch of Art Deco: velvet, dark colours and floral wallpapers.',
+        },
+      ],
+      kit: { title: 'Press room', text: 'HD photos and hotel information, on request.', cta: 'Press contact' },
+    },
+  },
+  nl: {
+    subnav: 'Over Craves',
+    story: {
+      metaTitle: 'Ons verhaal: boetiekhotel met een unieke stijl | Craves Hotel',
+      metaDescription:
+        'Craves, 3★-boetiekhotel vlak bij de Grote Markt: fluweel, marmer en petrolblauw, 75 kamers met airco en een zintuiglijke ervaring in hartje Brussel.',
+      title: { text: 'Craves, een boetiekhotel', em: 'met een unieke stijl' },
+      intro: {
+        text: 'Craves neemt u mee in een',
+        em: 'zintuiglijke',
+        after: ' ervaring: smaak, aanraking, zicht en geur, op een reis die even intiem als gedurfd is.',
+      },
+      facts: [
+        { big: '3★', text: 'boetiekhotel' },
+        { big: '75', text: 'kamers met airco' },
+        { big: '4', text: 'verdiepingen' },
+        { big: '2022', text: 'laatste renovatie' },
+        { big: '4 min', text: 'van de Grote Markt' },
+      ],
+      decor: {
+        eyebrow: 'Het decor',
+        title: { text: 'Fluweel, marmer', em: 'en petrolblauw' },
+        text: 'De kamers combineren Franse chic met art deco. Het bloemenbehang verbeeldt de vijf zintuigen die het verlangen wekken. Fluweel, marmer en petrolblauw zorgen voor een intieme, warme sfeer.',
+      },
+      experience: {
+        eyebrow: 'Meer dan een hotel',
+        title: { text: 'Een belevenis', em: 'in hartje Brussel' },
+        text: 'Craves ligt naast de Grote Markt en neemt u mee op een reis die even intiem als gedurfd is. Met zijn knusse decor en magnetische kleuren versterkt het elke sensatie. Le Conteur op het gelijkvloers en Scène op het Atrium-niveau maken de ervaring compleet.',
+        roomsCta: 'Ontdek de kamers',
+      },
+      press: { eyebrow: 'In de pers', cta: 'Alle persartikelen' },
+    },
+    gallery: {
+      metaTitle: 'Fotogalerij van Craves Hotel in Brussel',
+      metaDescription: 'Kamers, Le Conteur, Scène en de buurt van de Grote Markt in beeld: ontdek Craves Hotel, 3★-boetiekhotel in hartje Brussel.',
+      title: { text: 'Galerij', em: 'van Craves Hotel' },
+      lead: 'Kamers, Le Conteur, Scène en de buurt van de Grote Markt, in beeld.',
+      filtersLabel: 'Foto’s filteren',
+      categories: { all: 'Alle', rooms: 'Kamers', hotel: 'Het hotel', conteur: 'Le Conteur', scene: 'Scène', area: 'De buurt' },
+      cta: 'Zin om erbij te zijn?',
+    },
+    press: {
+      metaTitle: 'Craves Hotel in de pers',
+      metaDescription: 'Wat L’Officiel, Flair, Architectura, Sabato en So Soir schreven over Craves, boetiekhotel op een steenworp van de Grote Markt in Brussel.',
+      title: { text: 'Craves Hotel', em: 'in de pers' },
+      lead: 'Wat de Belgische media schreven over Craves, boetiekhotel op een steenworp van de Grote Markt.',
+      readCta: 'Lees het artikel',
+      articles: [
+        {
+          media: 'L’Officiel',
+          summary: 'Een toevluchtsoord, volledig opnieuw bedacht door de Londense studio Saar Zafrir, haar eerste hotelproject in België: een donkere, knusse esthetiek met de charme van weleer, die doet denken aan art-deco-interieurs.',
+        },
+        {
+          media: 'So Soir',
+          summary: 'Een waar juweeltje van luxe: Le Conteur, aangevuld met een boetiekhotel, beide vormgegeven door Saar Zafrir Design.',
+          language: 'Artikel in het Frans',
+          url: 'https://sosoir.lesoir.be/ce-nouvel-hotel-bruxellois-est-un-veritable-ecrin-de-luxe-moins-de-150-euros-la-nuit',
+        },
+        {
+          media: 'Flair',
+          summary: 'Het nieuwe Brusselse boetiekhotel, ontworpen om de zintuigen te prikkelen: meubilair, materialen en accessoires met art-decocharme.',
+          language: 'Artikel in het Frans',
+          url: 'https://www.flair.be/fr/chillax/food/mode-deco-food-3-nouveaux-spots-bruxelles/',
+        },
+        {
+          media: 'Architectura',
+          summary: 'Het eerste hotel in België van de Londense ontwerper Saar Zafrir: donkere maar betoverende kamers, ontworpen om de zintuigen te prikkelen.',
+          language: 'Artikel in het Nederlands',
+          url: 'https://www.architectura.be/nl/nieuws/londense-designstudio-saar-zafrir-ontwerpt-boetiekhotel-in-brussel/',
+        },
+        {
+          media: 'Sabato',
+          summary: 'Een nieuwkomer op een steenworp van de Grote Markt, met een chique stijl en een vleugje art deco: fluweel, donkere kleuren en bloemenbehang.',
+        },
+      ],
+      kit: { title: 'Persruimte', text: 'HD-foto’s en informatie over het hotel, op aanvraag.', cta: 'Perscontact' },
+    },
+  },
 };

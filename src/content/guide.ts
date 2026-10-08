@@ -70,6 +70,38 @@ export const GUIDE_INDEX: Localized<GuideIndexContent> = {
       ],
     },
   },
+  en: {
+    metaTitle: 'Brussels Guide around the Grand-Place | Craves Hotel',
+    metaDescription: 'Our favourite addresses and walking ideas from Craves Hotel: Grand-Place, Manneken Pis, Saint-Hubert Galleries, nights out and big Brussels events.',
+    title: { text: 'Brussels guide', em: 'around the Grand-Place' },
+    lead: 'Our favourite addresses and sightseeing ideas, all on foot from Craves Hotel.',
+    featuredLabel: 'Featured',
+    readCta: 'Read the article →',
+    events: {
+      title: { text: 'Highlights of the year', em: 'around the hotel' },
+      items: [
+        { when: 'Late November – early January', title: 'Winter Wonders (Plaisirs d’Hiver)', text: 'Christmas market, tree and illuminations on the Grand-Place, ice rink on Place De Brouckère.' },
+        { when: 'Early July', title: 'Ommegang', text: 'A grand Renaissance procession and show on the Grand-Place.' },
+        { when: 'Mid-August, even-numbered years', title: 'Flower Carpet', text: 'A carpet of begonias covers the Grand-Place for four days.' },
+      ],
+    },
+  },
+  nl: {
+    metaTitle: 'Gids voor Brussel rond de Grote Markt | Craves Hotel',
+    metaDescription: 'Onze adressen en wandeltips vanuit Craves Hotel: Grote Markt, Manneken Pis, Sint-Hubertusgalerijen, uitgaan en de grote evenementen van Brussel.',
+    title: { text: 'Gids voor Brussel', em: 'rond de Grote Markt' },
+    lead: 'Onze adressen en ideeën om te bezoeken, te voet vanuit Craves Hotel.',
+    featuredLabel: 'Uitgelicht',
+    readCta: 'Lees het artikel →',
+    events: {
+      title: { text: 'De grote afspraken', em: 'rond het hotel' },
+      items: [
+        { when: 'Eind november – begin januari', title: 'Winterpret (Plaisirs d’Hiver)', text: 'Kerstmarkt, kerstboom en verlichting op de Grote Markt, schaatsbaan op het De Brouckèreplein.' },
+        { when: 'Begin juli', title: 'Ommegang', text: 'Grote renaissancestoet en spektakel op de Grote Markt.' },
+        { when: 'Half augustus, in even jaren', title: 'Bloementapijt', text: 'Vier dagen lang bedekt een tapijt van begonia’s de Grote Markt.' },
+      ],
+    },
+  },
 };
 
 const GRAND_PLACE_FR: GuideArticle = {
@@ -237,5 +269,335 @@ const GRAND_PLACE_FR: GuideArticle = {
   aside: { title: 'Dormir à 4 minutes de la Grand-Place', text: 'Craves Hotel, boutique hôtel 3★, 75 chambres climatisées, réception 24h/24. -10 % en direct avec le code THANKYOU.' },
 };
 
+const GRAND_PLACE_EN: GuideArticle = {
+  route: 'guideGrandPlace',
+  category: 'Must-sees',
+  metaTitle: 'Things to Do Near the Grand-Place: 10 Sights on Foot',
+  metaDescription: 'Grand-Place, Manneken Pis, Saint-Hubert Galleries, Belgian Beer World… 10 things to do within 11 minutes’ walk, with real distances and tips.',
+  shortTitle: 'Things to do near the Grand-Place',
+  title: { text: 'Things to do near the Grand-Place:', em: '10 sights within 11 minutes’ walk' },
+  teaser: 'Grand-Place, Manneken Pis, the Royal Galleries, Belgian Beer World… The best of Brussels lies within a kilometre of the hotel.',
+  heroPhoto: 'grand-place-bruxelles-crepuscule',
+  heroAlt: 'The Grand-Place in Brussels at dusk, with the Town Hall and the guild houses',
+  byline: 'By the Craves Hotel team · updated 8 October 2026 · 8 min read',
+  published: '2026-10-08',
+  updated: '2026-10-08',
+  briefLabel: 'In short',
+  brief: [
+    'Around the Grand-Place, **10 must-sees are within an 11-minute walk**, and half of them are free: the square itself, St Nicholas’ Church, the Bourse hall, the Royal Saint-Hubert Galleries, Manneken Pis and the cathedral.',
+    'The Grand-Place has been a **UNESCO World Heritage Site since 1998** and is open to all, day and night.',
+    'The **real Manneken Pis**, the original 1619 statue, is on display in the King’s House (Maison du Roi), on the Grand-Place. The one on the street corner is a copy.',
+    'Allow **half a day** to see it all on foot, with a few visits inside. From Craves Hotel, the Grand-Place is just **280 m away (4 minutes)**.',
+  ],
+  intro:
+    'Staying in the centre of Brussels and keen to see everything without taking the metro? Good news: the essentials all lie within a kilometre of the Grand-Place. Here is our pick of 10 sights, with real walking distances from our hotel on Rue du Marché aux Poulets.',
+  overviewTitle: { text: 'The 10 sights', em: 'at a glance' },
+  overviewHeaders: ['#', 'Sight', 'On foot from Craves', 'Entry'],
+  sinceHotel: 'from the hotel',
+  tipLabel: 'Our tip',
+  places: [
+    {
+      name: 'The Grand-Place and the Town Hall',
+      distance: '280 m · 4 min',
+      entry: 'Square free · Town Hall ticketed',
+      photo: 'grand-place-bruxelles-hotel-de-ville',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'The Grand-Place is the historic heart of Brussels and one of the most beautiful squares in the world. It has been a **UNESCO World Heritage Site since 1998**.',
+        'Its story is a dramatic one. In **August 1695**, French troops under Marshal de Villeroy bombarded the city and destroyed almost every house on the square. Only the façade and tower of the Town Hall survived, even though the artillery had used them as a target. The guilds rebuilt their houses **in barely five years**, in a lavishly ornate Baroque style. That is the scene you see today.',
+        'The **Town Hall**, a 15th-century Gothic masterpiece (1401–1455), towers over the square with its **96-metre** spire crowned by Saint Michael. You can visit it with a video guide, and at weekends on a guided tour that climbs the tower.',
+      ],
+      tip: 'Come twice. Early in the morning, before 9:00, to enjoy a near-empty square. Then after dark, when the façades are lit up.',
+    },
+    {
+      name: 'The King’s House – Brussels City Museum',
+      distance: '275 m · 4 min',
+      entry: 'Ticketed',
+      schemaType: 'Museum',
+      paragraphs: [
+        'Opposite the Town Hall, this neo-Gothic building is called the “Maison du Roi” (King’s House) in French and the “Broodhuis” (Bread House) in Dutch, a nod to the bread hall that once stood here. It houses the **Brussels City Museum**, which tells the story of the city and keeps **the original Manneken Pis statue**.',
+        'It was also in front of this building that the Counts of Egmont and Hornes, who opposed the policies of Philip II, were beheaded in 1568.',
+      ],
+    },
+    {
+      name: 'St Nicholas’ Church',
+      distance: '120 m · 2 min',
+      entry: 'Free',
+      schemaType: 'Church',
+      paragraphs: [
+        'The closest sight to the hotel. Tucked away on Rue au Beurre (Butter Street), between the Bourse and the Grand-Place, St Nicholas’ Church dates from around **1125**. It is one of the four oldest churches in Brussels and the best preserved of them. Saint Nicholas is the patron saint of merchants: a fitting nod to the butter market held around the church in the Middle Ages, which also gave the street its name.',
+        'Free entry. Inside you can see the original statue of Saint Nicholas that once adorned the Grand-Place, restored in 2018.',
+      ],
+    },
+    {
+      name: 'The Bourse and Belgian Beer World',
+      distance: '150 m · 2 min',
+      entry: 'Hall free · museum ticketed',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'The former Brussels Stock Exchange, a 19th-century landmark on Boulevard Anspach, reopened to the public in **September 2023**. Its upper floors are home to **Belgian Beer World**, an experience devoted to Belgian brewing culture.',
+        'Good to know: the **central hall**, with its coffered ceilings, is **free to enter**. You can simply walk through it.',
+      ],
+    },
+    {
+      name: 'The Royal Saint-Hubert Galleries',
+      distance: '380 m · 5 min',
+      entry: 'Free',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'Opened in **1847** and designed by the architect **Jean-Pierre Cluysenaar**, these glass-and-cast-iron arcades are among the oldest in Europe. They bring together three passages: the Galerie du Roi, the Galerie de la Reine and the Galerie des Princes.',
+        'Chocolatiers, bookshops, cafés, a theatre and a cinema: the perfect stroll on a rainy day.',
+      ],
+    },
+    {
+      name: 'Rue des Bouchers and Jeanneke Pis',
+      distance: '290–390 m · 4–5 min',
+      entry: 'Free',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'In the heart of the Îlot Sacré, **Rue des Bouchers** is lined with restaurant terraces. At the end of a small cul-de-sac nearby, the Impasse de la Fidélité, hides **Jeanneke Pis**, Manneken Pis’s “little sister”, installed in 1987.',
+      ],
+    },
+    {
+      name: 'Manneken Pis and the GardeRobe MannekenPis',
+      distance: '550 m · 7 min',
+      entry: 'Statue free · museum ticketed',
+      photo: 'manneken-pis-bruxelles',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'No visit to Brussels is complete without saying hello. The bronze statue was made in **1619 by Jérôme Duquesnoy the Elder**. The one you see on the corner of Rue de l’Étuve and Rue du Chêne is a **copy installed in 1965**. The original is in the City Museum (see no. 2).',
+        'Some 660 m from the hotel (9 minutes), the **GardeRobe MannekenPis** displays a selection of the more than 1,000 costumes given to the statue over the centuries.',
+      ],
+      tip: 'The statue is small (about 55 centimetres), so don’t be surprised. Check the costume calendar to catch him dressed up.',
+    },
+    {
+      name: 'Place Sainte-Catherine',
+      distance: '410 m · 6 min',
+      entry: 'Free',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'To the west, the old port district of Brussels has kept its character: St Catherine’s Church, designed by Joseph Poelaert, seafood restaurants and a real neighbourhood feel. At the end of the year, the square hosts part of the Winter Wonders (Plaisirs d’Hiver) Christmas market.',
+      ],
+    },
+    {
+      name: 'Mont des Arts',
+      distance: '740 m · 10 min',
+      entry: 'Free · museums ticketed',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'This terraced garden links the lower and upper town. It offers one of the finest views of the Town Hall tower. All around: the **Royal Museums of Fine Arts** and the **Magritte Museum**.',
+      ],
+    },
+    {
+      name: 'St Michael and St Gudula Cathedral',
+      distance: '790 m · 11 min',
+      entry: 'Free',
+      schemaType: 'Church',
+      paragraphs: [
+        'Built between the 13th and 15th centuries, the Gothic cathedral of Brussels hosts the country’s great national ceremonies. Free entry. Don’t miss its 16th-century stained-glass windows.',
+      ],
+    },
+  ],
+  itinerary: {
+    title: { text: 'Our walking route', em: 'from the hotel' },
+    steps: [
+      '**St Nicholas’ Church** (2 min from the hotel), then the **Bourse**, right next door.',
+      'Head west to **Place Sainte-Catherine**.',
+      'Back through the centre to the **Royal Saint-Hubert Galleries**, then **Rue des Bouchers** and **Jeanneke Pis**.',
+      'Walk up to the **cathedral**, then on to the **Mont des Arts** for the view.',
+      'Stroll down to **Manneken Pis**.',
+      'Finish in style on the **Grand-Place** and at the **King’s House**, 4 minutes from the hotel.',
+    ],
+    evening:
+      'In the evening, there’s no need to go far: **Le Conteur**, our Mediterranean tapas restaurant, is on the hotel’s ground floor, and **Scène**, our speakeasy bar, is on the Atrium level.',
+  },
+  when: {
+    title: { text: 'When to visit', em: 'the Grand-Place' },
+    items: [
+      '**All year round, at any hour**: the square is always open and free. The loveliest moments are early in the morning and at nightfall.',
+      '**Late November – early January**: **Winter Wonders (Plaisirs d’Hiver)**, the Brussels Christmas market, with a tree and illuminations on the Grand-Place, chalets on Place Sainte-Catherine and an ice rink on Place De Brouckère. The 2026-2027 edition runs from **27 November 2026 to 3 January 2027**.',
+      '**Early July**: the **Ommegang**, a grand Renaissance procession and show on the Grand-Place.',
+      '**Mid-August, in even-numbered years**: the **Flower Carpet**, held since 1971. The next edition is expected in August 2028.',
+    ],
+  },
+  faqTitle: { text: 'Frequently asked', em: 'questions' },
+  faq: [
+    { q: 'Is the Grand-Place free to visit?', a: 'Yes. The Grand-Place is a public square, open free of charge 24/7. Only visits inside the buildings (Town Hall, King’s House) are ticketed.' },
+    { q: 'How long does it take to explore around the Grand-Place?', a: 'Allow 30 minutes for the square alone, and half a day to see the 10 sights in this article on foot, with one or two visits inside.' },
+    { q: 'Where is the real Manneken Pis?', a: 'The original 1619 statue is kept in the Brussels City Museum, inside the King’s House on the Grand-Place. The statue on Rue de l’Étuve is a 1965 copy.' },
+    { q: 'How far is Manneken Pis from the Grand-Place?', a: 'About 300 metres, or a 4 to 5-minute walk via Rue Charles Buls and Rue de l’Étuve.' },
+    { q: 'Which hotel should I choose near the Grand-Place?', a: 'Craves Hotel is a 3★ boutique hotel on Rue du Marché aux Poulets, 280 m (a 4-minute walk) from the Grand-Place. Its 75 air-conditioned rooms range from single rooms to a 50 m² family room.' },
+    { q: 'What is there to do in the evening around the Grand-Place?', a: 'Admire the illuminated square, have dinner on Rue des Bouchers or in the Sainte-Catherine district, then enjoy a drink. At Craves, Le Conteur (Mediterranean tapas) and Scène (speakeasy bar) are right inside the hotel.' },
+  ],
+  sources: 'Sources: UNESCO, City of Brussels (bruxelles.be), Brussels Times, Wikipedia. Information checked in October 2026; museum opening hours and prices to be confirmed on their official websites.',
+  tocLabel: 'In this article',
+  aside: { title: 'Stay 4 minutes from the Grand-Place', text: 'Craves Hotel, 3★ boutique hotel, 75 air-conditioned rooms, 24-hour reception. -10% when you book direct with the code THANKYOU.' },
+};
+
+const GRAND_PLACE_NL: GuideArticle = {
+  route: 'guideGrandPlace',
+  category: 'Niet te missen',
+  metaTitle: 'Wat te doen rond de Grote Markt in Brussel? 10 tips te voet',
+  metaDescription: 'Grote Markt, Manneken Pis, Sint-Hubertusgalerijen, Belgian Beer World… 10 bezienswaardigheden op max. 11 min wandelen, met echte afstanden en tips.',
+  shortTitle: 'Wat te doen rond de Grote Markt',
+  title: { text: 'Wat te doen rond de Grote Markt:', em: '10 bezienswaardigheden op minder dan 11 minuten wandelen' },
+  teaser: 'Grote Markt, Manneken Pis, Koninklijke Galerijen, Belgian Beer World… Het mooiste van Brussel ligt binnen een kilometer rond het hotel.',
+  heroPhoto: 'grand-place-bruxelles-crepuscule',
+  heroAlt: 'De Grote Markt van Brussel bij valavond, met het Stadhuis en de gildehuizen',
+  byline: 'Door het team van Craves Hotel · bijgewerkt op 8 oktober 2026 · 8 min leestijd',
+  published: '2026-10-08',
+  updated: '2026-10-08',
+  briefLabel: 'In het kort',
+  brief: [
+    'Rond de Grote Markt liggen **10 toppers op minder dan 11 minuten wandelen**, waarvan de helft gratis: het plein zelf, de Sint-Niklaaskerk, de hal van de Beurs, de Koninklijke Sint-Hubertusgalerijen, Manneken Pis en de kathedraal.',
+    'De Grote Markt staat **sinds 1998 op de Werelderfgoedlijst van UNESCO** en is dag en nacht vrij toegankelijk.',
+    'De **echte Manneken Pis**, het originele beeldje uit 1619, staat in het Broodhuis, op de Grote Markt. Het beeldje op straat is een kopie.',
+    'Reken op **een halve dag** om alles te voet te zien, met enkele bezoeken binnen. Vanuit Craves Hotel ligt de Grote Markt op **280 m (4 minuten)**.',
+  ],
+  intro:
+    'U logeert in het centrum van Brussel en wilt alles zien zonder de metro te nemen? Goed nieuws: het belangrijkste ligt binnen een straal van minder dan een kilometer rond de Grote Markt. Hier is onze selectie van 10 bezienswaardigheden, met de echte wandelafstanden vanaf ons hotel in de Rue du Marché aux Poulets.',
+  overviewTitle: { text: 'De 10 bezienswaardigheden', em: 'in één oogopslag' },
+  overviewHeaders: ['#', 'Plek', 'Te voet vanaf Craves', 'Toegang'],
+  sinceHotel: 'vanaf het hotel',
+  tipLabel: 'Onze tip',
+  places: [
+    {
+      name: 'De Grote Markt en het Stadhuis',
+      distance: '280 m · 4 min',
+      entry: 'Plein gratis · Stadhuis betalend',
+      photo: 'grand-place-bruxelles-hotel-de-ville',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'De Grote Markt is het historische hart van Brussel en een van de mooiste pleinen ter wereld. Ze staat **sinds 1998 op de Werelderfgoedlijst van UNESCO**.',
+        'Haar geschiedenis is spectaculair. In **augustus 1695** bombarderen de Franse troepen van maarschalk de Villeroy de stad en verwoesten ze bijna alle huizen op het plein. Alleen de gevel en de toren van het Stadhuis blijven overeind, hoewel ze de artillerie als mikpunt dienden. De gilden bouwen hun huizen **in amper vijf jaar** weer op, in een rijk versierde barokstijl. Dat is het decor dat u vandaag ziet.',
+        'Het **Stadhuis**, een gotisch meesterwerk uit de 15de eeuw (1401–1455), torent boven het plein uit met zijn toren van **96 meter**, bekroond door Sint-Michiel. U kunt het bezoeken met een videogids, en in het weekend tijdens een rondleiding die de toren in gaat.',
+      ],
+      tip: 'Kom twee keer. Vroeg in de ochtend, vóór 9 uur, om van een bijna leeg plein te genieten. En opnieuw bij het vallen van de avond, wanneer de gevels verlicht worden.',
+    },
+    {
+      name: 'Het Broodhuis – Museum van de Stad Brussel',
+      distance: '275 m · 4 min',
+      entry: 'Betalend',
+      schemaType: 'Museum',
+      paragraphs: [
+        'Tegenover het Stadhuis staat dit neogotische gebouw, in het Nederlands “Broodhuis” genoemd naar de vroegere broodhal, en in het Frans “Maison du Roi” (Koningshuis). Het herbergt het **Museum van de Stad Brussel**, dat de geschiedenis van de stad vertelt en **het originele beeldje van Manneken Pis** bewaart.',
+        'Het was ook voor dit gebouw dat de graven van Egmont en Horne, tegenstanders van de politiek van Filips II, in 1568 werden onthoofd.',
+      ],
+    },
+    {
+      name: 'De Sint-Niklaaskerk',
+      distance: '120 m · 2 min',
+      entry: 'Gratis',
+      schemaType: 'Church',
+      paragraphs: [
+        'De dichtstbijzijnde bezienswaardigheid. In de Boterstraat, tussen de Beurs en de Grote Markt, ligt de Sint-Niklaaskerk, die dateert van rond **1125**. Het is een van de vier eerste kerken van Brussel en de best bewaarde van allemaal. Sint-Niklaas is de patroonheilige van de kooplieden: een knipoog naar de botermarkt die in de middeleeuwen rond de kerk werd gehouden en die de straat haar naam gaf.',
+        'Vrije toegang. U ziet er het originele beeld van Sint-Niklaas dat vroeger de Grote Markt sierde, gerestaureerd in 2018.',
+      ],
+    },
+    {
+      name: 'De Beurs en Belgian Beer World',
+      distance: '150 m · 2 min',
+      entry: 'Hal gratis · museum betalend',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'De voormalige Beurs van Brussel, een monument uit de 19de eeuw aan de Anspachlaan, is sinds **september 2023** weer open voor het publiek. Op de bovenverdiepingen vindt u **Belgian Beer World**, een parcours over de Belgische biercultuur.',
+        'Goed om weten: de **centrale hal**, met haar cassetteplafonds, is **vrij toegankelijk**. U kunt er gewoon doorheen wandelen.',
+      ],
+    },
+    {
+      name: 'De Koninklijke Sint-Hubertusgalerijen',
+      distance: '380 m · 5 min',
+      entry: 'Gratis',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'Deze overdekte galerijen van glas en gietijzer, ingehuldigd in **1847** en ontworpen door architect **Jean-Pierre Cluysenaar**, behoren tot de oudste van Europa. Ze bestaan uit drie doorgangen: de Koningsgalerij, de Koninginnegalerij en de Prinsengalerij.',
+        'Chocolatiers, boekhandels, cafés, een theater en een bioscoop: de ideale wandeling bij regenweer.',
+      ],
+    },
+    {
+      name: 'De Beenhouwersstraat en Jeanneke Pis',
+      distance: '290–390 m · 4–5 min',
+      entry: 'Gratis',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'In het hart van het Ilot Sacré rijgen de restaurantterrassen van de **Beenhouwersstraat** zich aaneen. Achteraan in een klein steegje vlakbij, de Getrouwheidsgang, verstopt zich **Jeanneke Pis**, het “zusje” van Manneken Pis, geplaatst in 1987.',
+      ],
+    },
+    {
+      name: 'Manneken Pis en GardeRobe MannekenPis',
+      distance: '550 m · 7 min',
+      entry: 'Beeldje gratis · museum betalend',
+      photo: 'manneken-pis-bruxelles',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'Een bezoek aan Brussel is niet compleet zonder hem te begroeten. Het bronzen beeldje werd in **1619 gemaakt door Hiëronymus Duquesnoy de Oude**. Het exemplaar op de hoek van de Stoofstraat en de Eikstraat is een **kopie uit 1965**. Het origineel staat in het Museum van de Stad Brussel (zie nr. 2).',
+        'Op 660 m van het hotel (9 minuten) toont **GardeRobe MannekenPis** een deel van de meer dan 1.000 kostuums die het beeldje door de eeuwen heen kreeg.',
+      ],
+      tip: 'Het beeldje is klein (ongeveer 55 centimeter), dus wees niet verrast. Bekijk de kostuumkalender om hem aangekleed te zien.',
+    },
+    {
+      name: 'Het Sint-Katelijneplein',
+      distance: '410 m · 6 min',
+      entry: 'Gratis',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'Aan de westkant heeft de oude havenwijk van Brussel haar karakter behouden: de Sint-Katelijnekerk van Joseph Poelaert, visrestaurants en een echte buurtsfeer. Op het einde van het jaar ontvangt het plein een deel van de kerstmarkt Winterpret (Plaisirs d’Hiver).',
+      ],
+    },
+    {
+      name: 'De Kunstberg',
+      distance: '740 m · 10 min',
+      entry: 'Gratis · musea betalend',
+      schemaType: 'TouristAttraction',
+      paragraphs: [
+        'Deze terrastuin verbindt de beneden- en de bovenstad. Hij biedt een van de mooiste uitzichten op de toren van het Stadhuis. In de buurt: de **Koninklijke Musea voor Schone Kunsten** en het **Magritte Museum**.',
+      ],
+    },
+    {
+      name: 'De Sint-Michiels-en-Sint-Goedelekathedraal',
+      distance: '790 m · 11 min',
+      entry: 'Gratis',
+      schemaType: 'Church',
+      paragraphs: [
+        'De gotische kathedraal van Brussel, gebouwd van de 13de tot de 15de eeuw, is het decor van de grote nationale plechtigheden. Vrije toegang. Mis zeker de glasramen uit de 16de eeuw niet.',
+      ],
+    },
+  ],
+  itinerary: {
+    title: { text: 'Onze wandelroute', em: 'vanuit het hotel' },
+    steps: [
+      '**Sint-Niklaaskerk** (2 min van het hotel), dan de **Beurs**, vlak ernaast.',
+      'Richting westen naar het **Sint-Katelijneplein**.',
+      'Terug door het centrum naar de **Koninklijke Sint-Hubertusgalerijen**, dan de **Beenhouwersstraat** en **Jeanneke Pis**.',
+      'Naar boven naar de **Sint-Goedelekathedraal**, dan de **Kunstberg** voor het uitzicht.',
+      'Naar beneden naar **Manneken Pis**.',
+      'Mooie afsluiter op de **Grote Markt** en in het **Broodhuis**, op 4 minuten van het hotel.',
+    ],
+    evening:
+      '’s Avonds hoeft u niet ver te gaan: **Le Conteur**, ons restaurant met mediterrane tapas, ligt op de benedenverdieping van het hotel, en **Scène**, onze speakeasybar, op het Atrium-niveau.',
+  },
+  when: {
+    title: { text: 'Wanneer bezoekt u', em: 'de Grote Markt?' },
+    items: [
+      '**Het hele jaar door, op elk uur**: het plein is altijd open en gratis. De mooiste momenten zijn vroeg in de ochtend en bij het vallen van de avond.',
+      '**Eind november – begin januari**: **Winterpret (Plaisirs d’Hiver)**, de Brusselse kerstmarkt, met kerstboom en verlichting op de Grote Markt, chalets op het Sint-Katelijneplein en een schaatsbaan op het De Brouckèreplein. De editie 2026-2027 loopt van **27 november 2026 tot 3 januari 2027**.',
+      '**Begin juli**: de **Ommegang**, een grote renaissancestoet en spektakel op de Grote Markt.',
+      '**Half augustus, in even jaren**: het **Bloementapijt**, dat sinds 1971 wordt aangelegd. De volgende editie wordt verwacht in augustus 2028.',
+    ],
+  },
+  faqTitle: { text: 'Veelgestelde', em: 'vragen' },
+  faq: [
+    { q: 'Is de Grote Markt gratis?', a: 'Ja. De Grote Markt is een openbaar plein, gratis toegankelijk, 24 uur op 24. Enkel de bezoeken binnen (Stadhuis, Broodhuis) zijn betalend.' },
+    { q: 'Hoeveel tijd heeft u nodig om de omgeving van de Grote Markt te bezoeken?', a: 'Reken op 30 minuten voor het plein alleen, en een halve dag voor de 10 plekken uit dit artikel te voet, met een of twee bezoeken binnen.' },
+    { q: 'Waar staat de echte Manneken Pis?', a: 'Het originele beeldje uit 1619 wordt bewaard in het Museum van de Stad Brussel, in het Broodhuis op de Grote Markt. Het beeldje in de Stoofstraat is een kopie uit 1965.' },
+    { q: 'Hoe ver is Manneken Pis van de Grote Markt?', a: 'Ongeveer 300 meter, of 4 à 5 minuten wandelen via de Karel Bulsstraat en de Stoofstraat.' },
+    { q: 'Welk hotel kiest u bij de Grote Markt?', a: 'Craves Hotel is een 3★-boetiekhotel in de Rue du Marché aux Poulets, op 280 m (4 minuten te voet) van de Grote Markt. De 75 kamers met airco gaan van de eenpersoonskamer tot de familiekamer van 50 m².' },
+    { q: 'Wat te doen ’s avonds rond de Grote Markt?', a: 'Het verlichte plein bewonderen, dineren in de Beenhouwersstraat of in de wijk rond het Sint-Katelijneplein, en daarna iets drinken. Bij Craves vindt u Le Conteur (mediterrane tapas) en Scène (speakeasybar) in het hotel zelf.' },
+  ],
+  sources: 'Bronnen: UNESCO, Stad Brussel (bruxelles.be), Brussels Times, Wikipedia. Informatie gecontroleerd in oktober 2026; openingsuren en tarieven van de musea te bevestigen op hun officiële websites.',
+  tocLabel: 'In dit artikel',
+  aside: { title: 'Slapen op 4 minuten van de Grote Markt', text: 'Craves Hotel, 3★-boetiekhotel, 75 kamers met airco, receptie 24 uur per dag. -10% bij rechtstreeks boeken met de code THANKYOU.' },
+};
+
 /** Published articles, newest first. */
-export const GUIDE_ARTICLES: Localized<GuideArticle>[] = [{ fr: GRAND_PLACE_FR }];
+export const GUIDE_ARTICLES: Localized<GuideArticle>[] = [{ fr: GRAND_PLACE_FR, en: GRAND_PLACE_EN, nl: GRAND_PLACE_NL }];
