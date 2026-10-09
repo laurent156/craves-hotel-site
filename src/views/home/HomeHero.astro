@@ -79,6 +79,14 @@ const { locale, eyebrow, tagline, imageAlt } = Astro.props;
     color: var(--or);
   }
 
+  /* Desktop and tablet: the hotel's positioning reads at a glance above the name. */
+  @media (min-width: 861px) {
+    .hero__eyebrow {
+      font-size: 16px;
+      letter-spacing: 0.26em;
+    }
+  }
+
   .hero__title {
     display: flex;
     flex-direction: column;
