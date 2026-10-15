@@ -1,14 +1,14 @@
-// Cloudflare Pages Function: receives the contact form and the message to the management,
-// checks it (anti-spam, validation) and e-mails it to the hotel team through Resend.
-// Served at /api/contact. Settings (Cloudflare dashboard → Pages → Settings → Variables and secrets):
+// Handler of POST /api/contact (see worker/index.ts): receives the contact form and the message to the
+// management, checks it (anti-spam, validation) and e-mails it to the hotel team through Resend.
+// Settings (Cloudflare dashboard → Workers & Pages → the project → Settings → Variables and secrets):
 //   TURNSTILE_SECRET_KEY  secret key of the Turnstile widget
 //   RESEND_API_KEY        Resend API key (the sending domain must be verified in Resend)
 //   MAIL_FROM             sender, e.g. "Craves Hotel website <website@craves-hotel.com>"
 //   CONTACT_TO            recipients of the contact form, comma separated
 //   MANAGER_TO            recipients of the message to the management, comma separated
-import { buildEmail, parseSubmission } from '../../src/lib/contactForm';
+import { buildEmail, parseSubmission } from '../src/lib/contactForm';
 
-interface Env {
+export interface Env {
   TURNSTILE_SECRET_KEY?: string;
   RESEND_API_KEY?: string;
   MAIL_FROM?: string;
@@ -80,5 +80,4 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   return json({ ok: true }, 200);
 };
 
-// Anything but POST is refused.
-export const onRequest = (): Response => json({ ok: false }, 405);
+export const methodNotAllowed = (): Response => json({ ok: false }, 405);

@@ -1,6 +1,6 @@
 # Craves Hotel — site
 
-Static site for craves-hotel.com, built with [Astro](https://docs.astro.build) and hosted on Cloudflare Pages.
+Static site for craves-hotel.com, built with [Astro](https://docs.astro.build) and hosted on Cloudflare (Workers with static assets: the built site plus one small worker for the forms).
 
 Preview (not indexed, rebuilt on every push to `main`): https://laurent156.github.io/craves-hotel-site/
 
@@ -54,10 +54,10 @@ Instrument Serif and Mona Sans are downloaded at build time and served from the 
 
 ## Forms
 
-Two forms post to the same Cloudflare Pages Function, `functions/api/contact.ts` (`/api/contact`):
+Two forms post to the same endpoint, `/api/contact`, handled by the worker in `worker/` (`index.ts` routes, `contact.ts` does the work; `wrangler.jsonc` sends only `/api/*` to the worker, every page is served as a static file):
 
 - the contact form on `/contact/` (kind `contact`) goes to `CONTACT_TO`;
-- the hidden page `/contact-manager/` (kind `manager`, in EN, FR and NL, same address as on the previous site) goes to `MANAGER_TO`. It is `noindex`, left out of the sitemap and `llms.txt` (`HIDDEN_ROUTES` in `src/views/registry.ts`) and has no booking bar. Guests reach it by QR codes placed in the rooms: **its addresses must never change** (`/contact-manager/`, `/fr/contact-manager/`, `/nl/contact-manager/`; guarded by a test in `src/i18n/routes.test.ts`). Same behaviour as the old site for the variants a QR code may hold: `http` → `https` (Cloudflare "Always Use HTTPS"), `www` → no `www` (redirect rule), no trailing slash → with slash (Cloudflare Pages does it by itself), query strings kept.
+- the hidden page `/contact-manager/` (kind `manager`, in EN, FR and NL, same address as on the previous site) goes to `MANAGER_TO`. It is `noindex`, left out of the sitemap and `llms.txt` (`HIDDEN_ROUTES` in `src/views/registry.ts`) and has no booking bar. Guests reach it by QR codes placed in the rooms: **its addresses must never change** (`/contact-manager/`, `/fr/contact-manager/`, `/nl/contact-manager/`; guarded by a test in `src/i18n/routes.test.ts`). Same behaviour as the old site for the variants a QR code may hold: `http` → `https` (Cloudflare "Always Use HTTPS"), `www` → no `www` (redirect rule), no trailing slash → with slash (Cloudflare does it by itself), query strings kept.
 
 Each message goes through a hidden trap field, Cloudflare Turnstile (anti-spam, no puzzle) and validation (`src/lib/contactForm.ts`), then is e-mailed with [Resend](https://resend.com) (plain text, guest in reply-to). The function refuses to send when a setting is missing, never skipping the anti-spam check. Settings are listed in `.env.example`.
 
@@ -67,11 +67,12 @@ On the GitHub Pages preview there is no function: the form shows the error messa
 
 `src/lib/redirects.ts` lists the old WordPress addresses (taken from the old site's sitemaps and links) and builds `dist/_redirects` (301). Old French and Dutch pages go to their translated URLs. `/contact-manager/` keeps its address and needs no redirect. `www.craves-hotel.com` must be redirected to `craves-hotel.com` with a Cloudflare redirect rule.
 
-## Going live (Cloudflare Pages)
+## Going live (Cloudflare)
 
-1. Pages → Create project → connect the GitHub repo. Build command `npm run build`, output `dist`, no `SITE_URL`, `BASE_PATH` or `PUBLIC_PREVIEW` variable (production defaults apply).
-2. Variables: `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_GTM_ID`, `PUBLIC_GTM_URL`; secrets: `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `MAIL_FROM`, `CONTACT_TO`, `MANAGER_TO`.
-3. Resend: verify the `craves-hotel.com` domain (SPF and DKIM records in the DNS) before sending.
-4. Test on the `*.pages.dev` address first: both forms (a real message arrives, reply-to is the guest), the old URLs, `robots.txt`, `sitemap.xml`.
-5. Attach the domain `craves-hotel.com` (and `www`) to the project, then switch the DNS. Keep the old site reachable until the new one answers.
-6. Submit `https://craves-hotel.com/sitemap.xml` in Google Search Console.
+1. Cloudflare dashboard → Workers & Pages → Create application → import the GitHub repo. Project name `craves-hotel-site` (must match `name` in `wrangler.jsonc`), production branch `main`, build command `npm run build`, deploy command `npx wrangler deploy`. Node 22 comes from `.node-version`. No `SITE_URL`, `BASE_PATH` or `PUBLIC_PREVIEW` variable: those are for the GitHub preview only.
+2. **Build variables** (Settings → Build → Variables and secrets; read while the site is built): `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_GTM_ID`, `PUBLIC_GTM_URL`. After adding or changing one, trigger a new build.
+3. **Runtime secrets** (Settings → Variables and secrets; read by the worker): `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `MAIL_FROM`, `CONTACT_TO`, `MANAGER_TO`.
+4. Resend: verify the `craves-hotel.com` domain (SPF and DKIM records in the DNS) before sending.
+5. Test on the `*.workers.dev` address first: both forms (a real message arrives, reply-to is the guest), the QR code address `/contact-manager/`, the old URLs, `robots.txt`, `sitemap.xml`.
+6. Attach the domain `craves-hotel.com` (and `www`) to the project, then switch the DNS (the domain's DNS must be on Cloudflare: copy every existing record first, mail records included). Keep the old site reachable until the new one answers.
+7. Submit `https://craves-hotel.com/sitemap.xml` in Google Search Console.

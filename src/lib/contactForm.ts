@@ -1,7 +1,7 @@
 import { LOCALES, type Locale } from '../i18n/locales';
 
 // Validation and e-mail composition shared by the contact form, the hidden "manager" form and the
-// Cloudflare function that sends them (functions/api/contact.ts). Pure: no network, no side effects.
+// Cloudflare worker that sends them (worker/contact.ts). Pure: no network, no side effects.
 
 export type FormKind = 'contact' | 'manager';
 

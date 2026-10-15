@@ -1,4 +1,4 @@
-// Sends the forms marked data-api-form to the Cloudflare function (functions/api/contact.ts) with fetch,
+// Sends the forms marked data-api-form to the Cloudflare worker (worker/contact.ts) with fetch,
 // and shows the result in the status block next to the button.
 // Without JavaScript the form cannot be sent: the page always shows the phone and e-mail as an alternative.
 
