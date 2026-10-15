@@ -57,7 +57,7 @@ Instrument Serif and Mona Sans are downloaded at build time and served from the 
 Two forms post to the same Cloudflare Pages Function, `functions/api/contact.ts` (`/api/contact`):
 
 - the contact form on `/contact/` (kind `contact`) goes to `CONTACT_TO`;
-- the hidden page `/contact-manager/` (kind `manager`, in EN, FR and NL, same address as on the previous site) goes to `MANAGER_TO`. It is `noindex`, left out of the sitemap and `llms.txt` (`HIDDEN_ROUTES` in `src/views/registry.ts`) and has no booking bar. Guests reach it by QR code or link.
+- the hidden page `/contact-manager/` (kind `manager`, in EN, FR and NL, same address as on the previous site) goes to `MANAGER_TO`. It is `noindex`, left out of the sitemap and `llms.txt` (`HIDDEN_ROUTES` in `src/views/registry.ts`) and has no booking bar. Guests reach it by QR codes placed in the rooms: **its addresses must never change** (`/contact-manager/`, `/fr/contact-manager/`, `/nl/contact-manager/`; guarded by a test in `src/i18n/routes.test.ts`). Same behaviour as the old site for the variants a QR code may hold: `http` → `https` (Cloudflare "Always Use HTTPS"), `www` → no `www` (redirect rule), no trailing slash → with slash (Cloudflare Pages does it by itself), query strings kept.
 
 Each message goes through a hidden trap field, Cloudflare Turnstile (anti-spam, no puzzle) and validation (`src/lib/contactForm.ts`), then is e-mailed with [Resend](https://resend.com) (plain text, guest in reply-to). The function refuses to send when a setting is missing, never skipping the anti-spam check. Settings are listed in `.env.example`.
 

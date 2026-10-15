@@ -23,6 +23,15 @@ describe('localizedPath', () => {
   });
 });
 
+describe('hidden manager page', () => {
+  // QR codes in the rooms point to these addresses: they must never change.
+  test('keeps the exact addresses of the previous site in every language', () => {
+    expect(localizedPath('contactManager', 'en')).toBe('/contact-manager/');
+    expect(localizedPath('contactManager', 'fr')).toBe('/fr/contact-manager/');
+    expect(localizedPath('contactManager', 'nl')).toBe('/nl/contact-manager/');
+  });
+});
+
 describe('alternatePaths', () => {
   test('lists the same page in every language', () => {
     expect(alternatePaths('faq')).toEqual({ en: '/faq/', fr: '/fr/faq/', nl: '/nl/faq/' });
