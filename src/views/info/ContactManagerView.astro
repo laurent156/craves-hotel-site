@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import FormStatus from '../../components/forms/FormStatus.astro';
+import Turnstile from '../../components/forms/Turnstile.astro';
+import { FORM_ENDPOINT } from '../../components/forms/endpoint';
+import { CONTACT_MANAGER } from '../../content/contactManager';
+import { pick } from '../../content/localize';
+import { SITE } from '../../config/site';
+import type { Locale } from '../../i18n/locales';
+import { localizedPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+import '../../styles/forms.css';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = pick(CONTACT_MANAGER, locale);
+const form = content.form;
+const ui = t(locale);
+---
+
+<!-- Hidden page: noindex, absent from the menus, the sitemap and llms.txt. Guests arrive by QR code or link. -->
+<BaseLayout
+  locale={locale}
+  route="contactManager"
+  title={content.metaTitle}
+  description={content.metaDescription}
+  ogImage="craves-reception-accueil"
+  noindex
+  hideBookBar
+>
+  <PageHeader
+    crumbLabel={ui.breadcrumb}
+    crumbs={[{ label: ui.home, href: localizedPath('home', locale) }, { label: ui.nav.contact }]}
+    title={content.title}
+    lead={content.lead}
+  />
+
+  <section class="bg-blanc manager">
+    <div class="wrap manager__wrap">
+      <p class="manager__urgent">
+        {content.urgent} <a href={SITE.phoneHref}>{SITE.phone}</a>
+      </p>
+
+      <form class="form-card manager__form" method="post" action={FORM_ENDPOINT} data-api-form data-kind="manager" data-locale={locale} data-endpoint={FORM_ENDPOINT}>
+        <label>
+          {form.roomNumber}
+          <input type="text" name="roomNumber" inputmode="numeric" autocomplete="off" maxlength="20" placeholder={form.roomNumberPlaceholder} required />
+        </label>
+        <label>
+          {form.fullName}
+          <input type="text" name="fullName" autocomplete="name" maxlength="120" placeholder={form.fullNamePlaceholder} required />
+        </label>
+        <label>
+          {form.message}
+          <textarea name="message" rows="5" maxlength="5000" placeholder={form.messagePlaceholder} required></textarea>
+        </label>
+        <label>
+          {form.email}
+          <input type="email" name="email" autocomplete="email" maxlength="254" placeholder={form.emailPlaceholder} required />
+        </label>
+        <label>
+          {form.phone}
+          <input type="tel" name="phone" autocomplete="tel" maxlength="40" placeholder={form.phonePlaceholder} />
+        </label>
+        <div class="form-card__trap" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" /></div>
+        <Turnstile locale={locale} />
+        <p class="form-card__note">{form.privacy} <a href={localizedPath('privacy', locale)}>{form.privacyLink}</a>.</p>
+        <button type="submit" class="pill pill--dark">{form.send}</button>
+        <FormStatus locale={locale} success={form.success} />
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../../components/forms/api-form';
+</script>
+
+<style>
+  .manager {
+    padding-top: 56px;
+    padding-bottom: var(--space-section);
+  }
+
+  .manager__wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .manager__urgent {
+    text-align: center;
+    color: var(--encre);
+  }
+
+  .manager__urgent a {
+    font-weight: 500;
+    text-decoration: underline;
+  }
+
+  .manager__form {
+    width: min(720px, 100%);
+  }
+
+  @media (max-width: 860px) {
+    .manager {
+      padding-top: 32px;
+    }
+  }
+</style>

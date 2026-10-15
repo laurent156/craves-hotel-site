@@ -6,6 +6,8 @@ import { VENUES } from './venues';
 import { LOCATION } from './location';
 import { FAQ } from './faq';
 import { CONTACT_PAGE, FAQ_PAGE } from './infoPages';
+import { CONTACT_MANAGER } from './contactManager';
+import { FORM_STATUS } from './forms';
 import { CRAVES } from './craves';
 import { GUIDE_ARTICLES, GUIDE_INDEX } from './guide';
 import { LEGAL } from './legal';
@@ -44,6 +46,8 @@ const CONTENT: Record<string, Localized<unknown>> = {
   FAQ,
   FAQ_PAGE,
   CONTACT_PAGE,
+  CONTACT_MANAGER,
+  FORM_STATUS,
   CRAVES,
   GUIDE_INDEX,
   LEGAL,

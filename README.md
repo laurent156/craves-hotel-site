@@ -42,7 +42,7 @@ Links go to Lighthouse (`bookingengine.mylighthouse.com/v2/10550`) with `lang`, 
 - Cookie banner: `src/components/consent/` (vanilla-cookieconsent, texts in `src/content/consent.ts`).
 - Google Consent Mode v2: everything denied by default; Google Tag Manager is loaded only after the visitor accepts analytics or marketing.
 - Set `PUBLIC_GTM_ID` (and `PUBLIC_GTM_URL` for the Stape loader domain) in the Cloudflare Pages environment, see `.env.example`. Without them no tag is loaded.
-- In GTM, non-Google tags (Meta, Sojern, Brevo…) should still use consent checks as a safety net.
+- In GTM, non-Google tags (Meta, Sojern…) should still use consent checks as a safety net.
 
 ## Motion
 
@@ -51,3 +51,27 @@ Links go to Lighthouse (`bookingengine.mylighthouse.com/v2/10550`) with `lang`, 
 ## Fonts
 
 Instrument Serif and Mona Sans are downloaded at build time and served from the site itself (no call to Google Fonts from visitors' browsers).
+
+## Forms
+
+Two forms post to the same Cloudflare Pages Function, `functions/api/contact.ts` (`/api/contact`):
+
+- the contact form on `/contact/` (kind `contact`) goes to `CONTACT_TO`;
+- the hidden page `/contact-manager/` (kind `manager`, in EN, FR and NL, same address as on the previous site) goes to `MANAGER_TO`. It is `noindex`, left out of the sitemap and `llms.txt` (`HIDDEN_ROUTES` in `src/views/registry.ts`) and has no booking bar. Guests reach it by QR code or link.
+
+Each message goes through a hidden trap field, Cloudflare Turnstile (anti-spam, no puzzle) and validation (`src/lib/contactForm.ts`), then is e-mailed with [Resend](https://resend.com) (plain text, guest in reply-to). The function refuses to send when a setting is missing, never skipping the anti-spam check. Settings are listed in `.env.example`.
+
+On the GitHub Pages preview there is no function: the form shows the error message with the hotel's phone and e-mail. That is expected.
+
+## Redirects
+
+`src/lib/redirects.ts` lists the old WordPress addresses (taken from the old site's sitemaps and links) and builds `dist/_redirects` (301). Old French and Dutch pages go to their translated URLs. `/contact-manager/` keeps its address and needs no redirect. `www.craves-hotel.com` must be redirected to `craves-hotel.com` with a Cloudflare redirect rule.
+
+## Going live (Cloudflare Pages)
+
+1. Pages → Create project → connect the GitHub repo. Build command `npm run build`, output `dist`, no `SITE_URL`, `BASE_PATH` or `PUBLIC_PREVIEW` variable (production defaults apply).
+2. Variables: `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_GTM_ID`, `PUBLIC_GTM_URL`; secrets: `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `MAIL_FROM`, `CONTACT_TO`, `MANAGER_TO`.
+3. Resend: verify the `craves-hotel.com` domain (SPF and DKIM records in the DNS) before sending.
+4. Test on the `*.pages.dev` address first: both forms (a real message arrives, reply-to is the guest), the old URLs, `robots.txt`, `sitemap.xml`.
+5. Attach the domain `craves-hotel.com` (and `www`) to the project, then switch the DNS. Keep the old site reachable until the new one answers.
+6. Submit `https://craves-hotel.com/sitemap.xml` in Google Search Console.

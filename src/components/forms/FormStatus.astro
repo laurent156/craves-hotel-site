@@ -1,0 +1,47 @@
+---
+import { SITE } from '../../config/site';
+import { FORM_STATUS } from '../../content/forms';
+import { pick } from '../../content/localize';
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  locale: Locale;
+  /** Confirmation shown once the message is sent. */
+  success: string;
+}
+
+const { locale, success } = Astro.props;
+const status = pick(FORM_STATUS, locale);
+---
+
+<!-- Shown and hidden by api-form.ts; announced to screen readers through the live region. -->
+<div class="form-status" role="status" aria-live="polite" data-form-status>
+  <p data-state="sending" hidden>{status.sending}</p>
+  <p class="form-status__success" data-state="success" hidden>{success}</p>
+  <p class="form-status__error" data-state="error" hidden>
+    {status.error}
+    <a href={SITE.phoneHref}>{SITE.phone}</a> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+  </p>
+</div>
+
+<style>
+  .form-status p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .form-status__success {
+    padding: 18px 20px;
+    background: var(--blanc);
+    border-left: 3px solid var(--or-profond);
+    font-size: 17px;
+  }
+
+  .form-status__error {
+    color: #8c2f2f;
+  }
+
+  .form-status__error a {
+    text-decoration: underline;
+  }
+</style>

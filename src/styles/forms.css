@@ -1,0 +1,118 @@
+/* Ivory card used by every form of the site (contact, message to the management). */
+.form-card {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: var(--ivoire);
+}
+
+.form-card h2 {
+  font-size: clamp(36px, 3.6vw, 44px);
+}
+
+.form-card__intro {
+  font-size: 14px;
+  color: var(--gris);
+}
+
+.form-card__row {
+  display: flex;
+  gap: 18px;
+}
+
+.form-card__row label {
+  flex: 1;
+}
+
+.form-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--or-profond);
+}
+
+.form-card input:not([type='checkbox']),
+.form-card select,
+.form-card textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid var(--gris);
+  border-radius: 0;
+  background: transparent;
+  color: var(--nuit);
+  font: 400 16px var(--font-sans);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.form-card textarea {
+  resize: vertical;
+}
+
+.form-card ::placeholder {
+  color: var(--gris);
+  opacity: 0.8;
+}
+
+.form-card .form-card__consent {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--encre);
+}
+
+.form-card__consent input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.form-card__note {
+  font-size: 13px;
+  color: var(--gris);
+}
+
+.form-card button[type='submit'] {
+  align-self: flex-start;
+}
+
+.form-card button[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* Hidden field a human never sees: bots fill it, the server drops the message. */
+.form-card .form-card__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Once sent, only the confirmation stays on screen. */
+.form-card[data-sent] > :not(.form-status) {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .form-card {
+    padding: 28px 20px;
+  }
+
+  .form-card__row {
+    flex-direction: column;
+  }
+}

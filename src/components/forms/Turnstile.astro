@@ -1,0 +1,20 @@
+---
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  locale: Locale;
+}
+
+// Cloudflare Turnstile: invisible anti-spam check, no cookie and no puzzle for the guest.
+// Without a site key (local work, preview) nothing is shown and the server refuses the message.
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+{
+  siteKey && (
+    <>
+      <div class="cf-turnstile" data-sitekey={siteKey} data-language={Astro.props.locale} data-appearance="interaction-only" />
+      <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+    </>
+  )
+}

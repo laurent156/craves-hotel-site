@@ -17,6 +17,9 @@ export const ROUTES = {
   press: { en: 'press', fr: 'presse', nl: 'pers' },
   faq: { en: 'faq', fr: 'faq', nl: 'faq' },
   contact: { en: 'contact', fr: 'contact', nl: 'contact' },
+  // Hidden page (not in menus, sitemap or search engines): guests reach it from a QR code or a link in a message.
+  // Same slug in every language, as on the old site, so the old URLs keep working without a redirect.
+  contactManager: { en: 'contact-manager', fr: 'contact-manager', nl: 'contact-manager' },
   guide: { en: 'guide', fr: 'guide', nl: 'gids' },
   guideGrandPlace: {
     en: 'guide/things-to-do-near-grand-place-brussels',

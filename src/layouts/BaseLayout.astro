@@ -29,6 +29,8 @@ interface Props {
   noindex?: boolean;
   /** Header sits on top of the hero photo (home) instead of a solid navy bar. */
   transparentHeader?: boolean;
+  /** Pages that are not about booking (message to the management): no booking bar on phones. */
+  hideBookBar?: boolean;
 }
 
 const {
@@ -40,6 +42,7 @@ const {
   schema = [],
   noindex = false,
   transparentHeader = false,
+  hideBookBar = false,
 } = Astro.props;
 const ui = t(locale);
 const alternates = alternatePaths(route);
@@ -115,7 +118,7 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', fr: 'fr_BE', nl: 'nl_BE
       <slot />
     </main>
     <Footer locale={locale} />
-    <MobileBookBar locale={locale} startHidden={transparentHeader} />
+    {!hideBookBar && <MobileBookBar locale={locale} startHidden={transparentHeader} />}
     <ConsentManager locale={locale} />
     <Motion />
   </body>

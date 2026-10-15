@@ -34,6 +34,7 @@ export interface ContactPageContent {
     consent: string;
     privacyLink: string;
     send: string;
+    success: string;
   };
 }
 
@@ -118,6 +119,7 @@ export const CONTACT_PAGE: Localized<ContactPageContent> = {
       consent: 'J’accepte que mes données soient utilisées pour répondre à ma demande, selon la',
       privacyLink: 'politique de confidentialité',
       send: 'Envoyer le message',
+      success: 'Merci, votre message est bien envoyé. Notre équipe vous répond rapidement.',
     },
   },
   en: {
@@ -149,6 +151,7 @@ export const CONTACT_PAGE: Localized<ContactPageContent> = {
       consent: 'I agree that my data may be used to respond to my request, in accordance with the',
       privacyLink: 'privacy policy',
       send: 'Send message',
+      success: 'Thank you, your message has been sent. Our team will reply shortly.',
     },
   },
   nl: {
@@ -180,6 +183,7 @@ export const CONTACT_PAGE: Localized<ContactPageContent> = {
       consent: 'Ik ga ermee akkoord dat mijn gegevens worden gebruikt om mijn aanvraag te beantwoorden, volgens het',
       privacyLink: 'privacybeleid',
       send: 'Bericht versturen',
+      success: 'Bedankt, uw bericht is verzonden. Ons team antwoordt u snel.',
     },
   },
 };

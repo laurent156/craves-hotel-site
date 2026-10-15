@@ -10,6 +10,7 @@ import GalleryView from './craves/GalleryView.astro';
 import PressView from './craves/PressView.astro';
 import FaqView from './info/FaqView.astro';
 import ContactView from './info/ContactView.astro';
+import ContactManagerView from './info/ContactManagerView.astro';
 import LegalView from './info/LegalView.astro';
 import GuideView from './guide/GuideView.astro';
 import ArticleView from './guide/ArticleView.astro';
@@ -35,6 +36,7 @@ export const PAGES: Partial<Record<RouteKey, PageEntry>> = {
   press: { view: PressView },
   faq: { view: FaqView },
   contact: { view: ContactView },
+  contactManager: { view: ContactManagerView },
   guide: { view: GuideView },
   guideGrandPlace: { view: ArticleView, props: { article: 'guideGrandPlace' } },
   guideWinter: { view: ArticleView, props: { article: 'guideWinter' } },
@@ -44,3 +46,6 @@ export const PAGES: Partial<Record<RouteKey, PageEntry>> = {
   cookies: { view: LegalView, props: { page: 'cookies' } },
   legal: { view: LegalView, props: { page: 'legal' } },
 };
+
+/** Pages that exist but are not listed anywhere public: left out of the sitemap and llms.txt, and set to noindex. */
+export const HIDDEN_ROUTES: readonly RouteKey[] = ['contactManager'];
