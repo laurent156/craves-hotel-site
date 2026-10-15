@@ -70,9 +70,10 @@ On the GitHub Pages preview there is no function: the form shows the error messa
 ## Going live (Cloudflare)
 
 1. Cloudflare dashboard → Workers & Pages → Create application → import the GitHub repo. Project name `craves-hotel-site` (must match `name` in `wrangler.jsonc`), production branch `main`, build command `npm run build`, deploy command `npx wrangler deploy`. Node 22 comes from `.node-version`. No `SITE_URL`, `BASE_PATH` or `PUBLIC_PREVIEW` variable: those are for the GitHub preview only.
-2. **Build variables** (Settings → Build → Variables and secrets; read while the site is built): `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_GTM_ID`, `PUBLIC_GTM_URL`. After adding or changing one, trigger a new build.
-3. **Runtime secrets** (Settings → Variables and secrets; read by the worker): `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `MAIL_FROM`, `CONTACT_TO`, `MANAGER_TO`.
-4. Resend: verify the `craves-hotel.com` domain (SPF and DKIM records in the DNS) before sending.
-5. Test on the `*.workers.dev` address first: both forms (a real message arrives, reply-to is the guest), the QR code address `/contact-manager/`, the old URLs, `robots.txt`, `sitemap.xml`.
-6. Attach the domain `craves-hotel.com` (and `www`) to the project, then switch the DNS (the domain's DNS must be on Cloudflare: copy every existing record first, mail records included). Keep the old site reachable until the new one answers.
-7. Submit `https://craves-hotel.com/sitemap.xml` in Google Search Console.
+2. While the site is only reachable on `*.workers.dev`: add the build variable `PUBLIC_PREVIEW` = `true` (the site then says noindex / `Disallow: /`, so the test address never reaches Google). **Delete it at go-live and rebuild**, then check that `https://craves-hotel.com/robots.txt` allows crawling and the home page has `index, follow`.
+3. **Build variables** (Settings → Build → Variables and secrets; read while the site is built): `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_GTM_ID`, `PUBLIC_GTM_URL`. After adding or changing one, trigger a new build.
+4. **Runtime secrets** (Settings → Variables and secrets; read by the worker): `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `MAIL_FROM`, `CONTACT_TO`, `MANAGER_TO`.
+5. Resend: verify the `craves-hotel.com` domain (SPF and DKIM records in the DNS) before sending.
+6. Test on the `*.workers.dev` address first: both forms (a real message arrives, reply-to is the guest), the QR code address `/contact-manager/`, the old URLs, `robots.txt`, `sitemap.xml`.
+7. Attach the domain `craves-hotel.com` (and `www`) to the project, then switch the DNS (the domain's DNS must be on Cloudflare: copy every existing record first, mail records included). Keep the old site reachable until the new one answers.
+8. Submit `https://craves-hotel.com/sitemap.xml` in Google Search Console.
