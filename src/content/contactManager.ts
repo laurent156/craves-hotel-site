@@ -5,6 +5,8 @@ import type { Localized, TitleParts } from './localize';
 export interface ContactManagerContent {
   metaTitle: string;
   metaDescription: string;
+  /** Last item of the breadcrumb. */
+  crumb: string;
   title: TitleParts;
   lead: string;
   urgent: string;
@@ -30,6 +32,7 @@ export const CONTACT_MANAGER: Localized<ContactManagerContent> = {
   fr: {
     metaTitle: 'Contacter la direction : Craves Hotel Bruxelles',
     metaDescription: 'Un souci pendant votre séjour ? Écrivez directement à la direction du Craves Hotel : votre message est traité immédiatement.',
+    crumb: 'Contacter la direction',
     title: { text: 'Comment pouvons-nous', em: 'vous aider ?' },
     lead: 'Votre confort et votre satisfaction sont notre priorité. Si quelque chose ne répond pas à vos attentes pendant votre séjour, dites-le-nous ci-dessous : votre message arrive directement à la direction, qui s’en occupe immédiatement.',
     urgent: 'Besoin d’aide tout de suite ? La réception répond 24h/24 :',
@@ -54,6 +57,7 @@ export const CONTACT_MANAGER: Localized<ContactManagerContent> = {
   en: {
     metaTitle: 'Contact the management: Craves Hotel Brussels',
     metaDescription: 'Something not right during your stay? Write directly to the management of Craves Hotel: your message is handled immediately.',
+    crumb: 'Contact the management',
     title: { text: 'How can we', em: 'assist you?' },
     lead: 'Your comfort and satisfaction are our top priorities. If something during your stay is not meeting your expectations, please let us know below. This message goes directly to our management team for immediate handling.',
     urgent: 'Need help right now? Our reception answers 24/7:',
@@ -78,6 +82,7 @@ export const CONTACT_MANAGER: Localized<ContactManagerContent> = {
   nl: {
     metaTitle: 'Contact met de directie: Craves Hotel Brussel',
     metaDescription: 'Loopt er iets mis tijdens uw verblijf? Schrijf rechtstreeks naar de directie van Craves Hotel: uw bericht wordt meteen behandeld.',
+    crumb: 'Contact met de directie',
     title: { text: 'Hoe kunnen we', em: 'u helpen?' },
     lead: 'Uw comfort en tevredenheid staan bij ons voorop. Voldoet iets tijdens uw verblijf niet aan uw verwachtingen, laat het ons dan hieronder weten: uw bericht komt rechtstreeks bij de directie terecht, die er meteen mee aan de slag gaat.',
     urgent: 'Meteen hulp nodig? Onze receptie staat 24 uur op 24 voor u klaar:',
